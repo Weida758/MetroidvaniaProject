@@ -11,11 +11,22 @@ public class Player_FallState : Player_GroundedState
 
     public override void Update()
     {
+        //Debug.Log(player.getGrounded());
+        if(player.getGrounded()  == true && Mathf.Abs(player.inputs.moveInput.x) > 0){
+            
+            stateMachine.ChangeState(player.moveState);
+
+        }
+        else if(player.getGrounded() == true && player.GetMoveInput() == Vector2.zero){
+            stateMachine.ChangeState(player.idleState);
+        }
        
     }
     public override void FixedUpdate()
     {
-      
+       base.FixedUpdate();
+        player.SetVelocity(player.GetMoveInput().x * player.speed, player.rb.linearVelocity.y);
+
         
     }
 }

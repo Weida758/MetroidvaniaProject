@@ -19,5 +19,8 @@ public class Player_IdleState : Player_GroundedState
             stateMachine.ChangeState(player.moveState);
             return;
         }
+        else if(player.GetJumpPressedInput() == true && player.getGrounded() == true ){
+            stateMachine.ChangeState(player.jumpState);
+        }
     }
 }

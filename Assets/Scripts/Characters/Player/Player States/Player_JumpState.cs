@@ -8,14 +8,28 @@ public class Player_JumpState : Player_GroundedState
         base(stateMachine, animBoolName, player)
     {
     }
+    public override void Enter()
+    {
+
+        //player.animator.SetBool(animBoolName, true);
+        player.rb.linearVelocity = new Vector2(player.rb.linearVelocity.x, 6);
+    }
 
     public override void Update()
     {
+        if(player.rb.linearVelocity.y <0 ){
+            stateMachine.ChangeState(player.fallState);
+        }
+        else if(player.GetJumpReleasedInput() == true){
+            player.rb.linearVelocity = new Vector2(player.rb.linearVelocity.x, -3);
+        }
        
     }
     public override void FixedUpdate()
     {
-      
+       base.FixedUpdate();
+        player.SetVelocity(player.GetMoveInput().x * player.speed, player.rb.linearVelocity.y);
+
         
     }
 }

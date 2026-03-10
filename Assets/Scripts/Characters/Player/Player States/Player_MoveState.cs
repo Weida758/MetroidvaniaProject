@@ -16,6 +16,12 @@ public class Player_MoveState : Player_GroundedState
         {
             stateMachine.ChangeState(player.idleState);
         }
+        else if(player.GetJumpPressedInput() == true && player.getGrounded() == true ){
+            stateMachine.ChangeState(player.jumpState);
+        }
+        else if(player.rb.linearVelocity.y <0 && player.getGrounded() == false){
+            stateMachine.ChangeState(player.fallState);
+        }
     }
     public override void FixedUpdate()
     {
