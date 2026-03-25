@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     private bool isFacingRight = true;
     private bool isGrounded = true;
     private float coyotetime =0f;
-    private bool HasDoubleJump=true;
+    public bool HasDoubleJump=true;
     public bool DoubleJump=false;
 
 
@@ -99,6 +99,8 @@ public class Player : MonoBehaviour
     public bool GetJumpPressedInput() => inputs.jumpPressed;
 
     public bool GetJumpReleasedInput() => inputs.jumpReleased;
+
+    public bool GetDownPressedInput() => inputs.downPressed;
 
     public bool getGrounded() => isGrounded;
 

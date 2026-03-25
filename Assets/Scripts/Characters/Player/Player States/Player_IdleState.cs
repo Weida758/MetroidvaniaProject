@@ -22,5 +22,8 @@ public class Player_IdleState : Player_GroundedState
         else if(player.GetJumpPressedInput() == true && player.getGrounded() == true ){
             stateMachine.ChangeState(player.jumpState);
         }
+        else if(player.rb.linearVelocity.y <0 && player.getGrounded() == false){
+            stateMachine.ChangeState(player.fallState);
+        }
     }
 }
