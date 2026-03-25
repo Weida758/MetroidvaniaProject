@@ -20,6 +20,12 @@ public class Player_FallState : Player_GroundedState
         else if(player.getGrounded() == true && player.GetMoveInput() == Vector2.zero){
             stateMachine.ChangeState(player.idleState);
         }
+
+        if(player.DoubleJump == true && player.GetJumpPressedInput() == true&&player.HasDoubleJump==true){
+            stateMachine.ChangeState(player.jumpState);
+            player.DoubleJump =false;
+            
+        }
        
     }
     public override void FixedUpdate()

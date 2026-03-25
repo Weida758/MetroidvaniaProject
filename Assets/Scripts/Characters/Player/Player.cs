@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     private bool isFacingRight = true;
     private bool isGrounded = true;
     private float coyotetime =0f;
+    private bool HasDoubleJump=true;
+    public bool DoubleJump=false;
 
 
 
@@ -53,6 +55,10 @@ public class Player : MonoBehaviour
         stateMachine.UpdateActiveState();
         currentState = stateMachine.currentState.ToString();
         updateGrounded();
+        Debug.Log(isGrounded);
+        if(isGrounded){
+            DoubleJump=true;
+        }
     }
 
     private void FixedUpdate()
@@ -81,7 +87,7 @@ public class Player : MonoBehaviour
             }
         }
         else if(ray==false && (stateMachine.currentState.ToString() == "Player_MoveState"  || stateMachine.currentState.ToString() =="Player_IdleState") && coyotetime==0f){
-            coyotetime = 1f;
+            coyotetime = 0.5f;
         }
         else{
             isGrounded = ray;
@@ -95,6 +101,7 @@ public class Player : MonoBehaviour
     public bool GetJumpReleasedInput() => inputs.jumpReleased;
 
     public bool getGrounded() => isGrounded;
+
 
 
     public void SetVelocity(float xVelocity, float yVelocity)
