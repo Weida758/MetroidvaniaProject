@@ -23,12 +23,14 @@ public class Player : MonoBehaviour
     
     // ------- Player Data -------------
     [field: SerializeField] public float speed { get; private set; }
+    [field: SerializeField] public float jumpVelocity { get; private set; }
+    [field: SerializeField] public float initialFallForce { get; private set; }
     private int facingDirection = 1;
     private bool isFacingRight = true;
     private bool isGrounded = true;
     private float coyotetime =0f;
     public bool HasDoubleJump=true;
-    public bool DoubleJump=false;
+    [DisplayOnly] public bool DoubleJump=false;
 
 
 
@@ -54,7 +56,7 @@ public class Player : MonoBehaviour
     {
         stateMachine.UpdateActiveState();
         currentState = stateMachine.currentState.ToString();
-        updateGrounded();
+        UpdateGrounded();
         Debug.Log(isGrounded);
         if(isGrounded){
             DoubleJump=true;
@@ -66,7 +68,7 @@ public class Player : MonoBehaviour
         stateMachine.FixedUpdateActiveState();
     }
 
-    private void updateGrounded(){
+    private void UpdateGrounded(){
         RaycastHit2D ray = Physics2D.Raycast(rb.transform.position, Vector2.down, 1.5f ,1 << LayerMask.NameToLayer("Ground"));
         // if(ray == true){
         // Debug.Log(ray.collider.gameObject);

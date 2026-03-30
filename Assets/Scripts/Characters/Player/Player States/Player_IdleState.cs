@@ -25,5 +25,6 @@ public class Player_IdleState : Player_GroundedState
         else if(player.rb.linearVelocity.y <0 && player.getGrounded() == false){
             stateMachine.ChangeState(player.fallState);
         }
+        
     }
 }

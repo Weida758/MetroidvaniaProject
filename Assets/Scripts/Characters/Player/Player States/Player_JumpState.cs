@@ -12,7 +12,7 @@ public class Player_JumpState : Player_GroundedState
     {
 
         //player.animator.SetBool(animBoolName, true);
-        player.rb.linearVelocity = new Vector2(player.rb.linearVelocity.x, 8);
+        player.rb.linearVelocity = new Vector2(player.rb.linearVelocity.x, player.jumpVelocity);
         
     }
 
@@ -21,8 +21,10 @@ public class Player_JumpState : Player_GroundedState
         if(player.rb.linearVelocity.y <0 ){
             stateMachine.ChangeState(player.fallState);
         }
-        else if(player.GetJumpReleasedInput() == true){
-            player.rb.linearVelocity = new Vector2(player.rb.linearVelocity.x, -2);
+        else if(player.GetJumpReleasedInput())
+        {
+            player.rb.linearVelocity = new Vector2(player.rb.linearVelocityX, 0);
+           player.rb.AddForceY(player.initialFallForce, ForceMode2D.Impulse);
         }
        
     }
