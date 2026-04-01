@@ -14,17 +14,27 @@ public class Player_IdleState : Player_GroundedState
     public override void Update()
     {
         base.Update();
-        if (Mathf.Abs(player.inputs.moveInput.x) > 0)
-        {
-            stateMachine.ChangeState(player.moveState);
+        // Can change to getter and setters
+        Debug.Log(player.GetTwoPressedInput());
+        if(player.GetOnePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Sword_IdleState)){
+            stateMachine.ChangeState(player.Sword_idleState);
             return;
         }
-        else if(player.GetJumpPressedInput() == true && player.getGrounded() == true ){
-            stateMachine.ChangeState(player.jumpState);
+        else if(player.GetTwoPressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Dagger_IdleState)&&player.HasDagger){
+            stateMachine.ChangeState(player.Dagger_idleState);
+            return;
         }
-        else if(player.rb.linearVelocity.y <0 && player.getGrounded() == false){
-            stateMachine.ChangeState(player.fallState);
+        else if(player.GetThreePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Spear_IdleState)&&player.HasSpear){
+            stateMachine.ChangeState(player.Spear_idleState);
+            return;
         }
-        
+        else if(player.GetFourPressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Hammer_IdleState)&&player.HasHammer){
+            stateMachine.ChangeState(player.Hammer_idleState);
+            return;
+        }
+
+
+
+       
     }
 }

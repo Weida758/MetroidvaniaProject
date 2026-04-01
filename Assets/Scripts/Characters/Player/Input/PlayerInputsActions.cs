@@ -118,6 +118,51 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shift"",
+                    ""type"": ""Button"",
+                    ""id"": ""c8a8d6c1-5579-41d2-9ee7-74c4132242ee"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sword"",
+                    ""type"": ""Button"",
+                    ""id"": ""27e4e65f-f05e-4e9d-983a-7d6c4a90a0f0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dagger"",
+                    ""type"": ""Button"",
+                    ""id"": ""4d4e745c-0413-4ab5-a806-28a2fe439d4c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Spear"",
+                    ""type"": ""Button"",
+                    ""id"": ""887d1cad-0fcc-4dba-8247-a297f375b066"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Hammer"",
+                    ""type"": ""Button"",
+                    ""id"": ""c2dd16c6-6f24-4640-a28f-8b9691937083"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -197,6 +242,61 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
                     ""action"": ""Down"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d90f0c05-336a-463e-9110-0c987f0c2d71"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dab61b46-a3a6-4e8e-a015-7fc85c704a30"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sword"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2c3c8f0a-8871-47c5-a0d5-06fea2631ccc"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dagger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""44d382d6-8a53-4829-9592-f801c26767d9"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Spear"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""009c1363-6404-4520-bc5b-093e13ed7168"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hammer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -208,6 +308,11 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Down = m_Player.FindAction("Down", throwIfNotFound: true);
+        m_Player_Shift = m_Player.FindAction("Shift", throwIfNotFound: true);
+        m_Player_Sword = m_Player.FindAction("Sword", throwIfNotFound: true);
+        m_Player_Dagger = m_Player.FindAction("Dagger", throwIfNotFound: true);
+        m_Player_Spear = m_Player.FindAction("Spear", throwIfNotFound: true);
+        m_Player_Hammer = m_Player.FindAction("Hammer", throwIfNotFound: true);
     }
 
     ~@PlayerInputsActions()
@@ -291,6 +396,11 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Down;
+    private readonly InputAction m_Player_Shift;
+    private readonly InputAction m_Player_Sword;
+    private readonly InputAction m_Player_Dagger;
+    private readonly InputAction m_Player_Spear;
+    private readonly InputAction m_Player_Hammer;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -314,6 +424,26 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Down".
         /// </summary>
         public InputAction @Down => m_Wrapper.m_Player_Down;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Shift".
+        /// </summary>
+        public InputAction @Shift => m_Wrapper.m_Player_Shift;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Sword".
+        /// </summary>
+        public InputAction @Sword => m_Wrapper.m_Player_Sword;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Dagger".
+        /// </summary>
+        public InputAction @Dagger => m_Wrapper.m_Player_Dagger;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Spear".
+        /// </summary>
+        public InputAction @Spear => m_Wrapper.m_Player_Spear;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Hammer".
+        /// </summary>
+        public InputAction @Hammer => m_Wrapper.m_Player_Hammer;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -349,6 +479,21 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
             @Down.started += instance.OnDown;
             @Down.performed += instance.OnDown;
             @Down.canceled += instance.OnDown;
+            @Shift.started += instance.OnShift;
+            @Shift.performed += instance.OnShift;
+            @Shift.canceled += instance.OnShift;
+            @Sword.started += instance.OnSword;
+            @Sword.performed += instance.OnSword;
+            @Sword.canceled += instance.OnSword;
+            @Dagger.started += instance.OnDagger;
+            @Dagger.performed += instance.OnDagger;
+            @Dagger.canceled += instance.OnDagger;
+            @Spear.started += instance.OnSpear;
+            @Spear.performed += instance.OnSpear;
+            @Spear.canceled += instance.OnSpear;
+            @Hammer.started += instance.OnHammer;
+            @Hammer.performed += instance.OnHammer;
+            @Hammer.canceled += instance.OnHammer;
         }
 
         /// <summary>
@@ -369,6 +514,21 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
             @Down.started -= instance.OnDown;
             @Down.performed -= instance.OnDown;
             @Down.canceled -= instance.OnDown;
+            @Shift.started -= instance.OnShift;
+            @Shift.performed -= instance.OnShift;
+            @Shift.canceled -= instance.OnShift;
+            @Sword.started -= instance.OnSword;
+            @Sword.performed -= instance.OnSword;
+            @Sword.canceled -= instance.OnSword;
+            @Dagger.started -= instance.OnDagger;
+            @Dagger.performed -= instance.OnDagger;
+            @Dagger.canceled -= instance.OnDagger;
+            @Spear.started -= instance.OnSpear;
+            @Spear.performed -= instance.OnSpear;
+            @Spear.canceled -= instance.OnSpear;
+            @Hammer.started -= instance.OnHammer;
+            @Hammer.performed -= instance.OnHammer;
+            @Hammer.canceled -= instance.OnHammer;
         }
 
         /// <summary>
@@ -430,5 +590,40 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDown(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Shift" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnShift(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Sword" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSword(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Dagger" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDagger(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Spear" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSpear(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Hammer" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHammer(InputAction.CallbackContext context);
     }
 }

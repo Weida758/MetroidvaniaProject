@@ -1,0 +1,25 @@
+using UnityEngine;
+
+public class Player_Dagger_JumpState : Player_JumpState
+{
+    public Player_Dagger_JumpState(StateMachine stateMachine, string animBoolName, Player player) : 
+        base(stateMachine, animBoolName, player)
+    { }
+
+    public override void Enter()
+    {
+        base.Enter();
+      
+    }
+    public override void Update()
+    {
+        base.Update();
+        if(player.rb.linearVelocity.y <0 ){
+            stateMachine.ChangeState(player.Dagger_fallState);
+        }
+    }
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();   
+    }
+}
