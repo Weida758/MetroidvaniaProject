@@ -15,7 +15,6 @@ public class Player_IdleState : Player_GroundedState
     {
         base.Update();
         // Can change to getter and setters
-        Debug.Log(player.GetTwoPressedInput());
         if(player.GetOnePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Sword_IdleState)){
             stateMachine.ChangeState(player.Sword_idleState);
             return;
