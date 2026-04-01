@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDataPersistence
 {
     public PlayerInputs inputs { get; private set; }
     public StateMachine stateMachine { get; private set; }
@@ -126,6 +126,16 @@ public class Player : MonoBehaviour
         transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
         facingDirection *= -1;
         isFacingRight = !isFacingRight;
+    }
+
+    public void SaveData(ref GameData gameData)
+    {
+        gameData.playerPositionData = transform.position;
+    }
+
+    public void LoadData(GameData gameData)
+    {
+        transform.position = gameData.playerPositionData;
     }
 
 
