@@ -29,6 +29,12 @@ public class Player_FallState : Player_AirState
             stateMachine.ChangeState(player.Hammer_fallState);
             return;
         }
+        // Debug.Log("wall");
+        // Debug.Log(WallCheck());
+        if(WallCheck()&&!player.getGrounded()){
+            stateMachine.ChangeState(player.Wall_slideState);
+            return;
+        }
 
     }
     public override void FixedUpdate()

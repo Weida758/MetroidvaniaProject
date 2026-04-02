@@ -3,6 +3,8 @@ using UnityEngine;
 public class StateMachine
 {
     public CharacterBaseState currentState { get; private set; }
+
+    public CharacterBaseState previousState { get; private set; }
     
 
     public void Initialize(CharacterBaseState state)
@@ -13,6 +15,7 @@ public class StateMachine
     public void ChangeState(CharacterBaseState state)
     {
         currentState.Exit();
+        previousState = currentState;
         currentState = state;
         currentState.Enter();
     }

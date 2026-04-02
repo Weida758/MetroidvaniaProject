@@ -44,6 +44,12 @@ public class Player_JumpState : Player_AirState
             player.rb.linearVelocity = new Vector2(player.rb.linearVelocityX, 0);
            player.rb.AddForceY(player.initialFallForce, ForceMode2D.Impulse);
         }
+        // Debug.Log("wall");
+        // Debug.Log(WallCheck());
+        if(WallCheck()&&!player.getGrounded()){
+            stateMachine.ChangeState(player.Wall_slideState);
+            return;
+        }
        
     }
     public override void FixedUpdate()

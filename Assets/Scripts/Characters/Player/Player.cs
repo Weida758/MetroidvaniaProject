@@ -28,6 +28,7 @@ public class Player : MonoBehaviour, IDataPersistence
     public Player_Hammer_FallState Hammer_fallState { get; private set; }
     public Player_Dagger_FallState Dagger_fallState { get; private set; }
     public Player_Spear_FallState Spear_fallState { get; private set; }
+    public Player_WallSlideState Wall_slideState { get; private set; }
 
 
     // -------- Player Components ------------
@@ -78,6 +79,8 @@ public class Player : MonoBehaviour, IDataPersistence
         Hammer_idleState = new Player_Hammer_IdleState(stateMachine, "Hammer_idle", this);
         Hammer_moveState = new Player_Hammer_MoveState(stateMachine, "Hammer_move", this);
         Hammer_fallState = new Player_Hammer_FallState(stateMachine, "Hammer_fall", this);
+
+        Wall_slideState = new Player_WallSlideState(stateMachine, "Wall_Slide", this);
         
         stateMachine.Initialize(Sword_idleState);
 
@@ -146,6 +149,8 @@ public class Player : MonoBehaviour, IDataPersistence
     public bool GetFourPressedInput() => inputs.fourPressed;
 
     public bool getGrounded() => isGrounded;
+
+    public int getFacingDirection() => facingDirection;
 
 
 
