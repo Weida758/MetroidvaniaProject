@@ -20,6 +20,10 @@ public abstract class PlayerBaseState : CharacterBaseState
     public override void Update()
     {
         base.Update();
+        if(player.walljumptime>=0){
+            player.walljumptime-= Time.deltaTime;
+            Debug.Log(player.walljumptime);
+        }
         
         player.animator.SetFloat("xInput", player.inputs.moveInput.x);
     }

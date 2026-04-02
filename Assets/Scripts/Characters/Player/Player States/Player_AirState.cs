@@ -7,11 +7,18 @@ public class Player_AirState : PlayerBaseState
     { }
 
     public bool WallCheck(){
-        //Debug.DrawRay(player.rb.transform.position, player.transform.TransformDirection(Vector3.right) *0.75f,Color.red);
+
         return Physics2D.Raycast(player.rb.transform.position, new Vector2(player.getFacingDirection(),0), 0.75f ,1 << LayerMask.NameToLayer("Wall"));
 
     }
-    
+    public override void FixedUpdate()
+    {
+        base.Update();
+        if(player.walljumptime<=0&&player.GetMoveInput().x != 0){
+            player.SetVelocity(player.GetMoveInput().x * player.speed, player.rb.linearVelocity.y);
+        }
+        
+    }
     
     
 }

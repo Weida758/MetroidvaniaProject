@@ -36,17 +36,13 @@ public class Player_JumpState : Player_AirState
             return;
         }
 
-
-
-    
         if(player.GetJumpReleasedInput())
         {
-            player.rb.linearVelocity = new Vector2(player.rb.linearVelocityX, 0);
+           player.rb.linearVelocity = new Vector2(player.rb.linearVelocityX, 0);
            player.rb.AddForceY(player.initialFallForce, ForceMode2D.Impulse);
         }
-        // Debug.Log("wall");
-        // Debug.Log(WallCheck());
-        if(WallCheck()&&!player.getGrounded()){
+        
+        if(WallCheck()&&!player.getGrounded()&& player.walljumptime<=0){
             stateMachine.ChangeState(player.Wall_slideState);
             return;
         }
@@ -55,8 +51,7 @@ public class Player_JumpState : Player_AirState
     public override void FixedUpdate()
     {
        base.FixedUpdate();
-        player.SetVelocity(player.GetMoveInput().x * player.speed, player.rb.linearVelocity.y);
-
+        
         
     }
 }

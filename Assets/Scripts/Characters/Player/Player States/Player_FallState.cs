@@ -12,6 +12,7 @@ public class Player_FallState : Player_AirState
     public override void Update()
     {
         //Debug.Log(player.getGrounded());
+        base.Update();
 
         if(player.GetOnePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Sword_FallState)){
             stateMachine.ChangeState(player.Sword_fallState);
@@ -31,7 +32,7 @@ public class Player_FallState : Player_AirState
         }
         // Debug.Log("wall");
         // Debug.Log(WallCheck());
-        if(WallCheck()&&!player.getGrounded()){
+        if(WallCheck()&&!player.getGrounded()&&player.walljumptime<=0){
             stateMachine.ChangeState(player.Wall_slideState);
             return;
         }
@@ -40,8 +41,6 @@ public class Player_FallState : Player_AirState
     public override void FixedUpdate()
     {
        base.FixedUpdate();
-        player.SetVelocity(player.GetMoveInput().x * player.speed, player.rb.linearVelocity.y);
-
         
     }
 }

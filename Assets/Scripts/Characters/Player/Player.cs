@@ -43,7 +43,8 @@ public class Player : MonoBehaviour, IDataPersistence
     private int facingDirection = 1;
     private bool isFacingRight = true;
     private bool isGrounded = true;
-    private float coyotetime =0f;
+    public float walljumptime = 0f;
+    public float coyotetime =0f;
     public bool HasDoubleJump=true;
     [DisplayOnly] public bool DoubleJump=false;
     [field: SerializeField] public bool HasDagger;
@@ -103,7 +104,7 @@ public class Player : MonoBehaviour, IDataPersistence
     }
 
     private void UpdateGrounded(){
-        RaycastHit2D ray = Physics2D.Raycast(rb.transform.position, Vector2.down, 1.5f ,1 << LayerMask.NameToLayer("Ground"));
+        RaycastHit2D ray = Physics2D.Raycast(rb.transform.position, Vector2.down, 1.75f ,1 << LayerMask.NameToLayer("Ground"));
         // if(ray == true){
         // Debug.Log(ray.collider.gameObject);
         // }
@@ -166,6 +167,7 @@ public class Player : MonoBehaviour, IDataPersistence
             Flip();
         }
     }
+
 
     public void Flip()
     {
