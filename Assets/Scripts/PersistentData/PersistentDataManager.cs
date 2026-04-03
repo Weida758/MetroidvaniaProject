@@ -4,14 +4,18 @@ using System.Linq;
 
 public class PersistentDataManager : MonoBehaviour
 {
+
+    [Header("File Storage Config")]
+    [SerializeField] private string filename;
     public static PersistentDataManager instance { get; private set; }
     private GameData gameData;
+    private GameDataFileHandler dataFileHandler;
 
-    public List<IDataPersistence> persistentDataObjects;
+    private List<IDataPersistence> persistentDataObjects;
 
     public void Awake()
     {
-        if (instance == null && instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
         }
@@ -22,8 +26,17 @@ public class PersistentDataManager : MonoBehaviour
 
     private void Start()
     {
+        dataFileHandler = new GameDataFileHandler(Application.persistentDataPath, filename);
         persistentDataObjects = GetAllPersistentDataGameObjects();
         LoadGame();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            SaveGame();
+        }
     }
 
     public void NewGame()
@@ -37,17 +50,20 @@ public class PersistentDataManager : MonoBehaviour
         {
             dataObject.SaveData(ref gameData);
         }
-        
-        Debug.Log("Game Data Saved");
+
+        dataFileHandler.Save(gameData);
     }
 
     public void LoadGame()
     {
+
+        gameData = dataFileHandler.Load();
+        
         if (gameData == null)
         {
             Debug.Log("No game data to load from");
             NewGame();
-            Debug.Log("New game created");
+            Debug.Log("New game created at: " + Application.persistentDataPath + "/" + filename);
         }
 
         foreach (IDataPersistence dataObject in persistentDataObjects)
@@ -59,17 +75,21 @@ public class PersistentDataManager : MonoBehaviour
     }
 
 
-    private void OnApplicationQuit()
+    /* private void OnApplicationQuit()
     {
         SaveGame();
     }
-
+    */
 
     public List<IDataPersistence> GetAllPersistentDataGameObjects()
     {
         IEnumerable<IDataPersistence> dataObjects = 
             FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<IDataPersistence>();
         
+        Debug.Log("Number of persistent data: "  + dataObjects.Count());
+        
         return new List<IDataPersistence>(dataObjects);
     }
+    
+    
 }
