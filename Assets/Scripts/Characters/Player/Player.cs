@@ -37,7 +37,7 @@ public class Player : MonoBehaviour, IDataPersistence
     private SpriteRenderer spriteRenderer;
     
     // ------- Player Data -------------
-    [field: SerializeField] public float speed { get; private set; }
+    [field: SerializeField] public float speed;
     [field: SerializeField] public float jumpVelocity { get; private set; }
     [field: SerializeField] public float initialFallForce { get; private set; }
     private int facingDirection = 1;
@@ -50,6 +50,8 @@ public class Player : MonoBehaviour, IDataPersistence
     [field: SerializeField] public bool HasDagger;
     [field: SerializeField] public bool HasSpear;
     [field: SerializeField] public bool HasHammer;
+    [field: SerializeField] public bool TapSprint;
+    [field: SerializeField] public bool AutoSprint;
 
 
 
@@ -140,6 +142,8 @@ public class Player : MonoBehaviour, IDataPersistence
     public bool GetDownPressedInput() => inputs.downPressed;
 
     public bool GetShiftPressedInput() => inputs.shiftPressed;
+    
+    public bool GetShiftReleasedInput() => inputs.shiftReleased;
 
     public bool GetOnePressedInput() => inputs.onePressed;
 
@@ -152,6 +156,8 @@ public class Player : MonoBehaviour, IDataPersistence
     public bool getGrounded() => isGrounded;
 
     public int getFacingDirection() => facingDirection;
+
+
 
 
 

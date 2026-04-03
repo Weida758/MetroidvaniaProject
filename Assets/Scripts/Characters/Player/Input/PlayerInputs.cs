@@ -24,6 +24,7 @@ public class PlayerInputs : MonoBehaviour
 
     public bool downPressed { get; private set; }
     public bool shiftPressed { get; private set; }
+    public bool shiftReleased { get; private set; }
 
     public bool onePressed { get; private set; }
     public bool twoPressed { get; private set; }
@@ -70,11 +71,13 @@ public class PlayerInputs : MonoBehaviour
         jumpReleased = jumpAction.WasReleasedThisFrame();
         downPressed = downAction.WasPressedThisFrame();
         shiftPressed = shiftAction.WasPressedThisFrame();
+        shiftReleased = shiftAction.WasReleasedThisFrame();
 
         onePressed = oneAction.WasPressedThisFrame();
         twoPressed = twoAction.WasPressedThisFrame();
         threePressed = threeAction.WasPressedThisFrame();
         fourPressed = fourAction.WasPressedThisFrame();
+
     }
     
     

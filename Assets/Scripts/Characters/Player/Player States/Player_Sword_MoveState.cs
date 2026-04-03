@@ -9,6 +9,9 @@ public class Player_Sword_MoveState : Player_MoveState
     public override void Enter()
     {
         base.Enter();
+        if(player.AutoSprint){
+            player.speed=12;
+        }
       
     }
     public override void Update()
@@ -23,6 +26,23 @@ public class Player_Sword_MoveState : Player_MoveState
         }
         else if(player.rb.linearVelocity.y <0 && player.getGrounded() == false){
             stateMachine.ChangeState(player.Sword_fallState);
+        }
+        if(!player.TapSprint){
+            if(player.GetShiftPressedInput()){
+                player.speed=12;
+            }
+            else if(player.GetShiftReleasedInput()){
+                player.speed=7;
+
+            }
+        }
+        if(player.TapSprint){
+            if(player.GetShiftPressedInput()&&player.speed == 7){
+                player.speed=12;
+            }
+            else if(player.GetShiftPressedInput()&&player.speed == 12){
+                player.speed=7;
+            }
         }
     }
     public override void FixedUpdate()

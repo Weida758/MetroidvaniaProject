@@ -11,6 +11,12 @@ public class Player_AirState : PlayerBaseState
         return Physics2D.Raycast(player.rb.transform.position, new Vector2(player.getFacingDirection(),0), 0.75f ,1 << LayerMask.NameToLayer("Wall"));
 
     }
+    public override void Enter(){
+        base.Enter();
+        if(player.speed==12){
+            player.speed=7;
+        }
+    }
     public override void FixedUpdate()
     {
         base.Update();

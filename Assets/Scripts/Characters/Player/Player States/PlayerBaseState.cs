@@ -15,6 +15,7 @@ public abstract class PlayerBaseState : CharacterBaseState
         base.Enter();
 
         player.animator.SetBool(animBoolName, true);
+    
     }
 
     public override void Update()
