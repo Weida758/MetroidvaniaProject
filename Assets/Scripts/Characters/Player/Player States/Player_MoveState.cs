@@ -12,16 +12,25 @@ public class Player_MoveState : Player_GroundedState
     public override void Update()
     {
         base.Update();
-        if (player.GetMoveInput() == Vector2.zero)
-        {
-            stateMachine.ChangeState(player.idleState);
+       if(player.GetOnePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Sword_MoveState)){
+            stateMachine.ChangeState(player.Sword_moveState);
+            return;
         }
-        else if(player.GetJumpPressedInput() == true && player.getGrounded() == true ){
-            stateMachine.ChangeState(player.jumpState);
+        else if(player.GetTwoPressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Dagger_MoveState)&&player.HasDagger){
+            stateMachine.ChangeState(player.Dagger_moveState);
+            return;
         }
-        else if(player.rb.linearVelocity.y <0 && player.getGrounded() == false){
-            stateMachine.ChangeState(player.fallState);
+        else if(player.GetThreePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Spear_MoveState)&&player.HasSpear){
+            stateMachine.ChangeState(player.Spear_moveState);
+            return;
         }
+        else if(player.GetFourPressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Hammer_MoveState)&&player.HasHammer){
+            stateMachine.ChangeState(player.Hammer_moveState);
+            return;
+        }
+
+
+
     }
     public override void FixedUpdate()
     {
