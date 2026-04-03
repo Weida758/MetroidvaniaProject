@@ -1,47 +1,58 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class PersistentDataManager : MonoBehaviour
 {
 
     [Header("File Storage Config")]
     [SerializeField] private string filename;
+    
     public static PersistentDataManager instance { get; private set; }
+    
+    
     private GameData gameData;
     private GameDataFileHandler dataFileHandler;
 
     private List<IDataPersistence> persistentDataObjects;
+
+    [SerializeField] private bool isTesting;
 
     public void Awake()
     {
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
+            return;
         }
 
         instance = this;
         DontDestroyOnLoad(gameObject);
+        dataFileHandler = new GameDataFileHandler(Application.persistentDataPath, filename);
     }
 
     private void Start()
     {
-        dataFileHandler = new GameDataFileHandler(Application.persistentDataPath, filename);
-        persistentDataObjects = GetAllPersistentDataGameObjects();
-        LoadGame();
+        if (isTesting)
+        {
+            LoadGame();
+        }
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            SaveGame();
-        }
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public void NewGame()
     {
-        this.gameData = new GameData();
+        gameData = new GameData();
     }
 
     public void SaveGame()
@@ -61,34 +72,40 @@ public class PersistentDataManager : MonoBehaviour
         
         if (gameData == null)
         {
-            Debug.Log("No game data to load from");
             NewGame();
             Debug.Log("New game created at: " + Application.persistentDataPath + "/" + filename);
         }
 
-        foreach (IDataPersistence dataObject in persistentDataObjects)
-        {
-            dataObject.LoadData(gameData);
-        }
-        
-        Debug.Log("Game Data Loaded with player position: " + gameData.playerPositionData);
+        SceneManager.LoadSceneAsync(gameData.sceneName);
+
+
+        //Debug.Log("Game Data Loaded with player position: " + gameData.playerPositionData +
+        //"in Scene: " + gameData.sceneName);
     }
-
-
-    /* private void OnApplicationQuit()
-    {
-        SaveGame();
-    }
-    */
-
+    
+    /// <summary>
+    /// Find all objects in the scene that implements IDataPersistence
+    /// </summary>
+    /// <returns></returns>
     public List<IDataPersistence> GetAllPersistentDataGameObjects()
     {
         IEnumerable<IDataPersistence> dataObjects = 
             FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<IDataPersistence>();
         
-        Debug.Log("Number of persistent data: "  + dataObjects.Count());
-        
         return new List<IDataPersistence>(dataObjects);
+    }
+
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode sceneLoadMode)
+    {
+        
+        persistentDataObjects = GetAllPersistentDataGameObjects();
+        Debug.Log("Finding Persistent data objects");
+        
+        foreach (IDataPersistence dataObject in persistentDataObjects)
+        {
+            dataObject.LoadData(gameData);
+        }
     }
     
     

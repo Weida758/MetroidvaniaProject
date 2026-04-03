@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IDataPersistence
 {
@@ -131,10 +132,15 @@ public class Player : MonoBehaviour, IDataPersistence
     public void SaveData(ref GameData gameData)
     {
         gameData.playerPositionData = transform.position;
+        gameData.sceneName =  SceneManager.GetActiveScene().name;
     }
 
     public void LoadData(GameData gameData)
     {
+        if (SceneManager.GetActiveScene().name != gameData.sceneName)
+        {
+            AsyncOperation sceneProgress = SceneManager.LoadSceneAsync(gameData.sceneName);
+        }
         transform.position = gameData.playerPositionData;
     }
 
