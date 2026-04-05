@@ -29,19 +29,19 @@ public class Player_Sword_MoveState : Player_MoveState
         }
         if(!player.TapSprint){
             if(player.GetShiftPressedInput()){
-                player.speed=12;
+                player.speed=player.sprintSpeed;
             }
             else if(player.GetShiftReleasedInput()){
-                player.speed=7;
+                player.speed=player.baseSpeed;
 
             }
         }
         if(player.TapSprint){
-            if(player.GetShiftPressedInput()&&player.speed == 7){
-                player.speed=12;
+            if(player.GetShiftPressedInput()&&player.speed == player.baseSpeed){
+                player.speed=player.sprintSpeed;
             }
-            else if(player.GetShiftPressedInput()&&player.speed == 12){
-                player.speed=7;
+            else if(player.GetShiftPressedInput()&&player.speed == player.sprintSpeed){
+                player.speed=player.baseSpeed;
             }
         }
     }

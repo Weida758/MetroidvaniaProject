@@ -191,11 +191,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   currentState: 
-  <speed>k__BackingField: 7
+  speed: 7
+  <baseSpeed>k__BackingField: 7
+  <sprintSpeed>k__BackingField: 12
   <jumpVelocity>k__BackingField: 10
   <initialFallForce>k__BackingField: -1
+  walljumptime: 0
+  coyotetime: 0
   HasDoubleJump: 1
   DoubleJump: 0
+  isDashing: 0
+  <dashSpeed>k__BackingField: 50
+  dashTime: 0
+  dashCooldown: 0
+  HasDagger: 1
+  HasSpear: 1
+  HasHammer: 1
+  TapSprint: 0
+  AutoSprint: 0
 --- !u!114 &5478279170802477857
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -25,6 +25,11 @@ public class Player_Dagger_IdleState : Player_IdleState
         else if(player.rb.linearVelocity.y <0 && player.getGrounded() == false){
             stateMachine.ChangeState(player.Dagger_fallState);
         }
-        
+        if(CheckDash()&& player.GetShiftPressedInput()){
+            player.rb.AddForce(new Vector2(player.dashSpeed*player.getFacingDirection(),0),ForceMode2D.Impulse);
+            player.dashCooldown=1f;
+            player.dashTime = 0.15f;
+
+        }
     }
 }

@@ -39,15 +39,25 @@ public class Player : MonoBehaviour, IDataPersistence
     
     // ------- Player Data -------------
     [field: SerializeField] public float speed;
+    [field: SerializeField] public float baseSpeed { get; private set; }
+    [field: SerializeField] public float sprintSpeed { get; private set; }
     [field: SerializeField] public float jumpVelocity { get; private set; }
     [field: SerializeField] public float initialFallForce { get; private set; }
     private int facingDirection = 1;
     private bool isFacingRight = true;
+
     private bool isGrounded = true;
-    public float walljumptime = 0f;
-    public float coyotetime =0f;
-    public bool HasDoubleJump=true;
+    [HideInInspector] public float walljumptime = 0f;
+    [HideInInspector] public float coyotetime =0f;
+    [HideInInspector] public bool HasDoubleJump=true;
     [DisplayOnly] public bool DoubleJump=false;
+
+    [HideInInspector] public bool isDashing = false;
+    [field: SerializeField] public float dashSpeed { get; private set; }
+    [field: SerializeField] public float dashTime;
+    [field: SerializeField] public float dashCooldown;
+
+
     [field: SerializeField] public bool HasDagger;
     [field: SerializeField] public bool HasSpear;
     [field: SerializeField] public bool HasHammer;

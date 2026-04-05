@@ -25,6 +25,17 @@ public abstract class PlayerBaseState : CharacterBaseState
             player.walljumptime-= Time.deltaTime;
             Debug.Log(player.walljumptime);
         }
+        if(player.dashCooldown>=0){
+            player.dashCooldown-= Time.deltaTime;
+        }
+        if(player.dashTime>=0){
+            player.dashTime-= Time.deltaTime;
+            if(player.dashTime<=0){
+                player.rb.linearVelocity = new Vector2(0, 0);
+            }
+            //disable hitbox
+        }
+        
         
         player.animator.SetFloat("xInput", player.inputs.moveInput.x);
     }
@@ -34,5 +45,8 @@ public abstract class PlayerBaseState : CharacterBaseState
         base.Exit();
         
         player.animator.SetBool(animBoolName, false);
+    }
+    public bool CheckDash(){
+        return player.dashCooldown<=0 && !player.isDashing;
     }
 }

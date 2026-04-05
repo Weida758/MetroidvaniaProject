@@ -35,7 +35,9 @@ public class Player_MoveState : Player_GroundedState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+        if(player.dashTime <=0){
         player.SetVelocity(player.GetMoveInput().x * player.speed, player.rb.linearVelocity.y);
+        }
 
         
     }

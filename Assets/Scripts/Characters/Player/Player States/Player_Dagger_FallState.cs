@@ -32,6 +32,12 @@ public class Player_Dagger_FallState : Player_FallState
             return;
 
         }
+        if(CheckDash()&& player.GetShiftPressedInput()){
+            player.rb.AddForce(new Vector2(player.dashSpeed*player.getFacingDirection(),0),ForceMode2D.Impulse);
+            player.dashCooldown=1f;
+            player.dashTime = 0.15f;
+
+        }
        
     }
 
