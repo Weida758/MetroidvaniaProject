@@ -12,7 +12,9 @@ public class Player_JumpState : Player_AirState
     {
 
         //player.animator.SetBool(animBoolName, true);
+        if(player.lungeTime<=0){
         player.rb.linearVelocity = new Vector2(player.rb.linearVelocity.x, player.jumpVelocity);
+        }
         
     }
 

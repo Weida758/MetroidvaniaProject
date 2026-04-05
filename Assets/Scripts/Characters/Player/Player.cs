@@ -57,6 +57,13 @@ public class Player : MonoBehaviour, IDataPersistence
     [field: SerializeField] public float dashTime;
     [field: SerializeField] public float dashCooldown;
 
+    [field: SerializeField] public float lungeSpeed { get; private set; }
+    [field: SerializeField] public float lungeTime;
+    [DisplayOnly] public float lungeHeldTime;
+    [field: SerializeField] public float lungeHeldTimeMax { get; private set; }
+    [field: SerializeField] public float lungeHeldTimeMultiplier { get; private set; }
+    [HideInInspector] public float initialLungeTime;
+
 
     [field: SerializeField] public bool HasDagger;
     [field: SerializeField] public bool HasSpear;

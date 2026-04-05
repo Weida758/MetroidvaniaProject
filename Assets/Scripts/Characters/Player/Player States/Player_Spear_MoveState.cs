@@ -24,6 +24,10 @@ public class Player_Spear_MoveState : Player_MoveState
         else if(player.rb.linearVelocity.y <0 && player.getGrounded() == false){
             stateMachine.ChangeState(player.Spear_fallState);
         }
+        if(player.getGrounded() && player.GetShiftPressedInput()){
+            player.lungeHeldTime=0.5f;
+            stateMachine.ChangeState(player.Spear_idleState);
+        }
     }
     public override void FixedUpdate()
     {

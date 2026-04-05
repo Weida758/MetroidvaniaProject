@@ -204,6 +204,12 @@ MonoBehaviour:
   <dashSpeed>k__BackingField: 50
   dashTime: 0
   dashCooldown: 0
+  <lungeSpeed>k__BackingField: 10
+  lungeTime: 0
+  lungeHeldTime: 0
+  <lungeHeldTimeMax>k__BackingField: 5
+  <lungeHeldTimeMultiplier>k__BackingField: 1.15
+  initialLungeTime: 0
   HasDagger: 1
   HasSpear: 1
   HasHammer: 1

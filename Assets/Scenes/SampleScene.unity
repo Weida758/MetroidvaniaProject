@@ -935,22 +935,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4118290658729559493, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
-      propertyPath: speed
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4118290658729559493, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
-      propertyPath: HasSpear
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4118290658729559493, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
-      propertyPath: HasDagger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4118290658729559493, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
-      propertyPath: HasHammer
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4678016733106493431, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
       propertyPath: m_Name
       value: Player
