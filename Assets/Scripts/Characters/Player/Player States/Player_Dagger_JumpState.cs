@@ -17,7 +17,7 @@ public class Player_Dagger_JumpState : Player_JumpState
         if(player.rb.linearVelocity.y <0 ){
             stateMachine.ChangeState(player.Dagger_fallState);
         }
-         if(CheckDash()&& player.GetShiftPressedInput()){
+         if(CheckDash() && player.GetShiftPressedInput()){
             player.rb.AddForce(new Vector2(player.dashSpeed*player.getFacingDirection(),0),ForceMode2D.Impulse);
             player.dashCooldown=1f;
             player.dashTime = 0.15f;

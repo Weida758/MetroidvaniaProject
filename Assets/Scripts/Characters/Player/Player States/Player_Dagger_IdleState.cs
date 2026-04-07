@@ -19,16 +19,16 @@ public class Player_Dagger_IdleState : Player_IdleState
             stateMachine.ChangeState(player.Dagger_moveState);
             return;
         }
-        else if(player.GetJumpPressedInput() == true && player.getGrounded() == true ){
+        else if(player.GetJumpPressedInput() && player.getGrounded() ){
             stateMachine.ChangeState(player.Dagger_jumpState);
         }
-        else if(player.rb.linearVelocity.y <0 && player.getGrounded() == false){
+        else if(player.rb.linearVelocity.y <0 && !player.getGrounded()){
             stateMachine.ChangeState(player.Dagger_fallState);
         }
-        if(CheckDash()&& player.GetShiftPressedInput()){
-            player.rb.AddForce(new Vector2(player.dashSpeed*player.getFacingDirection(),0),ForceMode2D.Impulse);
-            player.dashCooldown=1f;
-            player.dashTime = 0.15f;
+        if(CheckDash() && player.GetShiftPressedInput()){
+            player.rb.AddForce(new Vector2(player.dashSpeed * player.getFacingDirection(),0),ForceMode2D.Impulse);
+            player.dashCooldown = 1f;
+            player.dashTime = 0.15f; 
 
         }
     }

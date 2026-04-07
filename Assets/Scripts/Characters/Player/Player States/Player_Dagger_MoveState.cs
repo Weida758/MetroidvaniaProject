@@ -29,7 +29,6 @@ public class Player_Dagger_MoveState : Player_MoveState
             player.rb.AddForce(new Vector2(player.dashSpeed*player.getFacingDirection(),0),ForceMode2D.Impulse);
             player.dashCooldown=1f;
             player.dashTime = 0.15f;
-
         }
     }
     public override void FixedUpdate()
