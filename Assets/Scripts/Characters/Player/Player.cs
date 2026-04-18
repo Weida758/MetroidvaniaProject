@@ -171,6 +171,8 @@ public class Player : MonoBehaviour, IDataPersistence
 
     public bool GetFourPressedInput() => inputs.fourPressed;
 
+    public bool GetAttackPressedInput() => inputs.attackPressed;
+
     public bool getGrounded() => isGrounded;
 
     public int getFacingDirection() => facingDirection;

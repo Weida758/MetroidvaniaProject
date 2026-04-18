@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public abstract class PlayerBaseState : CharacterBaseState
 {
@@ -28,13 +29,14 @@ public abstract class PlayerBaseState : CharacterBaseState
         if(player.dashCooldown>=0){
             player.dashCooldown-= Time.deltaTime;
         }
-        if(player.dashTime>=0){
-            player.dashTime-= Time.deltaTime;
-            if(player.dashTime<=0){
-                player.rb.linearVelocity = new Vector2(0, 0);
-            }
-            //disable hitbox
-        }
+        // if(player.dashTime>=0){
+        //     player.dashTime-= Time.deltaTime;
+        //     if(player.dashTime<=0){
+        //         player.rb.linearVelocity = new Vector2(0, 0);
+        //         player.rb.gravityScale = 2f;
+        //     }
+        //     //disable hitbox
+        // }
         if(player.lungeHeldTime>=0.5&& player.stateMachine.currentState.GetType()==typeof(Player_Spear_IdleState)){
             player.lungeHeldTime+= Time.deltaTime;
         }else{
@@ -64,6 +66,23 @@ public abstract class PlayerBaseState : CharacterBaseState
     public bool WallCheck(){
 
         return Physics2D.Raycast(player.rb.transform.position, new Vector2(player.getFacingDirection(),0), 0.75f ,1 << LayerMask.NameToLayer("Wall"));
+
+    }
+    public IEnumerator Dash(){
+        player.rb.linearVelocity = new Vector2(0, 0);
+        player.rb.linearVelocityX= player.dashSpeed * player.getFacingDirection();
+        //player.rb.AddForce(new Vector2(player.dashSpeed * player.getFacingDirection(),0),ForceMode2D.Impulse);
+        float previousGravity= player.rb.gravityScale;
+        player.dashCooldown = 1f;
+        float dashTime = player.dashTime; 
+        player.rb.gravityScale = 0f;
+        player.isDashing = true;
+
+        yield return new WaitForSeconds(dashTime);
+
+        player.isDashing = false;
+        player.rb.linearVelocity = new Vector2(0, 0);
+        player.rb.gravityScale = previousGravity;
 
     }
 }

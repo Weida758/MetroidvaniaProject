@@ -15,6 +15,7 @@ public class PlayerInputs : MonoBehaviour
     private InputAction twoAction;
     private InputAction threeAction;
     private InputAction fourAction;
+    private InputAction attackAction;
 
     // ---------- Input Data ----------------
     public Vector2 moveInput { get; private set; }
@@ -31,6 +32,8 @@ public class PlayerInputs : MonoBehaviour
     public bool threePressed { get; private set; }
     public bool fourPressed { get; private set; }
 
+    public bool attackPressed { get; private set; }
+
     private void Awake()
     {
         playerInputs = new PlayerInputsActions();
@@ -46,6 +49,7 @@ public class PlayerInputs : MonoBehaviour
             twoAction = inputMap.FindAction("Dagger");
             threeAction = inputMap.FindAction("Spear");
             fourAction = inputMap.FindAction("Hammer");
+            attackAction = inputMap.FindAction("Attack");
         }
         else
         {
@@ -77,6 +81,7 @@ public class PlayerInputs : MonoBehaviour
         twoPressed = twoAction.WasPressedThisFrame();
         threePressed = threeAction.WasPressedThisFrame();
         fourPressed = fourAction.WasPressedThisFrame();
+        attackPressed = attackAction.WasPressedThisFrame();
 
     }
     

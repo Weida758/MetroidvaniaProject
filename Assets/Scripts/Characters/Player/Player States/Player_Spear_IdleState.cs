@@ -32,8 +32,8 @@ public class Player_Spear_IdleState : Player_IdleState
             if(player.lungeHeldTime>=player.lungeHeldTimeMax){
                 player.lungeHeldTime = player.lungeHeldTimeMax;
             }
-            int TotalLungeSpeed = (int)player.lungeSpeed+((int)(player.lungeHeldTime/0.5f) * (int)player.lungeHeldTimeMultiplier);
-            player.rb.AddForce(new Vector2(TotalLungeSpeed *player.getFacingDirection(),TotalLungeSpeed),ForceMode2D.Impulse);
+            int TotalLungeSpeed = (int) player.lungeSpeed + ( (int) (player.lungeHeldTime/0.5f) * (int) player.lungeHeldTimeMultiplier);
+            player.rb.AddForce(new Vector2(TotalLungeSpeed * player.getFacingDirection() , TotalLungeSpeed) ,ForceMode2D.Impulse);
             player.lungeTime= 0.75f + (int)(0.2 * (player.lungeHeldTime/0.5f));
             player.initialLungeTime = player.lungeTime;
             player.lungeHeldTime=0;

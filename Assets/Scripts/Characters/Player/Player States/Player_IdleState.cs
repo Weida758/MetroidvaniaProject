@@ -9,7 +9,12 @@ public class Player_IdleState : Player_GroundedState
     public override void Enter()
     {
         base.Enter();
-        player.rb.linearVelocity = new Vector2(0, player.rb.linearVelocity.y);
+        if(player.isDashing){
+            player.rb.linearVelocity = new Vector2(player.rb.linearVelocityX, player.rb.linearVelocity.y);
+        }
+        else{
+            player.rb.linearVelocity = new Vector2(0, player.rb.linearVelocity.y);
+        }
     }
     public override void Update()
     {

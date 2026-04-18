@@ -163,6 +163,15 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""32526219-bb89-4308-b4c4-abcbe3c1d5dc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -297,6 +306,17 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
                     ""action"": ""Hammer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1760b719-88bc-46af-a05d-9170ba8092f1"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -313,6 +333,7 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
         m_Player_Dagger = m_Player.FindAction("Dagger", throwIfNotFound: true);
         m_Player_Spear = m_Player.FindAction("Spear", throwIfNotFound: true);
         m_Player_Hammer = m_Player.FindAction("Hammer", throwIfNotFound: true);
+        m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
     }
 
     ~@PlayerInputsActions()
@@ -401,6 +422,7 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Dagger;
     private readonly InputAction m_Player_Spear;
     private readonly InputAction m_Player_Hammer;
+    private readonly InputAction m_Player_Attack;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -444,6 +466,10 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Hammer".
         /// </summary>
         public InputAction @Hammer => m_Wrapper.m_Player_Hammer;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Attack".
+        /// </summary>
+        public InputAction @Attack => m_Wrapper.m_Player_Attack;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -494,6 +520,9 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
             @Hammer.started += instance.OnHammer;
             @Hammer.performed += instance.OnHammer;
             @Hammer.canceled += instance.OnHammer;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
         }
 
         /// <summary>
@@ -529,6 +558,9 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
             @Hammer.started -= instance.OnHammer;
             @Hammer.performed -= instance.OnHammer;
             @Hammer.canceled -= instance.OnHammer;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
         }
 
         /// <summary>
@@ -625,5 +657,12 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHammer(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 public class Player_Dagger_FallState : Player_FallState
 {
     public Player_Dagger_FallState(StateMachine stateMachine, string animBoolName, Player player) : 
@@ -32,17 +32,15 @@ public class Player_Dagger_FallState : Player_FallState
             return;
 
         }
-        if(CheckDash()&& player.GetShiftPressedInput()){
-            player.rb.AddForce(new Vector2(player.dashSpeed*player.getFacingDirection(),0),ForceMode2D.Impulse);
-            player.dashCooldown=1f;
-            player.dashTime = 0.15f;
-
-        }
+  
        
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();   
+        if(CheckDash() && player.GetShiftPressedInput()){
+           player.StartCoroutine(base.Dash());
+        }
     }
 }

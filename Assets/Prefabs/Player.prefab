@@ -201,8 +201,8 @@ MonoBehaviour:
   HasDoubleJump: 1
   DoubleJump: 0
   isDashing: 0
-  <dashSpeed>k__BackingField: 50
-  dashTime: 0
+  <dashSpeed>k__BackingField: 40
+  dashTime: 0.15
   dashCooldown: 0
   <lungeSpeed>k__BackingField: 10
   lungeTime: 0
