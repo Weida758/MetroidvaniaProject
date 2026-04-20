@@ -31,6 +31,7 @@ public class Player : MonoBehaviour, IDataPersistence
     public Player_Spear_FallState Spear_fallState { get; private set; }
     public Player_WallSlideState Wall_slideState { get; private set; }
 
+    public Player_Spear_AttackState Spear_attackState { get; private set; }
 
     // -------- Player Components ------------
     public Rigidbody2D rb { get; private set; }
@@ -96,6 +97,7 @@ public class Player : MonoBehaviour, IDataPersistence
         Spear_moveState = new Player_Spear_MoveState(stateMachine, "Spear_move", this);
         Spear_jumpState = new Player_Spear_JumpState(stateMachine, "Spear_jump", this);
         Spear_fallState = new Player_Spear_FallState(stateMachine, "Spear_fall", this);
+        Spear_attackState = new Player_Spear_AttackState(stateMachine, "Spear_Attack", this);
 
         Hammer_idleState = new Player_Hammer_IdleState(stateMachine, "Hammer_idle", this);
         Hammer_moveState = new Player_Hammer_MoveState(stateMachine, "Hammer_move", this);
