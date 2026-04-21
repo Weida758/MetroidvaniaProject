@@ -32,6 +32,9 @@ public class Player_Dagger_FallState : Player_FallState
             return;
 
         }
+        if(CheckDash() && player.GetShiftPressedInput()){
+           player.StartCoroutine(base.Dash());
+        }
   
        
     }
@@ -39,8 +42,6 @@ public class Player_Dagger_FallState : Player_FallState
     public override void FixedUpdate()
     {
         base.FixedUpdate();   
-        if(CheckDash() && player.GetShiftPressedInput()){
-           player.StartCoroutine(base.Dash());
-        }
+       
     }
 }

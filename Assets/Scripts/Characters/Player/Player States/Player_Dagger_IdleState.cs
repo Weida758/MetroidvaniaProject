@@ -25,11 +25,10 @@ public class Player_Dagger_IdleState : Player_IdleState
         else if(player.rb.linearVelocity.y <0 && !player.getGrounded()){
             stateMachine.ChangeState(player.Dagger_fallState);
         }
-       
-    }
-    public override void FixedUpdate(){
         if(CheckDash() && player.GetShiftPressedInput()){
            player.StartCoroutine(base.Dash());
         }
+       
     }
+    
 }

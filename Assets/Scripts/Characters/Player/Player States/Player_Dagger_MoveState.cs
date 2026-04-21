@@ -25,14 +25,15 @@ public class Player_Dagger_MoveState : Player_MoveState
         else if(player.rb.linearVelocity.y <0 && player.getGrounded() == false){
             stateMachine.ChangeState(player.Dagger_fallState);
         }
+        if(CheckDash() && player.GetShiftPressedInput()){
+           player.StartCoroutine(base.Dash());
+        }
      
     }
     public override void FixedUpdate()
     {
 
         base.FixedUpdate();   
-        if(CheckDash() && player.GetShiftPressedInput()){
-           player.StartCoroutine(base.Dash());
-        }
+        
     }
 }

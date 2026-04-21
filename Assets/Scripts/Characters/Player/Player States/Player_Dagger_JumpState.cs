@@ -17,14 +17,15 @@ public class Player_Dagger_JumpState : Player_JumpState
         if(player.rb.linearVelocity.y <0 ){
             stateMachine.ChangeState(player.Dagger_fallState);
         }
+        if(CheckDash() && player.GetShiftPressedInput()){
+           player.StartCoroutine(base.Dash());
+        }
      
     }
     public override void FixedUpdate()
     {
         base.FixedUpdate();   
-        if(CheckDash() && player.GetShiftPressedInput()){
-           player.StartCoroutine(base.Dash());
-        }
+       
     }
     
 }

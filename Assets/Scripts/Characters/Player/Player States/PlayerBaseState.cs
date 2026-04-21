@@ -69,6 +69,7 @@ public abstract class PlayerBaseState : CharacterBaseState
 
     }
     public IEnumerator Dash(){
+        player.isDashing = true;
         player.rb.linearVelocity = new Vector2(0, 0);
         player.rb.linearVelocityX= player.dashSpeed * player.getFacingDirection();
         //player.rb.AddForce(new Vector2(player.dashSpeed * player.getFacingDirection(),0),ForceMode2D.Impulse);
@@ -76,7 +77,6 @@ public abstract class PlayerBaseState : CharacterBaseState
         player.dashCooldown = 1f;
         float dashTime = player.dashTime; 
         player.rb.gravityScale = 0f;
-        player.isDashing = true;
 
         yield return new WaitForSeconds(dashTime);
 
