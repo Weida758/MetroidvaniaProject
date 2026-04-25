@@ -108,6 +108,25 @@ public class Player : MonoBehaviour, IDataPersistence
         stateMachine.Initialize(Sword_idleState);
 
     }
+    //For Debugging
+    public void OnDrawGizmos(){
+        // Gizmos.color = Color.red;
+  
+        // Gizmos.DrawWireSphere(rb.position, 1f);
+        // Vector3 endPosition = (Vector3)rb.position + (Vector3)(transform.right * 2f*facingDirection);
+        // Gizmos.DrawLine(rb.position, endPosition);
+    
+        // Gizmos.DrawWireSphere(endPosition, 1f);
+
+        // Gizmos.color = Color.blue;
+        // Gizmos.DrawWireSphere(rb.position, 1f);
+        // endPosition = (Vector3)rb.position + (Vector3)(transform.right * 4f * facingDirection);
+        // Gizmos.DrawLine(rb.position, endPosition);
+        
+
+        // Gizmos.DrawWireSphere(endPosition, 1f);
+
+    }
 
     private void Update()
     {

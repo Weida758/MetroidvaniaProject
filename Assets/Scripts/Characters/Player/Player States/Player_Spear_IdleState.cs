@@ -39,6 +39,9 @@ public class Player_Spear_IdleState : Player_IdleState
             player.lungeHeldTime=0;
             player.stateMachine.ChangeState(player.Spear_jumpState);
         }
+        if(player.GetAttackPressedInput()){
+            stateMachine.ChangeState(player.Spear_attackState);
+        }
 
         
     }
