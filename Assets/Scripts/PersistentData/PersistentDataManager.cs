@@ -16,7 +16,8 @@ public class PersistentDataManager : MonoBehaviour
     private GameDataFileHandler dataFileHandler;
 
     private List<IDataPersistence> persistentDataObjects;
-
+    
+    [Tooltip("Use when testing in a scene without starting from the main menu to load game automatically")]
     [SerializeField] private bool isTesting;
 
     public void Awake()
@@ -78,9 +79,6 @@ public class PersistentDataManager : MonoBehaviour
 
         SceneManager.LoadSceneAsync(gameData.sceneName);
 
-
-        //Debug.Log("Game Data Loaded with player position: " + gameData.playerPositionData +
-        //"in Scene: " + gameData.sceneName);
     }
     
     /// <summary>
@@ -96,6 +94,7 @@ public class PersistentDataManager : MonoBehaviour
     }
 
 
+    // Ran after all game object's Awake method have been executed
     public void OnSceneLoaded(Scene scene, LoadSceneMode sceneLoadMode)
     {
         
