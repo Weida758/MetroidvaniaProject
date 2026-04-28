@@ -42,6 +42,10 @@ public class Player_Spear_IdleState : Player_IdleState
         if(player.GetAttackPressedInput()){
             stateMachine.ChangeState(player.Spear_attackState);
         }
+        if(player.GetSpecialAttackPressedInput()){
+            base.SpearThrow();
+
+        }
 
         
     }

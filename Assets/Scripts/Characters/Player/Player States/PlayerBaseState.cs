@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public abstract class PlayerBaseState : CharacterBaseState
 {
@@ -84,5 +85,12 @@ public abstract class PlayerBaseState : CharacterBaseState
         player.rb.linearVelocity = new Vector2(0, 0);
         player.rb.gravityScale = previousGravity;
 
+    }
+    public void SpearThrow(){
+        Vector2 center = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Mouse.current.WarpCursorPosition(center);
+        player.ActivateAim();
+        
+        Debug.Log(player.GetMousePosition());
     }
 }

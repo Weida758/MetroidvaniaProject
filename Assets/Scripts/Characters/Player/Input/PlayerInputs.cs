@@ -16,9 +16,12 @@ public class PlayerInputs : MonoBehaviour
     private InputAction threeAction;
     private InputAction fourAction;
     private InputAction attackAction;
+    private InputAction specialAttackAction;
+    private InputAction mouseAction;
 
     // ---------- Input Data ----------------
     public Vector2 moveInput { get; private set; }
+    public Vector2 mousePosition { get; private set; }
 
     public bool jumpPressed { get; private set; }
     public bool jumpReleased { get; private set; }
@@ -33,6 +36,9 @@ public class PlayerInputs : MonoBehaviour
     public bool fourPressed { get; private set; }
 
     public bool attackPressed { get; private set; }
+
+    public bool specialAttackPressed { get; private set; }
+    public bool specialAttackReleased{ get; private set; }
 
     private void Awake()
     {
@@ -50,6 +56,8 @@ public class PlayerInputs : MonoBehaviour
             threeAction = inputMap.FindAction("Spear");
             fourAction = inputMap.FindAction("Hammer");
             attackAction = inputMap.FindAction("Attack");
+            specialAttackAction = inputMap.FindAction("Special Attack");
+            mouseAction = inputMap.FindAction("Mouse");
         }
         else
         {
@@ -71,6 +79,7 @@ public class PlayerInputs : MonoBehaviour
     private void Update()
     {
         moveInput = moveAction.ReadValue<Vector2>().normalized;
+        mousePosition = mouseAction.ReadValue<Vector2>();
         jumpPressed = jumpAction.WasPressedThisFrame();
         jumpReleased = jumpAction.WasReleasedThisFrame();
         downPressed = downAction.WasPressedThisFrame();
@@ -82,6 +91,8 @@ public class PlayerInputs : MonoBehaviour
         threePressed = threeAction.WasPressedThisFrame();
         fourPressed = fourAction.WasPressedThisFrame();
         attackPressed = attackAction.WasPressedThisFrame();
+        specialAttackPressed = specialAttackAction.WasPressedThisFrame();
+        specialAttackReleased = specialAttackAction.WasReleasedThisFrame();
 
     }
     

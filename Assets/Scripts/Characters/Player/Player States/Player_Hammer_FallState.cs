@@ -8,6 +8,8 @@ public class Player_Hammer_FallState : Player_FallState
 
     public override void Enter()
     {
+        player.rb.linearVelocity = new Vector2(0, 0);
+        player.rb.AddForceY(player.initialFallForce, ForceMode2D.Impulse);
         base.Enter();
       
     }

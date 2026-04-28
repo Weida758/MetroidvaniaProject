@@ -37,6 +37,7 @@ public class Player : MonoBehaviour, IDataPersistence
     public Rigidbody2D rb { get; private set; }
     public Animator animator { get; private set; }
     private SpriteRenderer spriteRenderer;
+    private GameObject aim;
     
     // ------- Player Data -------------
     [field: SerializeField] public float speed;
@@ -54,6 +55,7 @@ public class Player : MonoBehaviour, IDataPersistence
     [DisplayOnly] public bool DoubleJump=false;
 
     [HideInInspector] public bool isDashing = false;
+    [HideInInspector] public bool isAiming = false;
     [field: SerializeField] public float dashSpeed { get; private set; }
     [field: SerializeField] public float dashTime;
     [field: SerializeField] public float dashCooldown;
@@ -72,6 +74,8 @@ public class Player : MonoBehaviour, IDataPersistence
     [field: SerializeField] public bool TapSprint;
     [field: SerializeField] public bool AutoSprint;
 
+    
+
 
 
     private void Awake()
@@ -80,6 +84,7 @@ public class Player : MonoBehaviour, IDataPersistence
         rb =  GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        aim = transform.Find("Aim").gameObject;
         
         stateMachine = new StateMachine();
 
@@ -133,7 +138,7 @@ public class Player : MonoBehaviour, IDataPersistence
         stateMachine.UpdateActiveState();
         currentState = stateMachine.currentState.ToString();
         UpdateGrounded();
-        Debug.Log(isGrounded);
+        //Debug.Log(isGrounded);
         if(isGrounded){
             DoubleJump=true;
         }
@@ -153,7 +158,7 @@ public class Player : MonoBehaviour, IDataPersistence
         //    Debug.DrawRay(rb.transform.position, transform.TransformDirection(Vector3.down) *1.5f,Color.red);
         //     Debug.DrawLine(rb.transform.position, ray.point,Color.green);
         //Debug.Log(coyotetime);
-        Debug.Log(stateMachine.currentState.ToString());
+        //Debug.Log(stateMachine.currentState.ToString());
         if(stateMachine.currentState.ToString() == "Player_JumpState"){
             isGrounded = false;
         }
@@ -174,6 +179,8 @@ public class Player : MonoBehaviour, IDataPersistence
     }
     public Vector2 GetMoveInput() => inputs.moveInput;
 
+    public Vector2 GetMousePosition() => inputs.mousePosition;
+
     public bool GetJumpPressedInput() => inputs.jumpPressed;
 
     public bool GetJumpReleasedInput() => inputs.jumpReleased;
@@ -193,6 +200,10 @@ public class Player : MonoBehaviour, IDataPersistence
     public bool GetFourPressedInput() => inputs.fourPressed;
 
     public bool GetAttackPressedInput() => inputs.attackPressed;
+
+    public bool GetSpecialAttackPressedInput() => inputs.specialAttackPressed;
+
+    public bool GetSpecialAttackReleasedInput() => inputs.specialAttackReleased;
 
     public bool getGrounded() => isGrounded;
 
@@ -236,6 +247,11 @@ public class Player : MonoBehaviour, IDataPersistence
             AsyncOperation sceneProgress = SceneManager.LoadSceneAsync(gameData.sceneName);
         }
         transform.position = gameData.playerPositionData;
+    }
+
+    public void ActivateAim(){
+        aim.SetActive(!aim.activeSelf);
+        isAiming = true;
     }
 
 
