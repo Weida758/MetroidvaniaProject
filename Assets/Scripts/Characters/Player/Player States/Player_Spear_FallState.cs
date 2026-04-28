@@ -31,6 +31,13 @@ public class Player_Spear_FallState : Player_FallState
             return;
 
         }
+        if(player.GetSpecialAttackPressedInput()){
+            base.SpearAim();
+
+        }
+        if(player.GetSpecialAttackReleasedInput()){
+            base.SpearThrow();
+        }
 
     }
     public override void FixedUpdate()

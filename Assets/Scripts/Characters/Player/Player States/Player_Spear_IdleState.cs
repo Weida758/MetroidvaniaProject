@@ -48,7 +48,6 @@ public class Player_Spear_IdleState : Player_IdleState
         }
         if(player.GetSpecialAttackReleasedInput()){
             base.SpearThrow();
-
         }
         
 

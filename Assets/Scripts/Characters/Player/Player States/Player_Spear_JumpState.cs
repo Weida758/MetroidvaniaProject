@@ -17,6 +17,13 @@ public class Player_Spear_JumpState : Player_JumpState
         if(player.rb.linearVelocity.y <0 ){
             stateMachine.ChangeState(player.Spear_fallState);
         }
+        if(player.GetSpecialAttackPressedInput()){
+            base.SpearAim();
+
+        }
+        if(player.GetSpecialAttackReleasedInput()){
+            base.SpearThrow();
+        }
     }
     public override void FixedUpdate()
     {

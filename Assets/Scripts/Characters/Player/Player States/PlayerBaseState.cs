@@ -49,7 +49,7 @@ public abstract class PlayerBaseState : CharacterBaseState
             Vector2 center = new Vector2(Screen.width / 2f, Screen.height / 2f);
             Vector2 mousePosition = player.GetMousePosition();
             Vector2 direction = mousePosition - center;
-            if(mousePosition.y > center.y + 30 || mousePosition.x > center.x + 30||mousePosition.y < center.y - 30 || mousePosition.x < center.x - 30 ){
+            if(mousePosition.y > center.y + 40 || mousePosition.x > center.x + 40||mousePosition.y < center.y - 40 || mousePosition.x < center.x - 40 ){
                 Vector2 warp = new Vector2(center.x + direction.x/2,center.y + direction.y/2);
                 Mouse.current.WarpCursorPosition(warp);
             }
@@ -99,6 +99,7 @@ public abstract class PlayerBaseState : CharacterBaseState
 
     }
     public void SpearAim(){
+        Time.timeScale = 0.25f;
         if(player.GetDownCurrentlyPressed()){
             Vector2 warp = new Vector2(Screen.width / 2f , Screen.height / 2f - 15f );
             Mouse.current.WarpCursorPosition(warp);
@@ -119,15 +120,20 @@ public abstract class PlayerBaseState : CharacterBaseState
     public void SpearThrow(){
         player.isAiming = false;
         player.aim.SetActive(false);
+        Time.timeScale = 1f;
         Vector2 center = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Vector2 mousePosition = player.GetMousePosition();
         Vector2 direction = mousePosition - center;
-        RaycastHit2D hit = Physics2D.Raycast(player.transform.position, direction, 10f);
+        RaycastHit2D hit = Physics2D.Raycast(player.transform.position, direction, 10f, 1 << LayerMask.NameToLayer("Enemy"));
+        float angle = (Mathf.Atan2(direction.y,direction.x) * Mathf.Rad2Deg) -90;
+        Vector3 rotation = new Vector3(player.aim.transform.eulerAngles.x, player.aim.transform.eulerAngles.y, angle);
         if(hit == true){
-        Debug.Log(hit.collider.gameObject);
+
+            Object.Instantiate(player.spear, hit.point, Quaternion.Euler(rotation));
+            Debug.Log(hit.collider.gameObject);
         }
-            Debug.Log(hit);
+           Debug.Log(hit);
            Debug.DrawRay(player.transform.position,direction,Color.red);
-            Debug.DrawLine(player.transform.position, hit.point,Color.green);
+           Debug.DrawLine(player.transform.position, hit.point,Color.green);
     }
 }

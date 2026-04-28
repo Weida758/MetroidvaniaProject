@@ -38,6 +38,7 @@ public class Player : MonoBehaviour, IDataPersistence
     public Animator animator { get; private set; }
     private SpriteRenderer spriteRenderer;
     public GameObject aim;
+    [field: SerializeField] public GameObject spear;
     
     // ------- Player Data -------------
     [field: SerializeField] public float speed;

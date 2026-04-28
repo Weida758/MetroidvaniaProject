@@ -28,6 +28,13 @@ public class Player_Spear_MoveState : Player_MoveState
             player.lungeHeldTime=0.5f;
             stateMachine.ChangeState(player.Spear_idleState);
         }
+        if(player.GetSpecialAttackPressedInput()){
+            base.SpearAim();
+
+        }
+        if(player.GetSpecialAttackReleasedInput()){
+            base.SpearThrow();
+        }
     }
     public override void FixedUpdate()
     {
