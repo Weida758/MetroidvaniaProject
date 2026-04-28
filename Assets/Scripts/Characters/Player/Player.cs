@@ -37,7 +37,7 @@ public class Player : MonoBehaviour, IDataPersistence
     public Rigidbody2D rb { get; private set; }
     public Animator animator { get; private set; }
     private SpriteRenderer spriteRenderer;
-    private GameObject aim;
+    public GameObject aim;
     
     // ------- Player Data -------------
     [field: SerializeField] public float speed;
@@ -187,6 +187,8 @@ public class Player : MonoBehaviour, IDataPersistence
 
     public bool GetDownPressedInput() => inputs.downPressed;
 
+    public bool GetDownCurrentlyPressed() => inputs.downCurrentlyPressed;
+
     public bool GetShiftPressedInput() => inputs.shiftPressed;
     
     public bool GetShiftReleasedInput() => inputs.shiftReleased;
@@ -204,6 +206,8 @@ public class Player : MonoBehaviour, IDataPersistence
     public bool GetSpecialAttackPressedInput() => inputs.specialAttackPressed;
 
     public bool GetSpecialAttackReleasedInput() => inputs.specialAttackReleased;
+
+    public bool GetUpCurrentlyPressed() => inputs.upCurrentlyPressed;
 
     public bool getGrounded() => isGrounded;
 
@@ -249,10 +253,6 @@ public class Player : MonoBehaviour, IDataPersistence
         transform.position = gameData.playerPositionData;
     }
 
-    public void ActivateAim(){
-        aim.SetActive(!aim.activeSelf);
-        isAiming = true;
-    }
 
 
 

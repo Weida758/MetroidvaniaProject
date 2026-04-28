@@ -18,6 +18,7 @@ public class PlayerInputs : MonoBehaviour
     private InputAction attackAction;
     private InputAction specialAttackAction;
     private InputAction mouseAction;
+    private InputAction upAction;
 
     // ---------- Input Data ----------------
     public Vector2 moveInput { get; private set; }
@@ -27,6 +28,8 @@ public class PlayerInputs : MonoBehaviour
     public bool jumpReleased { get; private set; }
 
     public bool downPressed { get; private set; }
+    public bool downCurrentlyPressed { get; private set; }
+
     public bool shiftPressed { get; private set; }
     public bool shiftReleased { get; private set; }
 
@@ -39,6 +42,8 @@ public class PlayerInputs : MonoBehaviour
 
     public bool specialAttackPressed { get; private set; }
     public bool specialAttackReleased{ get; private set; }
+
+    public bool upCurrentlyPressed{ get; private set; }
 
     private void Awake()
     {
@@ -58,6 +63,7 @@ public class PlayerInputs : MonoBehaviour
             attackAction = inputMap.FindAction("Attack");
             specialAttackAction = inputMap.FindAction("Special Attack");
             mouseAction = inputMap.FindAction("Mouse");
+            upAction = inputMap.FindAction("Up");
         }
         else
         {
@@ -93,6 +99,8 @@ public class PlayerInputs : MonoBehaviour
         attackPressed = attackAction.WasPressedThisFrame();
         specialAttackPressed = specialAttackAction.WasPressedThisFrame();
         specialAttackReleased = specialAttackAction.WasReleasedThisFrame();
+        upCurrentlyPressed = upAction.IsPressed();
+        downCurrentlyPressed = downAction.IsPressed();
 
     }
     

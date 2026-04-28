@@ -30,14 +30,7 @@ public abstract class PlayerBaseState : CharacterBaseState
         if(player.dashCooldown>=0){
             player.dashCooldown-= Time.deltaTime;
         }
-        // if(player.dashTime>=0){
-        //     player.dashTime-= Time.deltaTime;
-        //     if(player.dashTime<=0){
-        //         player.rb.linearVelocity = new Vector2(0, 0);
-        //         player.rb.gravityScale = 2f;
-        //     }
-        //     //disable hitbox
-        // }
+ 
         if(player.lungeHeldTime>=0.5&& player.stateMachine.currentState.GetType()==typeof(Player_Spear_IdleState)){
             player.lungeHeldTime+= Time.deltaTime;
         }else{
@@ -50,6 +43,21 @@ public abstract class PlayerBaseState : CharacterBaseState
                 player.lungeTime =0;
                 player.rb.linearVelocity = new Vector2(0, -2);
             }
+        }
+        if(player.isAiming){
+            
+            Vector2 center = new Vector2(Screen.width / 2f, Screen.height / 2f);
+            Vector2 mousePosition = player.GetMousePosition();
+            Vector2 direction = mousePosition - center;
+            float angle = (Mathf.Atan2(direction.y,direction.x) * Mathf.Rad2Deg) -90;
+            if(angle < 0){
+                angle += 360;
+            }
+            player.aim.transform.eulerAngles = new Vector3(player.aim.transform.eulerAngles.x, player.aim.transform.eulerAngles.y, angle);
+            player.aim.SetActive(true);
+            //Quaternion targetRotation = Quaternion.Euler(0, 90, 0);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
+
         }
         
         player.animator.SetFloat("xInput", player.inputs.moveInput.x);
@@ -86,11 +94,36 @@ public abstract class PlayerBaseState : CharacterBaseState
         player.rb.gravityScale = previousGravity;
 
     }
-    public void SpearThrow(){
-        Vector2 center = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        Mouse.current.WarpCursorPosition(center);
-        player.ActivateAim();
+    public void SpearAim(){
+        if(player.GetDownCurrentlyPressed()){
+            Vector2 warp = new Vector2(Screen.width / 2f , Screen.height / 2f - 15f );
+            Mouse.current.WarpCursorPosition(warp);
+
+        }
+        else if(player.GetUpCurrentlyPressed()){
+            Vector2 warp = new Vector2(Screen.width / 2f , Screen.height / 2f + 15f );
+            Mouse.current.WarpCursorPosition(warp);
+        }
+        else{
+            Vector2 warp = new Vector2(Screen.width / 2f +15f * player.getFacingDirection(), Screen.height / 2f );
+            Mouse.current.WarpCursorPosition(warp);
+        }
+        player.isAiming = true;
         
-        Debug.Log(player.GetMousePosition());
+
+    }
+    public void SpearThrow(){
+        player.isAiming = false;
+        player.aim.SetActive(false);
+        Vector2 center = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Vector2 mousePosition = player.GetMousePosition();
+        Vector2 direction = mousePosition - center;
+        RaycastHit2D hit = Physics2D.Raycast(player.transform.position, direction, 10f);
+        if(hit == true){
+        Debug.Log(hit.collider.gameObject);
+        }
+            Debug.Log(hit);
+           Debug.DrawRay(player.transform.position,direction,Color.red);
+            Debug.DrawLine(player.transform.position, hit.point,Color.green);
     }
 }
