@@ -49,6 +49,10 @@ public abstract class PlayerBaseState : CharacterBaseState
             Vector2 center = new Vector2(Screen.width / 2f, Screen.height / 2f);
             Vector2 mousePosition = player.GetMousePosition();
             Vector2 direction = mousePosition - center;
+            if(mousePosition.y > center.y + 30 || mousePosition.x > center.x + 30||mousePosition.y < center.y - 30 || mousePosition.x < center.x - 30 ){
+                Vector2 warp = new Vector2(center.x + direction.x/2,center.y + direction.y/2);
+                Mouse.current.WarpCursorPosition(warp);
+            }
             float angle = (Mathf.Atan2(direction.y,direction.x) * Mathf.Rad2Deg) -90;
             if(angle < 0){
                 angle += 360;
