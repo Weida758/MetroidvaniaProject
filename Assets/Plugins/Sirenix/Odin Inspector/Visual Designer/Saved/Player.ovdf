@@ -1,0 +1,98 @@
+OVDF v1.1
+Player, Assembly-CSharp
+MetaGuid:63af25000faeb8540b0fa7b264db8445
+
+# $Ltf2GADBaYtgyiWdFStPZA
+Position: $JsbeVQDWvmBxHcnf5dhFoD:1
++ [Sirenix.OdinInspector.BoxGroupAttribute]
+	GroupName = "Dash"
+	ShowLabel = True
+	CenterLabel = False
+	LabelText = "Dash Data"
+
+# $DZv1hEJcN1qzEbeTPzVvu3
+Position: $root:149
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Toggles"
+	Subtitle = ""
+	Alignment = Left
+	Indent = False
+
+# $JsbeVQDWvmBxHcnf5dhFoD
+Position: $root:148
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Movements"
+
+# $sWdMDVMHf8bUSpQd5wWbz
+Position: $JsbeVQDWvmBxHcnf5dhFoD:2
++ [Sirenix.OdinInspector.BoxGroupAttribute]
+	GroupName = "Lunge"
+	ShowLabel = True
+
+# $AtGV4irV4apj2qThbhexUc
+Position: $JsbeVQDWvmBxHcnf5dhFoD:0
++ [Sirenix.OdinInspector.BoxGroupAttribute]
+	GroupName = "Base Character Data"
+	ShowLabel = True
+
+# <dashSpeed>k__BackingField
+Position: $Ltf2GADBaYtgyiWdFStPZA:2
+
+# dashTime
+Position: $Ltf2GADBaYtgyiWdFStPZA:1
+
+# dashCooldown
+Position: $Ltf2GADBaYtgyiWdFStPZA:0
+
+# AutoSprint
+Position: $DZv1hEJcN1qzEbeTPzVvu3:0
+
+# TapSprint
+Position: $DZv1hEJcN1qzEbeTPzVvu3:1
+
+# HasHammer
+Position: $DZv1hEJcN1qzEbeTPzVvu3:2
+
+# HasSpear
+Position: $DZv1hEJcN1qzEbeTPzVvu3:3
+
+# HasDagger
+Position: $DZv1hEJcN1qzEbeTPzVvu3:4
+
+# <lungeHeldTimeMultiplier>k__BackingField
+Position: $sWdMDVMHf8bUSpQd5wWbz:4
+
+# <lungeHeldTimeMax>k__BackingField
+Position: $sWdMDVMHf8bUSpQd5wWbz:3
+
+# lungeHeldTime
+Position: $sWdMDVMHf8bUSpQd5wWbz:0
+
+# lungeTime
+Position: $sWdMDVMHf8bUSpQd5wWbz:1
+
+# <lungeSpeed>k__BackingField
+Position: $sWdMDVMHf8bUSpQd5wWbz:2
+
+# DoubleJump
+Position: $AtGV4irV4apj2qThbhexUc:5
+
+# <initialFallForce>k__BackingField
+Position: $AtGV4irV4apj2qThbhexUc:2
+
+# <jumpVelocity>k__BackingField
+Position: $AtGV4irV4apj2qThbhexUc:4
+
+# <sprintSpeed>k__BackingField
+Position: $AtGV4irV4apj2qThbhexUc:1
+
+# <baseSpeed>k__BackingField
+Position: $AtGV4irV4apj2qThbhexUc:0
+
+# speed
+Position: $AtGV4irV4apj2qThbhexUc:3
+
+# currentState
++ [Sirenix.OdinInspector.GUIColorAttribute]
+	Color = #FFFFFF00
+	GetColor = "RGBA(0.527, 1.000, 0.000, 1.000)"

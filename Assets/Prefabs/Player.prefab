@@ -123,8 +123,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2679132586908442319}
-  - component: {fileID: 4149167578496548807}
   - component: {fileID: 4118290658729559493}
+  - component: {fileID: 4149167578496548807}
   - component: {fileID: 5478279170802477857}
   - component: {fileID: 8457977190178044597}
   - component: {fileID: 5231208872772687249}
@@ -151,6 +151,46 @@ Transform:
   - {fileID: 8674193689670156275}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4118290658729559493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4678016733106493431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63af25000faeb8540b0fa7b264db8445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  currentState: 
+  aim: {fileID: 0}
+  spear: {fileID: 0}
+  speed: 7
+  <baseSpeed>k__BackingField: 7
+  <sprintSpeed>k__BackingField: 12
+  <jumpVelocity>k__BackingField: 10
+  <initialFallForce>k__BackingField: -1
+  walljumptime: 0
+  coyotetime: 0
+  HasDoubleJump: 1
+  DoubleJump: 0
+  isDashing: 0
+  isAiming: 0
+  <dashSpeed>k__BackingField: 40
+  dashTime: 0.15
+  dashCooldown: 0
+  <lungeSpeed>k__BackingField: 10
+  lungeTime: 0
+  lungeHeldTime: 0
+  <lungeHeldTimeMax>k__BackingField: 5
+  <lungeHeldTimeMultiplier>k__BackingField: 1.15
+  initialLungeTime: 0
+  HasDagger: 1
+  HasSpear: 1
+  HasHammer: 1
+  TapSprint: 0
+  AutoSprint: 0
 --- !u!50 &4149167578496548807
 Rigidbody2D:
   serializedVersion: 5
@@ -178,43 +218,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &4118290658729559493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4678016733106493431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63af25000faeb8540b0fa7b264db8445, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player
-  currentState: 
-  speed: 7
-  <baseSpeed>k__BackingField: 7
-  <sprintSpeed>k__BackingField: 12
-  <jumpVelocity>k__BackingField: 10
-  <initialFallForce>k__BackingField: -1
-  walljumptime: 0
-  coyotetime: 0
-  HasDoubleJump: 1
-  DoubleJump: 0
-  isDashing: 0
-  <dashSpeed>k__BackingField: 40
-  dashTime: 0.15
-  dashCooldown: 0
-  <lungeSpeed>k__BackingField: 10
-  lungeTime: 0
-  lungeHeldTime: 0
-  <lungeHeldTimeMax>k__BackingField: 5
-  <lungeHeldTimeMultiplier>k__BackingField: 1.15
-  initialLungeTime: 0
-  HasDagger: 1
-  HasSpear: 1
-  HasHammer: 1
-  TapSprint: 0
-  AutoSprint: 0
 --- !u!114 &5478279170802477857
 MonoBehaviour:
   m_ObjectHideFlags: 0
