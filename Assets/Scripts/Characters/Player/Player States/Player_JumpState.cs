@@ -21,23 +21,24 @@ public class Player_JumpState : Player_AirState
     public override void Update()
     {
         base.Update();
-          if(player.GetOnePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Sword_JumpState)){
-            stateMachine.ChangeState(player.Sword_jumpState);
-            return;
-        }
-        else if(player.GetTwoPressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Dagger_JumpState)&&player.HasDagger){
-            stateMachine.ChangeState(player.Dagger_jumpState);
-            return;
-        }
-        else if(player.GetThreePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Spear_JumpState)&&player.HasSpear){
-            stateMachine.ChangeState(player.Spear_jumpState);
-            return;
-        }
-        else if(player.GetFourPressedInput()&&player.HasHammer){
-            stateMachine.ChangeState(player.Hammer_fallState);
-            return;
-        }
-
+        
+            if(player.GetOnePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Sword_JumpState)){
+                stateMachine.ChangeState(player.Sword_jumpState);
+                return;
+            }
+            else if(player.GetTwoPressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Dagger_JumpState)&&player.HasDagger){
+                stateMachine.ChangeState(player.Dagger_jumpState);
+                return;
+            }
+            else if(player.GetThreePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Spear_JumpState)&&player.HasSpear){
+                stateMachine.ChangeState(player.Spear_jumpState);
+                return;
+            }
+            else if(player.GetFourPressedInput()&&player.HasHammer){
+                stateMachine.ChangeState(player.Hammer_fallState);
+                return;
+            }
+        
         if(player.GetJumpReleasedInput())
         {
            player.rb.linearVelocity = new Vector2(player.rb.linearVelocityX, 0);

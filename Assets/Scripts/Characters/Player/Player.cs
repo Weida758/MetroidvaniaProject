@@ -49,6 +49,15 @@ public class Player : MonoBehaviour, IDataPersistence
     [field: SerializeField] public float initialFallForce { get; private set; }
     private int facingDirection = 1;
     private bool isFacingRight = true;
+    public bool lockMovement = false;
+    //going to fix these var later
+    public bool lockStateChange = false;
+    public GameObject collidedObject;
+    public Vector2 SpearDistance;
+    public Vector2 SpearHit;
+    public GameObject SpearEnemy;
+    public GameObject Spear;
+    public float throwCooldown;
 
     private bool isGrounded = true;
     [HideInInspector] public float walljumptime = 0f;
@@ -254,7 +263,17 @@ public class Player : MonoBehaviour, IDataPersistence
         }
         transform.position = gameData.playerPositionData;
     }
-
+    
+    void OnCollisionEnter2D(Collision2D collision) {
+        collidedObject = collision.gameObject;
+    }
+    void OnCollisionStay2D(Collision2D collision){
+        collidedObject = collision.gameObject;
+    }
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        collidedObject = null;
+    }
 
 
 

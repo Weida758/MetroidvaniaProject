@@ -16,7 +16,7 @@ public class Player_AirState : PlayerBaseState
     public override void FixedUpdate()
     {
         base.Update();
-        if(player.walljumptime<=0&&player.GetMoveInput().x != 0&&!player.isDashing &&player.lungeTime<=0){
+        if(player.walljumptime<=0&&player.GetMoveInput().x != 0&&!player.isDashing &&player.lungeTime<=0&& !player.lockMovement){
             player.SetVelocity(player.GetMoveInput().x * player.speed, player.rb.linearVelocity.y);
         }
         

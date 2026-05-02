@@ -14,25 +14,27 @@ public class Player_Spear_MoveState : Player_MoveState
     public override void Update()
     {
         base.Update();
-        if (player.GetMoveInput() == Vector2.zero)
-        {
-            stateMachine.ChangeState(player.Spear_idleState);
+        if(!player.lockStateChange){
+            if (player.GetMoveInput() == Vector2.zero)
+            {
+                stateMachine.ChangeState(player.Spear_idleState);
+            }
+            else if(player.GetJumpPressedInput() == true && player.getGrounded() == true ){
+                stateMachine.ChangeState(player.Spear_jumpState);
+            }
+            else if(player.rb.linearVelocity.y <0 && player.getGrounded() == false){
+                stateMachine.ChangeState(player.Spear_fallState);
+            }
+            if(player.getGrounded() && player.GetShiftPressedInput()){
+                player.lungeHeldTime=0.5f;
+                stateMachine.ChangeState(player.Spear_idleState);
+            }
         }
-        else if(player.GetJumpPressedInput() == true && player.getGrounded() == true ){
-            stateMachine.ChangeState(player.Spear_jumpState);
-        }
-        else if(player.rb.linearVelocity.y <0 && player.getGrounded() == false){
-            stateMachine.ChangeState(player.Spear_fallState);
-        }
-        if(player.getGrounded() && player.GetShiftPressedInput()){
-            player.lungeHeldTime=0.5f;
-            stateMachine.ChangeState(player.Spear_idleState);
-        }
-        if(player.GetSpecialAttackPressedInput()){
+        if(player.GetSpecialAttackPressedInput()&& player.throwCooldown<=0 ){
             base.SpearAim();
 
         }
-        if(player.GetSpecialAttackReleasedInput()){
+        if(player.GetSpecialAttackReleasedInput()&& player.isAiming){
             base.SpearThrow();
         }
     }

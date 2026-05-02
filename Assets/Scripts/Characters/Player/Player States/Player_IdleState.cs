@@ -9,7 +9,7 @@ public class Player_IdleState : Player_GroundedState
     public override void Enter()
     {
         base.Enter();
-        if(player.isDashing){
+        if(player.isDashing||player.lockMovement){
             player.rb.linearVelocity = new Vector2(player.rb.linearVelocityX, player.rb.linearVelocity.y);
         }
         else{
@@ -20,22 +20,24 @@ public class Player_IdleState : Player_GroundedState
     {
         base.Update();
         // Can change to getter and setters
-        if(player.GetOnePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Sword_IdleState)){
-            stateMachine.ChangeState(player.Sword_idleState);
-            return;
-        }
-        else if(player.GetTwoPressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Dagger_IdleState)&&player.HasDagger){
-            stateMachine.ChangeState(player.Dagger_idleState);
-            return;
-        }
-        else if(player.GetThreePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Spear_IdleState)&&player.HasSpear){
-            stateMachine.ChangeState(player.Spear_idleState);
-            return;
-        }
-        else if(player.GetFourPressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Hammer_IdleState)&&player.HasHammer){
-            stateMachine.ChangeState(player.Hammer_idleState);
-            return;
-        }
+       
+            if(player.GetOnePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Sword_IdleState)){
+                stateMachine.ChangeState(player.Sword_idleState);
+                return;
+            }
+            else if(player.GetTwoPressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Dagger_IdleState)&&player.HasDagger){
+                stateMachine.ChangeState(player.Dagger_idleState);
+                return;
+            }
+            else if(player.GetThreePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Spear_IdleState)&&player.HasSpear){
+                stateMachine.ChangeState(player.Spear_idleState);
+                return;
+            }
+            else if(player.GetFourPressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Hammer_IdleState)&&player.HasHammer){
+                stateMachine.ChangeState(player.Hammer_idleState);
+                return;
+            }
+        
 
 
 

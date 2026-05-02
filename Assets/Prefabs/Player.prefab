@@ -165,12 +165,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   currentState: 
   aim: {fileID: 0}
-  spear: {fileID: 0}
+  spear: {fileID: 7708488889948091711, guid: 0939b6f2f2600bd44ad6d9d8f845e03c, type: 3}
   speed: 7
   <baseSpeed>k__BackingField: 7
   <sprintSpeed>k__BackingField: 12
   <jumpVelocity>k__BackingField: 10
   <initialFallForce>k__BackingField: -1
+  lockMovement: 0
+  lockStateChange: 0
+  collidedObject: {fileID: 0}
+  SpearDistance: {x: 0, y: 0}
+  SpearHit: {x: 0, y: 0}
+  SpearEnemy: {fileID: 0}
+  Spear: {fileID: 0}
   walljumptime: 0
   coyotetime: 0
   HasDoubleJump: 1

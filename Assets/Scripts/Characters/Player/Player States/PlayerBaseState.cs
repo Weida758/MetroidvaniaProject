@@ -44,6 +44,16 @@ public abstract class PlayerBaseState : CharacterBaseState
                 player.rb.linearVelocity = new Vector2(0, -2);
             }
         }
+        if(player.throwCooldown>0){
+            player.throwCooldown -= Time.deltaTime;
+        }
+        //fix later when weapon change
+        System.Type stateType = player.stateMachine.currentState.GetType();
+        if(stateType !=typeof(Player_Spear_IdleState) && stateType !=typeof(Player_Spear_JumpState)&& stateType !=typeof(Player_Spear_FallState)|| stateType ==typeof(Player_Spear_MoveState)){
+            player.isAiming = false;
+            player.aim.SetActive(false);
+            Time.timeScale = 1f;
+        }
         if(player.isAiming){
             
             Vector2 center = new Vector2(Screen.width / 2f, Screen.height / 2f);
@@ -63,6 +73,24 @@ public abstract class PlayerBaseState : CharacterBaseState
             //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
 
         }
+        
+        if(player.SpearDistance.magnitude>0f){
+            player.SetVelocity(player.SpearDistance.normalized.x * 25f,player.SpearDistance.normalized.y * 25f);
+            player.SpearDistance = (Vector2)player.SpearHit - (Vector2)player.transform.position;
+            
+        }
+        //to lazy to make a is grappling bool rn
+        if(player.collidedObject == player.SpearEnemy && player.SpearHit != Vector2.zero){
+                player.rb.linearVelocity = Vector2.zero;
+                player.SpearHit = Vector2.zero;
+                player.SpearDistance = Vector2.zero;
+                player.SpearEnemy=null;
+                UnityEngine.Object.Destroy(player.Spear);
+                player.lockMovement = false;
+                player.lockStateChange = false;
+                Debug.Log("Spear Done");
+        }
+        
         
         player.animator.SetFloat("xInput", player.inputs.moveInput.x);
     }
@@ -127,13 +155,23 @@ public abstract class PlayerBaseState : CharacterBaseState
         RaycastHit2D hit = Physics2D.Raycast(player.transform.position, direction, 10f, 1 << LayerMask.NameToLayer("Enemy"));
         float angle = (Mathf.Atan2(direction.y,direction.x) * Mathf.Rad2Deg) -90;
         Vector3 rotation = new Vector3(player.aim.transform.eulerAngles.x, player.aim.transform.eulerAngles.y, angle);
+        //add cooldown
+        player.throwCooldown = 2f;
+
         if(hit == true){
 
-            Object.Instantiate(player.spear, hit.point, Quaternion.Euler(rotation));
+            player.Spear = Object.Instantiate(player.spear, hit.point, Quaternion.Euler(rotation));
             Debug.Log(hit.collider.gameObject);
+            player.lockMovement = true;
+            player.SpearHit = hit.point;
+            player.SpearEnemy = hit.collider.gameObject;
+            player.SpearDistance = (Vector2)player.SpearHit - (Vector2)player.transform.position;
+            //player.lockStateChange = true;
         }
            Debug.Log(hit);
            Debug.DrawRay(player.transform.position,direction,Color.red);
            Debug.DrawLine(player.transform.position, hit.point,Color.green);
+        
+
     }
 }

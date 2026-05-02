@@ -12,22 +12,24 @@ public class Player_MoveState : Player_GroundedState
     public override void Update()
     {
         base.Update();
-       if(player.GetOnePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Sword_MoveState)){
-            stateMachine.ChangeState(player.Sword_moveState);
-            return;
-        }
-        else if(player.GetTwoPressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Dagger_MoveState)&& player.HasDagger){
-            stateMachine.ChangeState(player.Dagger_moveState);
-            return;
-        }
-        else if(player.GetThreePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Spear_MoveState)&&player.HasSpear){
-            stateMachine.ChangeState(player.Spear_moveState);
-            return;
-        }
-        else if(player.GetFourPressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Hammer_MoveState)&&player.HasHammer){
-            stateMachine.ChangeState(player.Hammer_moveState);
-            return;
-        }
+        
+            if(player.GetOnePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Sword_MoveState)){
+                stateMachine.ChangeState(player.Sword_moveState);
+                return;
+            }
+            else if(player.GetTwoPressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Dagger_MoveState)&& player.HasDagger){
+                stateMachine.ChangeState(player.Dagger_moveState);
+                return;
+            }
+            else if(player.GetThreePressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Spear_MoveState)&&player.HasSpear){
+                stateMachine.ChangeState(player.Spear_moveState);
+                return;
+            }
+            else if(player.GetFourPressedInput()&&player.stateMachine.currentState.GetType()!=typeof(Player_Hammer_MoveState)&&player.HasHammer){
+                stateMachine.ChangeState(player.Hammer_moveState);
+                return;
+            }
+        
 
 
 
@@ -35,7 +37,7 @@ public class Player_MoveState : Player_GroundedState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if(!player.isDashing && player.lungeTime <=0 && player.lungeHeldTime <= 0.5f){
+        if(!player.isDashing && player.lungeTime <=0 && player.lungeHeldTime <= 0.5f && !player.lockMovement){
         player.SetVelocity(player.GetMoveInput().x * player.speed, player.rb.linearVelocity.y);
         }
 
