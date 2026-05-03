@@ -49,7 +49,7 @@ public abstract class PlayerBaseState : CharacterBaseState
         }
         //fix later when weapon change
         System.Type stateType = player.stateMachine.currentState.GetType();
-        if(stateType !=typeof(Player_Spear_IdleState) && stateType !=typeof(Player_Spear_JumpState)&& stateType !=typeof(Player_Spear_FallState)|| stateType ==typeof(Player_Spear_MoveState)){
+        if(stateType !=typeof(Player_Spear_IdleState) && stateType !=typeof(Player_Spear_JumpState)&& stateType !=typeof(Player_Spear_FallState)&& stateType !=typeof(Player_Spear_MoveState)){
             player.isAiming = false;
             player.aim.SetActive(false);
             Time.timeScale = 1f;
@@ -84,7 +84,7 @@ public abstract class PlayerBaseState : CharacterBaseState
                 player.rb.linearVelocity = Vector2.zero;
                 player.SpearHit = Vector2.zero;
                 player.SpearDistance = Vector2.zero;
-                player.SpearEnemy=null;
+                //player.SpearEnemy=null;
                 UnityEngine.Object.Destroy(player.Spear);
                 player.lockMovement = false;
                 player.lockStateChange = false;
@@ -171,6 +171,31 @@ public abstract class PlayerBaseState : CharacterBaseState
            Debug.Log(hit);
            Debug.DrawRay(player.transform.position,direction,Color.red);
            Debug.DrawLine(player.transform.position, hit.point,Color.green);
+    }
+
+    public void Lightning(){
+        Vector2 Distance = Vector2.zero;
+        RaycastHit2D hit = Physics2D.Raycast(player.SpearEnemy.transform.position, Vector2.down, Mathf.Infinity, 1 << LayerMask.NameToLayer("Ground"));
+        if(hit == true){
+            Distance = (Vector2)hit.point - (Vector2)player.SpearEnemy.transform.position;
+        }
+        int Damage = (int)(((Mathf.Abs(Distance.y)/10 )+ 1f) * 2f);
+        // create Enemy lighting cooldown to prevent infinte loops 
+        Debug.DrawLine(player.SpearEnemy.transform.position, hit.point,Color.green);
+        Debug.Log(Damage);
+        Collider2D[] chain = Physics2D.OverlapCircleAll(player.SpearEnemy.transform.position, 2.5f, 1 << LayerMask.NameToLayer("Enemy"));
+        GameObject previous = player.SpearEnemy;
+        foreach(Collider2D i in chain){
+            if(i.gameObject != previous){
+                player.SpearEnemy = i.gameObject;
+                Debug.Log("hit");
+                //DO NOT UNCOMMENT INFINITE RECURSION ONLY UNCOMMENT AFTER ADDING COOLDOWN
+                //Lightning();
+            }
+
+        }
+        //UNCOMMENT AFTER INFINITE RECURSION FIX
+        //player.SpearEnemy = null;
         
 
     }

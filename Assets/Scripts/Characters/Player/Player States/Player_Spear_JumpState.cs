@@ -14,10 +14,10 @@ public class Player_Spear_JumpState : Player_JumpState
     public override void Update()
     {
         base.Update();
-    if(!player.lockStateChange){
-        if(player.rb.linearVelocity.y <0 ){
-                stateMachine.ChangeState(player.Spear_fallState);
-        }
+        if(!player.lockStateChange){
+            if(player.rb.linearVelocity.y <0 ){
+                    stateMachine.ChangeState(player.Spear_fallState);
+            }
         }
         if(player.GetSpecialAttackPressedInput()&& player.throwCooldown<=0 ){
             base.SpearAim();
@@ -25,6 +25,9 @@ public class Player_Spear_JumpState : Player_JumpState
         }
         if(player.GetSpecialAttackReleasedInput()&& player.isAiming){
             base.SpearThrow();
+        }
+         if(player.inputs.magicAttackPressed && player.SpearEnemy!=null){
+            base.Lightning();
         }
     }
     public override void FixedUpdate()

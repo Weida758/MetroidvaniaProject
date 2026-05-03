@@ -19,6 +19,8 @@ public class PlayerInputs : MonoBehaviour
     private InputAction specialAttackAction;
     private InputAction mouseAction;
     private InputAction upAction;
+    private InputAction magicAttackAction;
+    
 
     // ---------- Input Data ----------------
     public Vector2 moveInput { get; private set; }
@@ -42,8 +44,11 @@ public class PlayerInputs : MonoBehaviour
 
     public bool specialAttackPressed { get; private set; }
     public bool specialAttackReleased{ get; private set; }
+    public bool magicAttackPressed{ get; private set; }
 
     public bool upCurrentlyPressed{ get; private set; }
+
+
 
     private void Awake()
     {
@@ -64,6 +69,7 @@ public class PlayerInputs : MonoBehaviour
             specialAttackAction = inputMap.FindAction("Special Attack");
             mouseAction = inputMap.FindAction("Mouse");
             upAction = inputMap.FindAction("Up");
+            magicAttackAction = inputMap.FindAction("Magic Attack");
         }
         else
         {
@@ -101,6 +107,7 @@ public class PlayerInputs : MonoBehaviour
         specialAttackReleased = specialAttackAction.WasReleasedThisFrame();
         upCurrentlyPressed = upAction.IsPressed();
         downCurrentlyPressed = downAction.IsPressed();
+        magicAttackPressed = magicAttackAction.WasPressedThisFrame();
 
     }
     

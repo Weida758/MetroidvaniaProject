@@ -199,6 +199,15 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Magic Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""6dbedf9a-602b-4e28-8190-6c6aa03db4df"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -399,6 +408,17 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
                     ""action"": ""Up"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9fb19a65-2366-4e5f-bb4a-cd1956ceeb75"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Magic Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -419,6 +439,7 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
         m_Player_SpecialAttack = m_Player.FindAction("Special Attack", throwIfNotFound: true);
         m_Player_Mouse = m_Player.FindAction("Mouse", throwIfNotFound: true);
         m_Player_Up = m_Player.FindAction("Up", throwIfNotFound: true);
+        m_Player_MagicAttack = m_Player.FindAction("Magic Attack", throwIfNotFound: true);
     }
 
     ~@PlayerInputsActions()
@@ -511,6 +532,7 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SpecialAttack;
     private readonly InputAction m_Player_Mouse;
     private readonly InputAction m_Player_Up;
+    private readonly InputAction m_Player_MagicAttack;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -570,6 +592,10 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Up".
         /// </summary>
         public InputAction @Up => m_Wrapper.m_Player_Up;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/MagicAttack".
+        /// </summary>
+        public InputAction @MagicAttack => m_Wrapper.m_Player_MagicAttack;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -632,6 +658,9 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
             @Up.started += instance.OnUp;
             @Up.performed += instance.OnUp;
             @Up.canceled += instance.OnUp;
+            @MagicAttack.started += instance.OnMagicAttack;
+            @MagicAttack.performed += instance.OnMagicAttack;
+            @MagicAttack.canceled += instance.OnMagicAttack;
         }
 
         /// <summary>
@@ -679,6 +708,9 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
             @Up.started -= instance.OnUp;
             @Up.performed -= instance.OnUp;
             @Up.canceled -= instance.OnUp;
+            @MagicAttack.started -= instance.OnMagicAttack;
+            @MagicAttack.performed -= instance.OnMagicAttack;
+            @MagicAttack.canceled -= instance.OnMagicAttack;
         }
 
         /// <summary>
@@ -803,5 +835,12 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnUp(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Magic Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMagicAttack(InputAction.CallbackContext context);
     }
 }

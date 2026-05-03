@@ -51,6 +51,9 @@ public class Player_Spear_IdleState : Player_IdleState
         if(player.GetSpecialAttackReleasedInput()&& player.isAiming){
             base.SpearThrow();
         }
+         if(player.inputs.magicAttackPressed && player.SpearEnemy!=null){
+            base.Lightning();
+        }
         
 
         

@@ -141,6 +141,7 @@ public class Player : MonoBehaviour, IDataPersistence
         
 
         // Gizmos.DrawWireSphere(endPosition, 1f);
+        //Gizmos.DrawWireSphere(SpearEnemy.transform.position, 2.5f);
 
     }
 

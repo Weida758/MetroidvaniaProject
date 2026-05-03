@@ -40,6 +40,9 @@ public class Player_Spear_FallState : Player_FallState
         if(player.GetSpecialAttackReleasedInput()&& player.isAiming){
             base.SpearThrow();
         }
+        if(player.inputs.magicAttackPressed && player.SpearEnemy!=null){
+            base.Lightning();
+        }
 
     }
     public override void FixedUpdate()
