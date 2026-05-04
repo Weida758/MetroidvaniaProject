@@ -1,6 +1,6 @@
 /// <summary>
-/// Wrapper over StateMachine for the action layer. Kept separate from the
-/// locomotion StateMachine so the two tick independently.
+/// Wrapper over StateMachine for the action section. Separated from the
+/// locomotion StateMachine so the two updates independently.
 /// </summary>
 public class PlayerActionFSM
 {

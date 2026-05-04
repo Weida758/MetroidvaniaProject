@@ -87,6 +87,12 @@ private bool isGrounded = true;
 
 public WeaponInventory inventory { get; private set; }
 
+[Header("Migration")] 
+[SerializeField] private bool useUnifiedLocomotion = false;
+
+public PlayerLocomotionFSM locomotion { get; private set; }
+public PlayerActionFSM actions { get; private set; }
+
 
 
 private void Awake()
@@ -124,6 +130,14 @@ private void Awake()
     
     stateMachine.Initialize(Sword_idleState);
 
+    if (useUnifiedLocomotion)
+    {
+        locomotion = new PlayerLocomotionFSM();
+        locomotion.Initialize(this);
+        actions = new PlayerActionFSM();
+        actions.Initialize(this);
+    }
+
 }
 //For Debugging
 public void OnDrawGizmos(){
@@ -148,8 +162,18 @@ public void OnDrawGizmos(){
 
 private void Update()
 {
-    stateMachine.UpdateActiveState();
-    currentState = stateMachine.currentState.ToString();
+
+    if (useUnifiedLocomotion)
+    {
+        locomotion.Tick();
+        actions.Tick();
+        currentState = locomotion.Current.ToString();
+    }
+    else
+    {
+        stateMachine.UpdateActiveState();
+        currentState = stateMachine.currentState.ToString();
+    }
     UpdateGrounded();
     //Debug.Log(isGrounded);
     if(isGrounded){
@@ -159,36 +183,42 @@ private void Update()
 
 private void FixedUpdate()
 {
-    stateMachine.FixedUpdateActiveState();
+    if (useUnifiedLocomotion)
+    {
+        locomotion.FixedTick();
+        actions.FixedTick();
+    }
+    else
+    {
+        stateMachine.FixedUpdateActiveState();
+    }
 }
 
-private void UpdateGrounded(){
-    RaycastHit2D ray = Physics2D.Raycast(rb.transform.position, Vector2.down, 1.75f ,1 << LayerMask.NameToLayer("Ground"));
-    // if(ray == true){
-    // Debug.Log(ray.collider.gameObject);
-    // }
-     //    Debug.Log(ray);
-    //    Debug.DrawRay(rb.transform.position, transform.TransformDirection(Vector3.down) *1.5f,Color.red);
-    //     Debug.DrawLine(rb.transform.position, ray.point,Color.green);
-    //Debug.Log(coyotetime);
-    //Debug.Log(stateMachine.currentState.ToString());
-    if(stateMachine.currentState.ToString() == "Player_JumpState"){
-        isGrounded = false;
+private void UpdateGrounded()
+{
+    RaycastHit2D ray = Physics2D.Raycast(rb.transform.position, Vector2.down, 1.75f, 1 << LayerMask.NameToLayer("Ground"));
+
+    bool inJump, inMoveOrIdle;
+    if (useUnifiedLocomotion)
+    {
+        inJump = (locomotion.Current is Locomotion_JumpState);
+        inMoveOrIdle = (locomotion.Current is Locomotion_MoveState || locomotion.Current is Locomotion_IdleState);
     }
-    else if (coyotetime > 0f){
-        coyotetime -= Time.deltaTime;
-        if(coyotetime <= 0f){
-            isGrounded = false;
-            coyotetime =0;
-        }
-    }
-    else if(ray==false && (stateMachine.currentState.ToString() == "Player_MoveState"  || stateMachine.currentState.ToString() =="Player_IdleState") && coyotetime==0f){
-        coyotetime = 0.5f;
-    }
-    else{
-        isGrounded = ray;
+    else
+    {
+        string s = stateMachine.currentState.ToString();
+        inJump = (s == "Player_JumpState");
+        inMoveOrIdle = (s == "Player_MoveState" || s == "Player_IdleState");
     }
 
+    if (inJump) { isGrounded = false; }
+    else if (coyotetime > 0f)
+    {
+        coyotetime -= Time.deltaTime;
+        if (coyotetime <= 0f) { isGrounded = false; coyotetime = 0; }
+    }
+    else if (ray == false && inMoveOrIdle && coyotetime == 0f) { coyotetime = 0.5f; }
+    else { isGrounded = ray; }
 }
 public Vector2 GetMoveInput() => inputs.moveInput;
 
