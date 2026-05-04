@@ -2,279 +2,280 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using Sirenix.OdinInspector;
-
 public class Player : MonoBehaviour, IDataPersistence
 {
-    public PlayerInputs inputs { get; private set; }
-    public StateMachine stateMachine { get; private set; }
+public PlayerInputs inputs { get; private set; }
+public StateMachine stateMachine { get; private set; }
+
+//---------- Debug --------------------
+[DisplayOnly] [SerializeField] private string currentState;
+
+//--------- Player States -------------
+public Player_Sword_IdleState Sword_idleState { get; private set; }
+public Player_Hammer_IdleState Hammer_idleState { get; private set; }
+public Player_Dagger_IdleState Dagger_idleState { get; private set; }
+public Player_Spear_IdleState Spear_idleState { get; private set; }
+
+public Player_Sword_MoveState Sword_moveState { get; private set; }
+public Player_Hammer_MoveState Hammer_moveState { get; private set; }
+public Player_Dagger_MoveState Dagger_moveState { get; private set; }
+public Player_Spear_MoveState Spear_moveState { get; private set; }
+
+public Player_Sword_JumpState Sword_jumpState { get; private set; }
+public Player_Dagger_JumpState Dagger_jumpState { get; private set; }
+public Player_Spear_JumpState Spear_jumpState { get; private set; }
+
+public Player_Sword_FallState Sword_fallState { get; private set; }
+public Player_Hammer_FallState Hammer_fallState { get; private set; }
+public Player_Dagger_FallState Dagger_fallState { get; private set; }
+public Player_Spear_FallState Spear_fallState { get; private set; }
+public Player_WallSlideState Wall_slideState { get; private set; }
+
+public Player_Spear_AttackState Spear_attackState { get; private set; }
+
+// -------- Player Components ------------
+public Rigidbody2D rb { get; private set; }
+public Animator animator { get; private set; }
+private SpriteRenderer spriteRenderer;
+public GameObject aim;
+[field: SerializeField] public GameObject spear;
+
+// ------- Player Data -------------
+[field: SerializeField] public float speed;
+[field: SerializeField] public float baseSpeed { get; private set; }
+[field: SerializeField] public float sprintSpeed { get; private set; }
+[field: SerializeField] public float jumpVelocity { get; private set; }
+[field: SerializeField] public float initialFallForce { get; private set; }
+private int facingDirection = 1;
+private bool isFacingRight = true;
+public bool lockMovement = false;
+//going to fix these var later
+public bool lockStateChange = false;
+public GameObject collidedObject;
+public Vector2 SpearDistance;
+public Vector2 SpearHit;
+public GameObject SpearEnemy;
+public GameObject Spear;
+public float throwCooldown;
+
+private bool isGrounded = true;
+[HideInInspector] public float walljumptime = 0f;
+[HideInInspector] public float coyotetime =0f;
+[HideInInspector] public bool HasDoubleJump=true;
+[DisplayOnly] public bool DoubleJump=false;
+
+[HideInInspector] public bool isDashing = false;
+[HideInInspector] public bool isAiming = false;
+[field: SerializeField] public float dashSpeed { get; private set; }
+[field: SerializeField] public float dashTime;
+[field: SerializeField] public float dashCooldown;
+
+[field: SerializeField] public float lungeSpeed { get; private set; }
+[field: SerializeField] public float lungeTime;
+[DisplayOnly] public float lungeHeldTime;
+[field: SerializeField] public float lungeHeldTimeMax { get; private set; }
+[field: SerializeField] public float lungeHeldTimeMultiplier { get; private set; }
+[HideInInspector] public float initialLungeTime;
+
+
+[field: SerializeField] public bool HasDagger;
+[field: SerializeField] public bool HasSpear;
+[field: SerializeField] public bool HasHammer;
+[field: SerializeField] public bool TapSprint;
+[field: SerializeField] public bool AutoSprint;
+
+
+public WeaponInventory inventory { get; private set; }
+
+
+
+private void Awake()
+{
+    inputs = GetComponent<PlayerInputs>();
+    rb =  GetComponent<Rigidbody2D>();
+    animator = GetComponentInChildren<Animator>();
+    inventory = GetComponent<WeaponInventory>();
+    spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    aim = transform.Find("Aim").gameObject;
     
-    //---------- Debug --------------------
-    [DisplayOnly] [SerializeField] private string currentState;
+    stateMachine = new StateMachine();
+
+    Sword_idleState = new Player_Sword_IdleState(stateMachine, "Sword_idle", this);
+    Sword_moveState = new Player_Sword_MoveState(stateMachine, "Sword_move", this);
+    Sword_jumpState = new Player_Sword_JumpState(stateMachine, "Sword_jump", this);
+    Sword_fallState = new Player_Sword_FallState(stateMachine, "Sword_fall", this);
+
+    Dagger_idleState = new Player_Dagger_IdleState(stateMachine, "Dagger_idle", this);
+    Dagger_moveState = new Player_Dagger_MoveState(stateMachine, "Dagger_move", this);
+    Dagger_jumpState = new Player_Dagger_JumpState(stateMachine, "Dagger_jump", this);
+    Dagger_fallState = new Player_Dagger_FallState(stateMachine, "Dagger_fall", this);
+
+    Spear_idleState = new Player_Spear_IdleState(stateMachine, "Spear_idle", this);
+    Spear_moveState = new Player_Spear_MoveState(stateMachine, "Spear_move", this);
+    Spear_jumpState = new Player_Spear_JumpState(stateMachine, "Spear_jump", this);
+    Spear_fallState = new Player_Spear_FallState(stateMachine, "Spear_fall", this);
+    Spear_attackState = new Player_Spear_AttackState(stateMachine, "Spear_Attack", this);
+
+    Hammer_idleState = new Player_Hammer_IdleState(stateMachine, "Hammer_idle", this);
+    Hammer_moveState = new Player_Hammer_MoveState(stateMachine, "Hammer_move", this);
+    Hammer_fallState = new Player_Hammer_FallState(stateMachine, "Hammer_fall", this);
+
+    Wall_slideState = new Player_WallSlideState(stateMachine, "Wall_Slide", this);
     
-    //--------- Player States -------------
-    public Player_Sword_IdleState Sword_idleState { get; private set; }
-    public Player_Hammer_IdleState Hammer_idleState { get; private set; }
-    public Player_Dagger_IdleState Dagger_idleState { get; private set; }
-    public Player_Spear_IdleState Spear_idleState { get; private set; }
-    
-    public Player_Sword_MoveState Sword_moveState { get; private set; }
-    public Player_Hammer_MoveState Hammer_moveState { get; private set; }
-    public Player_Dagger_MoveState Dagger_moveState { get; private set; }
-    public Player_Spear_MoveState Spear_moveState { get; private set; }
+    stateMachine.Initialize(Sword_idleState);
 
-    public Player_Sword_JumpState Sword_jumpState { get; private set; }
-    public Player_Dagger_JumpState Dagger_jumpState { get; private set; }
-    public Player_Spear_JumpState Spear_jumpState { get; private set; }
+}
+//For Debugging
+public void OnDrawGizmos(){
+    // Gizmos.color = Color.red;
 
-    public Player_Sword_FallState Sword_fallState { get; private set; }
-    public Player_Hammer_FallState Hammer_fallState { get; private set; }
-    public Player_Dagger_FallState Dagger_fallState { get; private set; }
-    public Player_Spear_FallState Spear_fallState { get; private set; }
-    public Player_WallSlideState Wall_slideState { get; private set; }
+    // Gizmos.DrawWireSphere(rb.position, 1f);
+    // Vector3 endPosition = (Vector3)rb.position + (Vector3)(transform.right * 2f*facingDirection);
+    // Gizmos.DrawLine(rb.position, endPosition);
 
-    public Player_Spear_AttackState Spear_attackState { get; private set; }
+    // Gizmos.DrawWireSphere(endPosition, 1f);
 
-    // -------- Player Components ------------
-    public Rigidbody2D rb { get; private set; }
-    public Animator animator { get; private set; }
-    private SpriteRenderer spriteRenderer;
-    public GameObject aim;
-    [field: SerializeField] public GameObject spear;
-    
-    // ------- Player Data -------------
-    [field: SerializeField] public float speed;
-    [field: SerializeField] public float baseSpeed { get; private set; }
-    [field: SerializeField] public float sprintSpeed { get; private set; }
-    [field: SerializeField] public float jumpVelocity { get; private set; }
-    [field: SerializeField] public float initialFallForce { get; private set; }
-    private int facingDirection = 1;
-    private bool isFacingRight = true;
-    public bool lockMovement = false;
-    //going to fix these var later
-    public bool lockStateChange = false;
-    public GameObject collidedObject;
-    public Vector2 SpearDistance;
-    public Vector2 SpearHit;
-    public GameObject SpearEnemy;
-    public GameObject Spear;
-    public float throwCooldown;
-
-    private bool isGrounded = true;
-    [HideInInspector] public float walljumptime = 0f;
-    [HideInInspector] public float coyotetime =0f;
-    [HideInInspector] public bool HasDoubleJump=true;
-    [DisplayOnly] public bool DoubleJump=false;
-
-    [HideInInspector] public bool isDashing = false;
-    [HideInInspector] public bool isAiming = false;
-    [field: SerializeField] public float dashSpeed { get; private set; }
-    [field: SerializeField] public float dashTime;
-    [field: SerializeField] public float dashCooldown;
-
-    [field: SerializeField] public float lungeSpeed { get; private set; }
-    [field: SerializeField] public float lungeTime;
-    [DisplayOnly] public float lungeHeldTime;
-    [field: SerializeField] public float lungeHeldTimeMax { get; private set; }
-    [field: SerializeField] public float lungeHeldTimeMultiplier { get; private set; }
-    [HideInInspector] public float initialLungeTime;
-
-
-    [field: SerializeField] public bool HasDagger;
-    [field: SerializeField] public bool HasSpear;
-    [field: SerializeField] public bool HasHammer;
-    [field: SerializeField] public bool TapSprint;
-    [field: SerializeField] public bool AutoSprint;
-
+    // Gizmos.color = Color.blue;
+    // Gizmos.DrawWireSphere(rb.position, 1f);
+    // endPosition = (Vector3)rb.position + (Vector3)(transform.right * 4f * facingDirection);
+    // Gizmos.DrawLine(rb.position, endPosition);
     
 
+    // Gizmos.DrawWireSphere(endPosition, 1f);
+    //Gizmos.DrawWireSphere(SpearEnemy.transform.position, 2.5f);
 
+}
 
-    private void Awake()
-    {
-        inputs = GetComponent<PlayerInputs>();
-        rb =  GetComponent<Rigidbody2D>();
-        animator = GetComponentInChildren<Animator>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        aim = transform.Find("Aim").gameObject;
-        
-        stateMachine = new StateMachine();
-
-        Sword_idleState = new Player_Sword_IdleState(stateMachine, "Sword_idle", this);
-        Sword_moveState = new Player_Sword_MoveState(stateMachine, "Sword_move", this);
-        Sword_jumpState = new Player_Sword_JumpState(stateMachine, "Sword_jump", this);
-        Sword_fallState = new Player_Sword_FallState(stateMachine, "Sword_fall", this);
-
-        Dagger_idleState = new Player_Dagger_IdleState(stateMachine, "Dagger_idle", this);
-        Dagger_moveState = new Player_Dagger_MoveState(stateMachine, "Dagger_move", this);
-        Dagger_jumpState = new Player_Dagger_JumpState(stateMachine, "Dagger_jump", this);
-        Dagger_fallState = new Player_Dagger_FallState(stateMachine, "Dagger_fall", this);
-
-        Spear_idleState = new Player_Spear_IdleState(stateMachine, "Spear_idle", this);
-        Spear_moveState = new Player_Spear_MoveState(stateMachine, "Spear_move", this);
-        Spear_jumpState = new Player_Spear_JumpState(stateMachine, "Spear_jump", this);
-        Spear_fallState = new Player_Spear_FallState(stateMachine, "Spear_fall", this);
-        Spear_attackState = new Player_Spear_AttackState(stateMachine, "Spear_Attack", this);
-
-        Hammer_idleState = new Player_Hammer_IdleState(stateMachine, "Hammer_idle", this);
-        Hammer_moveState = new Player_Hammer_MoveState(stateMachine, "Hammer_move", this);
-        Hammer_fallState = new Player_Hammer_FallState(stateMachine, "Hammer_fall", this);
-
-        Wall_slideState = new Player_WallSlideState(stateMachine, "Wall_Slide", this);
-        
-        stateMachine.Initialize(Sword_idleState);
-
+private void Update()
+{
+    stateMachine.UpdateActiveState();
+    currentState = stateMachine.currentState.ToString();
+    UpdateGrounded();
+    //Debug.Log(isGrounded);
+    if(isGrounded){
+        DoubleJump=true;
     }
-    //For Debugging
-    public void OnDrawGizmos(){
-        // Gizmos.color = Color.red;
-  
-        // Gizmos.DrawWireSphere(rb.position, 1f);
-        // Vector3 endPosition = (Vector3)rb.position + (Vector3)(transform.right * 2f*facingDirection);
-        // Gizmos.DrawLine(rb.position, endPosition);
-    
-        // Gizmos.DrawWireSphere(endPosition, 1f);
+}
 
-        // Gizmos.color = Color.blue;
-        // Gizmos.DrawWireSphere(rb.position, 1f);
-        // endPosition = (Vector3)rb.position + (Vector3)(transform.right * 4f * facingDirection);
-        // Gizmos.DrawLine(rb.position, endPosition);
-        
+private void FixedUpdate()
+{
+    stateMachine.FixedUpdateActiveState();
+}
 
-        // Gizmos.DrawWireSphere(endPosition, 1f);
-        //Gizmos.DrawWireSphere(SpearEnemy.transform.position, 2.5f);
-
+private void UpdateGrounded(){
+    RaycastHit2D ray = Physics2D.Raycast(rb.transform.position, Vector2.down, 1.75f ,1 << LayerMask.NameToLayer("Ground"));
+    // if(ray == true){
+    // Debug.Log(ray.collider.gameObject);
+    // }
+     //    Debug.Log(ray);
+    //    Debug.DrawRay(rb.transform.position, transform.TransformDirection(Vector3.down) *1.5f,Color.red);
+    //     Debug.DrawLine(rb.transform.position, ray.point,Color.green);
+    //Debug.Log(coyotetime);
+    //Debug.Log(stateMachine.currentState.ToString());
+    if(stateMachine.currentState.ToString() == "Player_JumpState"){
+        isGrounded = false;
     }
-
-    private void Update()
-    {
-        stateMachine.UpdateActiveState();
-        currentState = stateMachine.currentState.ToString();
-        UpdateGrounded();
-        //Debug.Log(isGrounded);
-        if(isGrounded){
-            DoubleJump=true;
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        stateMachine.FixedUpdateActiveState();
-    }
-
-    private void UpdateGrounded(){
-        RaycastHit2D ray = Physics2D.Raycast(rb.transform.position, Vector2.down, 1.75f ,1 << LayerMask.NameToLayer("Ground"));
-        // if(ray == true){
-        // Debug.Log(ray.collider.gameObject);
-        // }
-         //    Debug.Log(ray);
-        //    Debug.DrawRay(rb.transform.position, transform.TransformDirection(Vector3.down) *1.5f,Color.red);
-        //     Debug.DrawLine(rb.transform.position, ray.point,Color.green);
-        //Debug.Log(coyotetime);
-        //Debug.Log(stateMachine.currentState.ToString());
-        if(stateMachine.currentState.ToString() == "Player_JumpState"){
+    else if (coyotetime > 0f){
+        coyotetime -= Time.deltaTime;
+        if(coyotetime <= 0f){
             isGrounded = false;
+            coyotetime =0;
         }
-        else if (coyotetime > 0f){
-            coyotetime -= Time.deltaTime;
-            if(coyotetime <= 0f){
-                isGrounded = false;
-                coyotetime =0;
-            }
-        }
-        else if(ray==false && (stateMachine.currentState.ToString() == "Player_MoveState"  || stateMachine.currentState.ToString() =="Player_IdleState") && coyotetime==0f){
-            coyotetime = 0.5f;
-        }
-        else{
-            isGrounded = ray;
-        }
-  
     }
-    public Vector2 GetMoveInput() => inputs.moveInput;
+    else if(ray==false && (stateMachine.currentState.ToString() == "Player_MoveState"  || stateMachine.currentState.ToString() =="Player_IdleState") && coyotetime==0f){
+        coyotetime = 0.5f;
+    }
+    else{
+        isGrounded = ray;
+    }
 
-    public Vector2 GetMousePosition() => inputs.mousePosition;
+}
+public Vector2 GetMoveInput() => inputs.moveInput;
 
-    public bool GetJumpPressedInput() => inputs.jumpPressed;
+public Vector2 GetMousePosition() => inputs.mousePosition;
 
-    public bool GetJumpReleasedInput() => inputs.jumpReleased;
+public bool GetJumpPressedInput() => inputs.jumpPressed;
 
-    public bool GetDownPressedInput() => inputs.downPressed;
+public bool GetJumpReleasedInput() => inputs.jumpReleased;
 
-    public bool GetDownCurrentlyPressed() => inputs.downCurrentlyPressed;
+public bool GetDownPressedInput() => inputs.downPressed;
 
-    public bool GetShiftPressedInput() => inputs.shiftPressed;
-    
-    public bool GetShiftReleasedInput() => inputs.shiftReleased;
+public bool GetDownCurrentlyPressed() => inputs.downCurrentlyPressed;
 
-    public bool GetOnePressedInput() => inputs.onePressed;
+public bool GetShiftPressedInput() => inputs.shiftPressed;
 
-    public bool GetTwoPressedInput() => inputs.twoPressed;
+public bool GetShiftReleasedInput() => inputs.shiftReleased;
 
-    public bool GetThreePressedInput() => inputs.threePressed;
+public bool GetOnePressedInput() => inputs.onePressed;
 
-    public bool GetFourPressedInput() => inputs.fourPressed;
+public bool GetTwoPressedInput() => inputs.twoPressed;
 
-    public bool GetAttackPressedInput() => inputs.attackPressed;
+public bool GetThreePressedInput() => inputs.threePressed;
 
-    public bool GetSpecialAttackPressedInput() => inputs.specialAttackPressed;
+public bool GetFourPressedInput() => inputs.fourPressed;
 
-    public bool GetSpecialAttackReleasedInput() => inputs.specialAttackReleased;
+public bool GetAttackPressedInput() => inputs.attackPressed;
 
-    public bool GetUpCurrentlyPressed() => inputs.upCurrentlyPressed;
+public bool GetSpecialAttackPressedInput() => inputs.specialAttackPressed;
 
-    public bool getGrounded() => isGrounded;
+public bool GetSpecialAttackReleasedInput() => inputs.specialAttackReleased;
 
-    public int getFacingDirection() => facingDirection;
+public bool GetUpCurrentlyPressed() => inputs.upCurrentlyPressed;
+
+public bool getGrounded() => isGrounded;
+
+public int getFacingDirection() => facingDirection;
 
 
 
 
 
-    public void SetVelocity(float xVelocity, float yVelocity)
+public void SetVelocity(float xVelocity, float yVelocity)
+{
+    rb.linearVelocity = new Vector2(xVelocity, yVelocity);
+    if (xVelocity > 0 && !isFacingRight)
     {
-        rb.linearVelocity = new Vector2(xVelocity, yVelocity);
-        if (xVelocity > 0 && !isFacingRight)
-        {
-            Flip();
-        }
-        else if (xVelocity < 0 && isFacingRight)
-        {
-            Flip();
-        }
+        Flip();
     }
+    else if (xVelocity < 0 && isFacingRight)
+    {
+        Flip();
+    }
+}
 
 
-    public void Flip()
-    {
-        transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
-        facingDirection *= -1;
-        isFacingRight = !isFacingRight;
-    }
+public void Flip()
+{
+    transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
+    facingDirection *= -1;
+    isFacingRight = !isFacingRight;
+}
 
-    public void SaveData(ref GameData gameData)
-    {
-        gameData.playerPositionData = transform.position;
-        gameData.sceneName =  SceneManager.GetActiveScene().name;
-    }
+public void SaveData(ref GameData gameData)
+{
+    gameData.playerPositionData = transform.position;
+    gameData.sceneName =  SceneManager.GetActiveScene().name;
+}
 
-    public void LoadData(GameData gameData)
+public void LoadData(GameData gameData)
+{
+    if (SceneManager.GetActiveScene().name != gameData.sceneName)
     {
-        if (SceneManager.GetActiveScene().name != gameData.sceneName)
-        {
-            AsyncOperation sceneProgress = SceneManager.LoadSceneAsync(gameData.sceneName);
-        }
-        transform.position = gameData.playerPositionData;
+        AsyncOperation sceneProgress = SceneManager.LoadSceneAsync(gameData.sceneName);
     }
-    
-    void OnCollisionEnter2D(Collision2D collision) {
-        collidedObject = collision.gameObject;
-    }
-    void OnCollisionStay2D(Collision2D collision){
-        collidedObject = collision.gameObject;
-    }
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        collidedObject = null;
-    }
+    transform.position = gameData.playerPositionData;
+}
+
+void OnCollisionEnter2D(Collision2D collision) {
+    collidedObject = collision.gameObject;
+}
+void OnCollisionStay2D(Collision2D collision){
+    collidedObject = collision.gameObject;
+}
+void OnCollisionExit2D(Collision2D collision)
+{
+    collidedObject = null;
+}
 
 
 
