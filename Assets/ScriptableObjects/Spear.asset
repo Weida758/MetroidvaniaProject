@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eccaff0236c404a95fa460edf8155cd, type: 3}
   m_Name: Spear
   m_EditorClassIdentifier: Assembly-CSharp::SpearWeapon
-  weaponID: 
-  displayName: 
+  weaponID: 3
+  displayName: Lightning Spear
   movement:
-    baseSpeed: 0
+    baseSpeed: 10
     sprintSpeed: 0
-    jumpVelocity: 0
+    jumpVelocity: 10
     gravity: 0
-    canJump: 0
-    canDoubleJump: 0
-    canWallSlide: 0
+    canJump: 1
+    canDoubleJump: 1
+    canWallSlide: 1
     canSprint: 0
     animatorOverride: {fileID: 0}
   attacks: []
   comboWindow: 0.5
-  spearProjectilePrefab: {fileID: 0}
+  spearProjectilePrefab: {fileID: 7708488889948091711, guid: 0939b6f2f2600bd44ad6d9d8f845e03c, type: 3}
   throwCooldown: 2
   aimSlowmo: 0.25
   baseLungeSpeed: 10

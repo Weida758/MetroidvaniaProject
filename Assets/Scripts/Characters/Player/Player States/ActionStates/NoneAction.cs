@@ -16,13 +16,13 @@ public class NoneAction : ActionState
         var weapon = player.inventory != null ? player.inventory.Current : null;
         if (weapon == null) return;
 
-        // Order matters: special > basic > ability > movement modifier.
+        // Order matter
         if (player.GetSpecialAttackPressedInput()) weapon.OnSpecialAttackPressed(player);
         if (player.GetSpecialAttackReleasedInput()) weapon.OnSpecialAttackReleased(player);
         if (player.GetAttackPressedInput()) weapon.OnBasicAttack(player);
         if (player.GetShiftPressedInput()) weapon.OnMovementAbilityPressed(player);
         if (player.GetShiftReleasedInput()) weapon.OnMovementAbilityReleased(player);
-        // Ability key — wire to whatever input you reserve for it (e.g. magicAttackPressed).
+        // Ability key
         if (player.inputs.magicAttackPressed) weapon.OnAbility(player);
     }
 }

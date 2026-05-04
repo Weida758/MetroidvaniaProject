@@ -1528,6 +1528,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7708488889948091711, guid: 0939b6f2f2600bd44ad6d9d8f845e03c, type: 3}
     - target: {fileID: 4118290658729559493, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
+      propertyPath: useUnifiedLocomotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4118290658729559493, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
       propertyPath: <sprintSpeed>k__BackingField
       value: 12
       objectReference: {fileID: 0}
