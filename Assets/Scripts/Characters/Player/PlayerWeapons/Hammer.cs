@@ -1,9 +1,7 @@
 using UnityEngine;
 
-namespace Characters.Player.PlayerWeapons
+[CreateAssetMenu(menuName = "Weapons/Hammer", fileName = "Scriptable Objects/Hammer")]
+public class HammerWeapon : Weapon
 {
-    public class Hammer : MonoBehaviour
-    {
-        
-    }
+    
 }

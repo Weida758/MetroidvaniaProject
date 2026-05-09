@@ -1,11 +1,6 @@
 using UnityEngine;
 
-
-        
-/// <summary>
-/// Default action state. The action FSM is here when the player isn't
-/// attacking, aiming, charging, etc. Routes input to the equipped weapon's hooks.
-/// </summary>
+/// <summary>Default action state. Routes input to the equipped weapon's hooks.</summary>
 public class NoneAction : ActionState
 {
     public NoneAction(StateMachine stateMachine, Player player)

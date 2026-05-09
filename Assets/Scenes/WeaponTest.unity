@@ -1455,26 +1455,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2679132586908442319, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
   m_PrefabInstance: {fileID: 4707194542746897426}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1843088599
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1843088592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7125960699aa45ce9523002a6ca21b08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponInventory
-  slot1: {fileID: 11400000, guid: 6c73bc7f7902ed44683d7b8176dfbdda, type: 2}
-  slot2: {fileID: 0}
-  slot3: {fileID: 0}
-  slot4: {fileID: 0}
-  slot2Unlocked: 0
-  slot3Unlocked: 0
-  slot4Unlocked: 0
-  equippedDebug: 
 --- !u!1001 &4707194542746897426
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1523,18 +1503,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4118290658729559493, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
-      propertyPath: spear
-      value: 
-      objectReference: {fileID: 7708488889948091711, guid: 0939b6f2f2600bd44ad6d9d8f845e03c, type: 3}
-    - target: {fileID: 4118290658729559493, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
-      propertyPath: useUnifiedLocomotion
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4118290658729559493, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
-      propertyPath: <sprintSpeed>k__BackingField
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 4678016733106493431, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1545,10 +1513,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2679132586908442319, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
       insertIndex: -1
       addedObject: {fileID: 700023853}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4678016733106493431, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1843088599}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

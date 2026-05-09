@@ -15,21 +15,21 @@ public class Locomotion_IdleState : LocomotionState
     {
         base.Update();
 
-        if (Mathf.Abs(player.GetMoveInput().x) > 0)
+        if (Mathf.Abs(player.GetMoveInput().x) > 0 && player.lungeHeldTime <= 0.5f)
         {
-            stateMachine.ChangeState(((PlayerLocomotionFSM)player.locomotion).move);
+            stateMachine.ChangeState((player.locomotion).move);
             return;
         }
 
         if (player.GetJumpPressedInput() && player.getGrounded() && Profile.canJump)
         {
-            stateMachine.ChangeState(((PlayerLocomotionFSM)player.locomotion).jump);
+            stateMachine.ChangeState((player.locomotion).jump);
             return;
         }
 
         if (!player.getGrounded() && player.rb.linearVelocity.y < 0)
         {
-            stateMachine.ChangeState(((PlayerLocomotionFSM)player.locomotion).fall);
+            stateMachine.ChangeState((player.locomotion).fall);
         }
     }
 }

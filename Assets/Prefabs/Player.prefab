@@ -128,6 +128,7 @@ GameObject:
   - component: {fileID: 5478279170802477857}
   - component: {fileID: 8457977190178044597}
   - component: {fileID: 5231208872772687249}
+  - component: {fileID: 4664329944719540686}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -178,6 +179,7 @@ MonoBehaviour:
   SpearHit: {x: 0, y: 0}
   SpearEnemy: {fileID: 0}
   Spear: {fileID: 0}
+  throwCooldown: 0
   walljumptime: 0
   coyotetime: 0
   HasDoubleJump: 1
@@ -198,6 +200,7 @@ MonoBehaviour:
   HasHammer: 1
   TapSprint: 0
   AutoSprint: 0
+  useUnifiedLocomotion: 1
 --- !u!50 &4149167578496548807
 Rigidbody2D:
   serializedVersion: 5
@@ -287,3 +290,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   player: {fileID: 4118290658729559493}
+--- !u!114 &4664329944719540686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4678016733106493431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7125960699aa45ce9523002a6ca21b08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponInventory
+  slot1: {fileID: 11400000, guid: c882e7479264d574286117c129450fd3, type: 2}
+  slot2: {fileID: 11400000, guid: 114283f501e96c44095a6a79ec83a9a2, type: 2}
+  slot3: {fileID: 11400000, guid: 6c73bc7f7902ed44683d7b8176dfbdda, type: 2}
+  slot4: {fileID: 11400000, guid: 5ec77014ae5fa13498c8bcb3869642d8, type: 2}
+  slot2Unlocked: 1
+  slot3Unlocked: 1
+  slot4Unlocked: 1
+  equippedDebug: 

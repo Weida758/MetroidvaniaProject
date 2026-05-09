@@ -1,7 +1,3 @@
-/// <summary>
-/// Wrapper over StateMachine for the locomotion layer (Idle/Move/Jump/Fall/WallSlide).
-/// Reads MovementProfile from the equipped weapon every tick.
-/// </summary>
 public class PlayerLocomotionFSM
 {
     public StateMachine machine { get; private set; } = new StateMachine();

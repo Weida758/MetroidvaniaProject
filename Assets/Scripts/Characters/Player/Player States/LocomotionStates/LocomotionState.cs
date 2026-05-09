@@ -1,11 +1,7 @@
 using UnityEngine;
 using Characters.Player.PlayerWeapons.Data;
 
-/// <summary>
-/// Base class for locomotion states. Handles things
-/// every locomotion state needs: weapon-switch input, animator bool flip,
-/// access to the equipped weapon's MovementProfile.
-/// </summary>
+/// <summary>Base class for locomotion states. Exposes the equipped weapon's MovementProfile and ticks WeaponUpdate.</summary>
 public abstract class LocomotionState : CharacterBaseState
 {
     protected readonly Player player;
@@ -25,7 +21,7 @@ public abstract class LocomotionState : CharacterBaseState
                 return player.inventory.Current.movement;
             return new MovementProfile {
                 baseSpeed = 7f, sprintSpeed = 12f, jumpVelocity = 10f,
-                canJump = true, canDoubleJump = true, canWallSlide = true, canSprint = true
+                canJump = true, canWallSlide = true, canSprint = true
             };
         }
     }
@@ -46,9 +42,7 @@ public abstract class LocomotionState : CharacterBaseState
     {
         base.Update();
         HandleWeaponSwitch();
-        if (player.dashCooldown > 0) player.dashCooldown -= Time.deltaTime;
         if (player.walljumptime > 0) player.walljumptime -= Time.deltaTime;
-        // Per-weapon cooldowns/state updates
         if (player.inventory != null && player.inventory.Current != null)
             player.inventory.Current.WeaponUpdate(ref RefSelf());
         player.animator.SetFloat("xInput", player.inputs.moveInput.x);

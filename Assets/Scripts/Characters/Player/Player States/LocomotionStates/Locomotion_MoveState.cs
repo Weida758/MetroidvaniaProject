@@ -7,7 +7,12 @@ public class Locomotion_MoveState : LocomotionState
     public override void Update()
     {
         base.Update();
-
+        
+        if (player.lungeHeldTime > 0.5f)
+        {
+            stateMachine.ChangeState(((PlayerLocomotionFSM)player.locomotion).idle);
+            return;
+        }
         if (player.GetMoveInput() == Vector2.zero)
         {
             stateMachine.ChangeState(((PlayerLocomotionFSM)player.locomotion).idle);
@@ -29,7 +34,7 @@ public class Locomotion_MoveState : LocomotionState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (player.lockMovement || player.isDashing || player.lungeTime > 0) return;
-        player.SetVelocity(player.GetMoveInput().x * Profile.baseSpeed, player.rb.linearVelocity.y);
+        if (player.lockMovement || player.isDashing || player.lungeTime > 0 || player.lungeHeldTime > 0.5f) return;
+        player.SetVelocity(player.GetMoveInput().x * player.speed, player.rb.linearVelocity.y);
     }
 }

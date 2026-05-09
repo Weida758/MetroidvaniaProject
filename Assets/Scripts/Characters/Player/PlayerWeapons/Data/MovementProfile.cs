@@ -11,9 +11,8 @@ namespace Characters.Player.PlayerWeapons.Data
         public float jumpVelocity;
         public float gravity;
 
-        [TitleGroup("Capabilities")] 
+        [TitleGroup("Capabilities")]
         public bool canJump;
-        public bool canDoubleJump;
         public bool canWallSlide;
         public bool canSprint;
 

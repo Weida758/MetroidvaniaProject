@@ -1,14 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-
-/// </summary>
+/// <summary>Spear throw aim phase. Slows time, clamps the cursor near screen center, rotates the aim indicator.</summary>
 public class AimAction : ActionState
 {
     private readonly float slowmoScale;
-    private readonly float warpRadius;     // px from center beyond which cursor is re-clamped
-    private readonly float initialOffset;  // px from center for the enter-warp
+    private readonly float warpRadius; 
+    private readonly float initialOffset; 
 
     public AimAction(StateMachine sm, Player player,
                      float slowmoScale = 0.25f,

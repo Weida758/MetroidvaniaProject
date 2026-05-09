@@ -1,8 +1,6 @@
 using UnityEngine;
 
-/// <summary>
-/// 
-/// </summary>
+/// <summary>Pulls the player toward a speared enemy until they collide, then exits.</summary>
 public class TetherPullAction : ActionState
 {
     private readonly Vector2 targetPoint;

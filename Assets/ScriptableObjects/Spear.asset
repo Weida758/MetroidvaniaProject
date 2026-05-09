@@ -20,7 +20,6 @@ MonoBehaviour:
     jumpVelocity: 10
     gravity: 0
     canJump: 1
-    canDoubleJump: 1
     canWallSlide: 1
     canSprint: 0
     animatorOverride: {fileID: 0}
@@ -30,6 +29,6 @@ MonoBehaviour:
   throwCooldown: 2
   aimSlowmo: 0.25
   baseLungeSpeed: 10
-  lungeHeldTimeMax: 1.5
+  lungeHeldTimeMax: 5
   lungeHeldTimeMultiplier: 1.15
   lightningChainRadius: 2.5

@@ -37,6 +37,6 @@ public class Locomotion_JumpState : LocomotionState
         base.FixedUpdate();
         if (player.lockMovement || player.walljumptime > 0 || player.isDashing || player.lungeTime > 0) return;
         if (player.GetMoveInput().x != 0)
-            player.SetVelocity(player.GetMoveInput().x * Profile.baseSpeed, player.rb.linearVelocity.y);
+            player.SetVelocity(player.GetMoveInput().x * player.speed, player.rb.linearVelocity.y);
     }
 }

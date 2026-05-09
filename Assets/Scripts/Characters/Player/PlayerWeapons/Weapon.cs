@@ -1,14 +1,16 @@
 using Characters.Player.PlayerWeapons;
 using UnityEngine;
 using Characters.Player.PlayerWeapons.Data;
+using Sirenix.OdinInspector;
 
+/// <summary>Base ScriptableObject for weapons. Override input hooks and configure the MovementProfile.</summary>
 public abstract class Weapon : ScriptableObject
 {
-    [Header("Identity")] 
+    [TitleGroup("Identity")]
     public string weaponID;
     public string displayName;
 
-    [Header("Movement")] 
+    [TitleGroup("Movement")]
     public MovementProfile movement;
     
     //-----life cycle------
@@ -18,14 +20,12 @@ public abstract class Weapon : ScriptableObject
         {
             p.animator.runtimeAnimatorController = movement.animatorOverride;
         }
+
+        p.speed = movement.baseSpeed;
     }
 
     public virtual void OnUnequip(Player p) { }
-    
-    /// <summary>
-    /// Runs every frame
-    /// </summary>
-    /// <param name="p"></param>
+
     public virtual void WeaponUpdate(ref Player p){ }
 
     public virtual bool OnBasicAttack(Player p) => false;

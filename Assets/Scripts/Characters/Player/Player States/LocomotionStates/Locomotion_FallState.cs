@@ -22,7 +22,7 @@ public class Locomotion_FallState : LocomotionState
             return;
         }
 
-        if (player.GetJumpPressedInput() && player.DoubleJump && player.HasDoubleJump && Profile.canDoubleJump)
+        if (player.GetJumpPressedInput() && player.DoubleJump && player.HasDoubleJump)
         {
             player.DoubleJump = false;
             stateMachine.ChangeState(((PlayerLocomotionFSM)player.locomotion).jump);
@@ -34,6 +34,6 @@ public class Locomotion_FallState : LocomotionState
         base.FixedUpdate();
         if (player.lockMovement || player.walljumptime > 0 || player.isDashing || player.lungeTime > 0) return;
         if (player.GetMoveInput().x != 0)
-            player.SetVelocity(player.GetMoveInput().x * Profile.baseSpeed, player.rb.linearVelocity.y);
+            player.SetVelocity(player.GetMoveInput().x * player.speed, player.rb.linearVelocity.y);
     }
 }

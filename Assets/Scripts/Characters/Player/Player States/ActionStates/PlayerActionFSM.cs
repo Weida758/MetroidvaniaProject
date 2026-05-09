@@ -1,7 +1,3 @@
-/// <summary>
-/// Wrapper over StateMachine for the action section. Separated from the
-/// locomotion StateMachine so the two updates independently.
-/// </summary>
 public class PlayerActionFSM
 {
     public StateMachine machine { get; private set; } = new StateMachine();
