@@ -73,12 +73,11 @@ public class SpearWeapon : Weapon
 
         Vector2 direction = aim.GetAimDirection();
         RaycastHit2D hit = Physics2D.Raycast(
-            p.transform.position, direction, 10f,
-            1 << LayerMask.NameToLayer("Enemy"));
+            p.transform.position, direction, 10f);
 
         StartThrowCooldown();
 
-        if (hit)
+        if (hit && hit.collider.gameObject.layer ==8)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
             var aimEuler = p.aim.transform.eulerAngles;
