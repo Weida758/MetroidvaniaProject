@@ -148,6 +148,8 @@ public class SpearWeapon : Weapon
             distance = (Vector2)hit.point - (Vector2)p.SpearEnemy.transform.position;
 
         int damage = (int)(((Mathf.Abs(distance.y) / 10) + 1f) * 2f);
+        p.SpearEnemy.GetComponent<Enemy>().lightningCooldown = 5f;
+        
 
         Debug.DrawLine(p.SpearEnemy.transform.position, hit.point, Color.green);
         Debug.Log(damage);
@@ -158,16 +160,16 @@ public class SpearWeapon : Weapon
         GameObject previous = p.SpearEnemy;
         foreach (Collider2D c in chain)
         {
-            if (c.gameObject != previous)
+            if (c.gameObject != previous && c.gameObject.GetComponent<Enemy>().lightningCooldown <= 0)
             {
                 p.SpearEnemy = c.gameObject;
-                Debug.Log("hit");
+                //Debug.Log("hit");
                 // DO NOT UNCOMMENT INFINITE RECURSION ONLY UNCOMMENT AFTER ADDING COOLDOWN
-                // OnAbility(p);
+                OnAbility(p);
             }
         }
         // UNCOMMENT AFTER INFINITE RECURSION FIX
-        // p.SpearEnemy = null;
+        p.SpearEnemy = null;
 
         return true;
     }
