@@ -32,9 +32,9 @@ public class AttackAction : ActionState
         base.Update();
         comboTime -= Time.deltaTime;
 
-        if (player.GetAttackPressedInput() && comboTime >= 0f && comboIndex < steps.Length - 1)
+        if (player.GetAttackPressedInput() && comboTime >= 0f)
         {
-            comboIndex++;
+            comboIndex = (comboIndex + 1) % steps.Length;
             FireStep(comboIndex);
         }
 
@@ -54,7 +54,7 @@ public class AttackAction : ActionState
             player.getFacingDirection() * player.transform.right,
             s.range,
             LayerMask.NameToLayer("Enemy"));
-
+        comboTime = comboWindow;
         if (!string.IsNullOrEmpty(s.animTrigger))
             player.animator.SetTrigger(s.animTrigger);
     }

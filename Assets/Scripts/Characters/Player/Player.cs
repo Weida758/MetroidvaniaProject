@@ -121,6 +121,7 @@ public class Player : MonoBehaviour, IDataPersistence
     public bool GetDownCurrentlyPressed() => inputs.downCurrentlyPressed;
     public bool GetShiftPressedInput() => inputs.shiftPressed;
     public bool GetShiftReleasedInput() => inputs.shiftReleased;
+    public bool GetShiftCurrentlyPressed() => inputs.shiftCurrentlyPressed;
     public bool GetOnePressedInput() => inputs.onePressed;
     public bool GetTwoPressedInput() => inputs.twoPressed;
     public bool GetThreePressedInput() => inputs.threePressed;

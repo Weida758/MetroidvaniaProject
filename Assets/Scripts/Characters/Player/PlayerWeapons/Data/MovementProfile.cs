@@ -14,7 +14,6 @@ namespace Characters.Player.PlayerWeapons.Data
         [TitleGroup("Capabilities")]
         public bool canJump;
         public bool canWallSlide;
-        public bool canSprint;
 
         [TitleGroup("Animation")] 
         public RuntimeAnimatorController animatorOverride;
