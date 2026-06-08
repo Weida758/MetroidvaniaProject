@@ -21,6 +21,5 @@ MonoBehaviour:
     gravity: 0
     canJump: 1
     canWallSlide: 1
-    canSprint: 1
     animatorOverride: {fileID: 0}
-  tapSprint: 1
+  parryWindow: 0.2

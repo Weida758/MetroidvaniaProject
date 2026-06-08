@@ -367,17 +367,6 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5661699a-289e-40e8-8b6e-431455a6bbe2"",
-                    ""path"": ""<Keyboard>/k"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Special Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""84392fab-6ada-4e95-8910-e94e4845746f"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",

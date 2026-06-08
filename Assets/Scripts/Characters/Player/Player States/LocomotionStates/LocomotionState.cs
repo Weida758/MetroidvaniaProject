@@ -17,8 +17,8 @@ public abstract class LocomotionState : CharacterBaseState
     {
         get
         {
-            if (player.inventory != null && player.inventory.Current != null)
-                return player.inventory.Current.movement;
+            if (player.inventory != null && player.inventory.currentWeapon != null)
+                return player.inventory.currentWeapon.movement;
             return new MovementProfile {
                 baseSpeed = 7f, sprintSpeed = 12f, jumpVelocity = 10f,
                 canJump = true, canWallSlide = true
@@ -44,8 +44,8 @@ public abstract class LocomotionState : CharacterBaseState
         HandleWeaponSwitch();
         player.speed = player.GetShiftCurrentlyPressed() ? Profile.sprintSpeed : Profile.baseSpeed;
         if (player.walljumptime > 0) player.walljumptime -= Time.deltaTime;
-        if (player.inventory != null && player.inventory.Current != null)
-            player.inventory.Current.WeaponUpdate(ref RefSelf());
+        if (player.inventory != null && player.inventory.currentWeapon != null)
+            player.inventory.currentWeapon.WeaponUpdate(ref RefSelf());
         player.animator.SetFloat("xInput", player.inputs.moveInput.x);
     }
 

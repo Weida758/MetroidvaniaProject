@@ -12,7 +12,7 @@ public class PlayerActionFSM
     public void Tick() => machine.UpdateActiveState();
     public void FixedTick() => machine.FixedUpdateActiveState();
 
-    public CharacterBaseState Current => machine.currentState;
+    public CharacterBaseState currentState => machine.currentState;
     public void Enter(CharacterBaseState s) => machine.ChangeState(s);
     public void ExitToNone() => machine.ChangeState(none);
 }

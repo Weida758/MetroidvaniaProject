@@ -52,7 +52,7 @@ public class SpearWeapon : Weapon
     public override bool OnBasicAttack(Player p)
     {
         if (p.actions == null) return false;
-        if (p.actions.Current is AttackAction) return false;
+        if (p.actions.currentState is AttackAction) return false;
         if (attacks == null || attacks.Length == 0) return false;
         p.actions.Enter(new AttackAction(p.actions.machine, p, attacks, comboWindow));
         return true;
@@ -62,14 +62,14 @@ public class SpearWeapon : Weapon
     {
         if (!ThrowReady) return false;
         if (p.actions == null) return false;
-        if (p.actions.Current is AimAction) return false;
+        if (p.actions.currentState is AimAction) return false;
         p.actions.Enter(new AimAction(p.actions.machine, p, aimSlowmo));
         return true;
     }
 
     public override bool OnSpecialAttackReleased(Player p)
     {
-        if (!(p.actions.Current is AimAction aim)) return false;
+        if (!(p.actions.currentState is AimAction aim)) return false;
 
         Vector2 direction = aim.GetAimDirection();
         RaycastHit2D hit = Physics2D.Raycast(
@@ -98,14 +98,14 @@ public class SpearWeapon : Weapon
     {
         if (!p.getGrounded()) return false;
         if (p.actions == null) return false;
-        if (p.actions.Current is SpearLungeAction) return false;
+        if (p.actions.currentState is SpearLungeAction) return false;
         p.actions.Enter(new SpearLungeAction(p.actions.machine, p));
         return true;
     }
 
     public override bool OnMovementAbilityReleased(Player p)
     {
-        if (!(p.actions.Current is SpearLungeAction)) return false;
+        if (!(p.actions.currentState is SpearLungeAction)) return false;
         
         if (!p.getGrounded())
         {

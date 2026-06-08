@@ -8,7 +8,7 @@ public class NoneAction : ActionState
 
     public override void Update()
     {
-        var weapon = player.inventory != null ? player.inventory.Current : null;
+        var weapon = player.inventory != null ? player.inventory.currentWeapon : null;
         if (weapon == null) return;
 
         // Order matter

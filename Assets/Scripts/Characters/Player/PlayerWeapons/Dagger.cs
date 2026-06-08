@@ -28,7 +28,7 @@ public class DaggerWeapon : Weapon
         if (!DashReady) return false;
         if (p.isDashing) return false;
         if (p.actions == null) return false;
-        if (p.actions.Current is DashAction) return false;
+        if (p.actions.currentState is DashAction) return false;
 
         p.actions.Enter(new DashAction(p.actions.machine, p, dashSpeed, dashTime));
         StartDashCooldown();

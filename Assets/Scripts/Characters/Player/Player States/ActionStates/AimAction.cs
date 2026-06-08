@@ -33,7 +33,7 @@ public class AimAction : ActionState
         UpdateCursorAndAimRotation();
 
         if (player.GetSpecialAttackReleasedInput())
-            player.inventory.Current?.OnSpecialAttackReleased(player);
+            player.inventory.currentWeapon?.OnSpecialAttackReleased(player);
     }
 
     public override void Exit()

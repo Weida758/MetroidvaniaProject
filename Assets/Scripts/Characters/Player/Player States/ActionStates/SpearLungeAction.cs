@@ -20,7 +20,7 @@ public class SpearLungeAction : ActionState
 
         if (player.GetShiftReleasedInput())
         {
-            bool consumed = player.inventory.Current?.OnMovementAbilityReleased(player) ?? false;
+            bool consumed = player.inventory.currentWeapon?.OnMovementAbilityReleased(player) ?? false;
             if (!consumed)
             {
                 player.lungeHeldTime = 0f;

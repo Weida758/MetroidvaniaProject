@@ -35,7 +35,7 @@ public class SimpleEnemyAttackPattern : MonoBehaviour
 
     private AttackState state = AttackState.Waiting;
     private float timer;
-    private bool hasDamagedPlayer;
+    private bool hasResolvedHit;
     private Enemy enemy;
     private SimpleMoveScript simpleMove;
     private SpriteRenderer spriteRenderer;
@@ -87,7 +87,7 @@ public class SimpleEnemyAttackPattern : MonoBehaviour
     {
         state = AttackState.Waiting;
         timer = timeBetweenAttacks;
-        hasDamagedPlayer = false;
+        hasResolvedHit = false;
         SetSimpleMovementEnabled(true);
         SetSpriteColor(defaultColor);
     }
@@ -104,7 +104,7 @@ public class SimpleEnemyAttackPattern : MonoBehaviour
     {
         state = AttackState.Active;
         timer = activeTime;
-        hasDamagedPlayer = false;
+        hasResolvedHit = false;
         SetSpriteColor(activeColor);
     }
 
@@ -112,24 +112,38 @@ public class SimpleEnemyAttackPattern : MonoBehaviour
     {
         state = AttackState.Recovery;
         timer = recoveryTime;
+        hasResolvedHit = true;
         SetSpriteColor(recoveryColor);
     }
 
     private void CheckHitbox()
     {
-        if (hasDamagedPlayer) return;
+        if (hasResolvedHit) return;
 
         Collider2D[] hits = Physics2D.OverlapBoxAll(GetHitboxCenter(), hitboxSize, 0f, playerLayer);
         foreach (Collider2D hit in hits)
         {
+            GuardSystem guard = hit.GetComponentInParent<GuardSystem>();
+            if (guard != null && guard.TryGuard(this))
+            {
+                hasResolvedHit = true;
+                return;
+            }
+
             HealthSystem health = hit.GetComponentInParent<HealthSystem>();
             if (health == null) continue;
 
             Debug.Log($"{name} hit {health.name}");
             health.TakeDamage(damage);
-            hasDamagedPlayer = true;
+            hasResolvedHit = true;
             return;
         }
+    }
+
+    public void OnParried()
+    {
+        Debug.Log($"{name} was parried");
+        EnterRecovery();
     }
 
     private Vector2 GetHitboxCenter()

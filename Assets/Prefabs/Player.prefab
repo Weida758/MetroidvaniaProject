@@ -127,9 +127,10 @@ GameObject:
   - component: {fileID: 4664329944719540686}
   - component: {fileID: 5231208872772687249}
   - component: {fileID: 5478279170802477857}
+  - component: {fileID: 3769698673576799220}
+  - component: {fileID: 5926593839032329159}
   - component: {fileID: 4149167578496548807}
   - component: {fileID: 8457977190178044597}
-  - component: {fileID: 3769698673576799220}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -228,6 +229,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eda7e40099351c144838d83a6cbf128c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInputs
+--- !u!114 &3769698673576799220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4678016733106493431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03b6e0ffa0da12459bd4450a0a50ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
+  maxHealth: 100
+  currentHealth: 0
+  maxHeals: 0
+  currentHeals: 0
+  healAmount: 0
+  healTime: 0
+--- !u!114 &5926593839032329159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4678016733106493431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 552d1089817c1e44cb39fed160effe6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GuardSystem
+  parryColor: {r: 0, g: 1, b: 1, a: 1}
+  blockColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!50 &4149167578496548807
 Rigidbody2D:
   serializedVersion: 5
@@ -292,21 +325,3 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5, y: 1}
   m_Direction: 0
---- !u!114 &3769698673576799220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4678016733106493431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a03b6e0ffa0da12459bd4450a0a50ce0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 100
-  currentHealth: 0
-  maxHeals: 0
-  currentHeals: 0
-  healAmount: 0
-  healTime: 0

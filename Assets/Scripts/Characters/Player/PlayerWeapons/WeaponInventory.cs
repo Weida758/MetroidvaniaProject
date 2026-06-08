@@ -16,7 +16,7 @@ public class WeaponInventory : MonoBehaviour
 
     [DisplayOnly] [SerializeField] private string equippedDebug;
 
-    public Weapon Current { get; private set; }
+    public Weapon currentWeapon { get; private set; }
     private Player player;
 
     private void Awake()
@@ -31,10 +31,10 @@ public class WeaponInventory : MonoBehaviour
 
     public void Equip(Weapon weapon)
     {
-        if (weapon == null || weapon == Current) return;
-        Current?.OnUnequip(player);
-        Current = weapon;
-        Current.OnEquip(player);
+        if (weapon == null || weapon == currentWeapon) return;
+        currentWeapon?.OnUnequip(player);
+        currentWeapon = weapon;
+        currentWeapon.OnEquip(player);
         equippedDebug = weapon.displayName;
     }
 
