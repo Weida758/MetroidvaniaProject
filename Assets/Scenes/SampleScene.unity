@@ -430,6 +430,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   lightningCooldown: 0
   isSpeared: 0
+  weight: 
+  stunned: 0
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,6 +740,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   lightningCooldown: 0
   isSpeared: 0
+  weight: 
+  stunned: 0
 --- !u!114 &384662799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1596,6 +1600,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   lightningCooldown: 0
   isSpeared: 0
+  weight: Light
+  stunned: 0
 --- !u!114 &808880943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1729,6 +1735,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   lightningCooldown: 0
   isSpeared: 0
+  weight: 
+  stunned: 0
 --- !u!61 &841988900
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2160,6 +2168,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   lightningCooldown: 0
   isSpeared: 0
+  weight: 
+  stunned: 0
 --- !u!1 &1222596503
 GameObject:
   m_ObjectHideFlags: 0
