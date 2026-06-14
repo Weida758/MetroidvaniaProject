@@ -10,7 +10,6 @@ public class SimpleMoveScript : MonoBehaviour
     void Start()
     {
         
-
         rb = GetComponent<Rigidbody2D>();
         enemydata = GetComponent<Enemy>();
     }
@@ -29,11 +28,16 @@ public class SimpleMoveScript : MonoBehaviour
         if(!floor || wall){
             direction*=-1;
         }
-        if (!enemydata.isSpeared){
+        if (!enemydata.isSpeared&&!enemydata.stunned){
             SetVelocity( 5f * direction, rb.linearVelocity.y);
         }
-        else{ SetVelocity(0, 0);}
+        else if (enemydata.stunned)
+        {
+            SetVelocity(0,0);
+        }
+
     }
+    //Move to base enemy sript and call
     public void SetVelocity(float xVelocity, float yVelocity)
     {
         rb.linearVelocity = new Vector2(xVelocity, yVelocity);

@@ -1,6 +1,7 @@
 using Characters.Player.PlayerWeapons.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using System.Collections;
 
 [CreateAssetMenu(menuName = "Weapons/Spear", fileName = "Scriptable Objects/SpearWeapon")]
 public class SpearWeapon : Weapon
@@ -157,6 +158,19 @@ public class SpearWeapon : Weapon
         Collider2D[] chain = Physics2D.OverlapCircleAll(
             p.SpearEnemy.transform.position, lightningChainRadius,
             1 << LayerMask.NameToLayer("Enemy"));
+              if(chain.Length !=0){
+        p.StartCoroutine(Chain(chain,p));
+           
+        }
+        // UNCOMMENT AFTER INFINITE RECURSION FIX
+        p.SpearEnemy = null;
+        return true;
+    }
+
+    private IEnumerator Chain(Collider2D[] chain,Player p){
+        
+
+        yield return new WaitForSeconds(0.5f); 
         GameObject previous = p.SpearEnemy;
         foreach (Collider2D c in chain)
         {
@@ -168,10 +182,6 @@ public class SpearWeapon : Weapon
                 OnAbility(p);
             }
         }
-        // UNCOMMENT AFTER INFINITE RECURSION FIX
-        p.SpearEnemy = null;
-
-        return true;
     }
 
     public bool ThrowReady => throwCDRemaining <= 0f;

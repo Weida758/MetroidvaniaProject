@@ -32,17 +32,33 @@ public class TetherPullAction : ActionState
     public override void Update()
     {
         base.Update();
+       
 
-        Vector2 distance = targetPoint - (Vector2)player.transform.position;
-        if (distance.sqrMagnitude > 0.0001f)
-            player.SetVelocity(distance.normalized.x * pullSpeed,
-                               distance.normalized.y * pullSpeed);
-        player.SpearDistance = distance;
+            Vector2 distance = targetPoint - (Vector2)player.transform.position;
+            if (distance.sqrMagnitude > 0.0001f){
+                if(targetEnemy.GetComponent<Enemy>().weight == "Heavy" || targetEnemy.GetComponent<Enemy>().weight == "Medium" ){
+                    player.SetVelocity(distance.normalized.x * pullSpeed,
+                                    distance.normalized.y * pullSpeed);
+                    targetEnemy.GetComponent<Enemy>().SetVelocity(0, 0);
+                }
+                else
+                {
+                    targetEnemy.GetComponent<Enemy>().SetVelocity(distance.normalized.x * -pullSpeed,
+                                distance.normalized.y * -pullSpeed);
+                    player.SetVelocity(0, 0);
+                }
+            }
+            player.SpearDistance = distance;
+        
 
         if (player.collidedObject == targetEnemy)
         {
             player.rb.linearVelocity = Vector2.zero;
             if (projectile != null) Object.Destroy(projectile);
+            if(targetEnemy.GetComponent<Enemy>().weight == "Light")
+            {
+                targetEnemy.GetComponent<Enemy>().StartCoroutine(targetEnemy.GetComponent<Enemy>().Stun(0.5f));
+            }
             player.actions.ExitToNone();
         }
     }
