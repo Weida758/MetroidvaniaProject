@@ -13,33 +13,37 @@ public class AttackHitbox
     [SerializeField] private bool enabled = true;
     [SerializeField] private AttackHitboxShape shape = AttackHitboxShape.Box;
 
-    [Tooltip("Position relative to the player")] 
-    [SerializeField]
-    private Vector2 localOffset = new Vector2(1f, 0f);
-    
+    [Tooltip("Position relative to the player")]
+    [SerializeField] private Vector2 localOffset = new Vector2(1f, 0f);
+
     [SerializeField] private Vector2 boxSize = new Vector2(0.75f, 0.75f);
     [SerializeField] private float radius = 0.75f;
     [SerializeField] private float localAngle;
-    
-    // Where the hitbox is in the world corresponding to the player facing direction
+
+    // Where the hitbox sits in the world, accounting for which way the player faces.
     private Vector2 GetWorldCenter(Player player)
     {
-        float facing = player.getFacingDirection();
+        float facing = GetFacing(player);
         Vector2 offset = new Vector2(localOffset.x * facing, localOffset.y);
-        return player.rb.position + offset;
+        return (Vector2)player.transform.position + offset;
     }
 
-    
     private float GetWorldAngle(Player player)
     {
-        //mirror the angle when facing left
-        return player.getFacingDirection() > 0 ? localAngle : 180f - localAngle;
+        // mirror the angle when facing left
+        return GetFacing(player) > 0 ? localAngle : 180f - localAngle;
     }
     
-    // Return hit colliders from the atack
+    private static float GetFacing(Player player)
+    {
+        if (Application.isPlaying) return player.getFacingDirection();
+        return player.transform.localScale.x < 0f ? -1f : 1f;
+    }
+
+    // Return hit colliders from the attack
     public Collider2D[] GetHits(Player player, int layerMask)
     {
-        if(!enabled) return Array.Empty<Collider2D>();
+        if (!enabled) return Array.Empty<Collider2D>();
 
         Vector2 center = GetWorldCenter(player);
         float angle = GetWorldAngle(player);
@@ -50,14 +54,13 @@ public class AttackHitbox
                 return Physics2D.OverlapCircleAll(center, radius, layerMask);
             default:
                 return Physics2D.OverlapBoxAll(center, boxSize, angle, layerMask);
-                
         }
     }
 
     public void DrawGizmos(Player player)
     {
         if (!enabled) return;
-        
+
         Vector2 center = GetWorldCenter(player);
         float angle = GetWorldAngle(player);
 
@@ -75,9 +78,6 @@ public class AttackHitbox
                 // After drawing restore the coordinate space
                 Gizmos.matrix = previous;
                 break;
-        }
-        {
-            
         }
     }
 }

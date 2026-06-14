@@ -1,5 +1,4 @@
 using UnityEngine;
-using Characters.Player;
 
 public class WeaponInventory : MonoBehaviour
 {
@@ -82,5 +81,6 @@ public class WeaponInventory : MonoBehaviour
         }
     }
 
-
+    // No equipped weapon in editor mode yet, so use slot1 for hitbox previews
+    public Weapon GetPreviewWeapon() => currentWeapon != null ? currentWeapon : slot1;
 }

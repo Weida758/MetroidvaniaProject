@@ -1,4 +1,3 @@
-using Characters.Player.PlayerWeapons.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using System.Collections;

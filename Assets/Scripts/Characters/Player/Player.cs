@@ -65,6 +65,12 @@ public class Player : MonoBehaviour, IDataPersistence
     //For Debugging
     public void OnDrawGizmos()
     {
+        if (actions?.currentState is AttackAction attackAction)
+            attackAction.DrawGizmos();
+
+        if (!Application.isPlaying)
+            GetComponent<WeaponInventory>()?.GetPreviewWeapon()?.DrawHitboxPreview(this);
+
         // Gizmos.color = Color.red;
         // Gizmos.DrawWireSphere(rb.position, 1f);
         // Vector3 endPosition = (Vector3)rb.position + (Vector3)(transform.right * 2f*facingDirection);

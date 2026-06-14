@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using Characters.Player.PlayerWeapons.Data;
 using UnityEngine;
 
-/// <summary>Generic attack combo runner. Advances through AttackStep[] on attack input within comboWindow.</summary>
+/// <summary>Runs a weapon's basic-attack combo and resolves its hitboxes each active frame.</summary>
 public class AttackAction : ActionState
 {
     private readonly AttackStep[] steps;

@@ -1,5 +1,4 @@
 using UnityEngine;
-using Characters.Player.PlayerWeapons.Data;
 
 /// <summary>Base class for locomotion states. Exposes the equipped weapon's MovementProfile and ticks WeaponUpdate.</summary>
 public abstract class LocomotionState : CharacterBaseState
