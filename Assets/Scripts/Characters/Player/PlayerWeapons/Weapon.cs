@@ -13,6 +13,9 @@ public abstract class Weapon : ScriptableObject
     [TitleGroup("Movement")]
     public MovementProfile movement;
     
+    [TitleGroup("Basic Attack")]
+    [SerializeField] private AttackStep[] basicAttacks;
+
     //-----life cycle------
     public virtual void OnEquip(Player p)
     {
@@ -28,7 +31,13 @@ public abstract class Weapon : ScriptableObject
 
     public virtual void WeaponUpdate(ref Player p){ }
 
-    public virtual bool OnBasicAttack(Player p) => false;
+    public virtual bool OnBasicAttack(Player p)
+    {
+        if (p.actions.currentState is AttackAction) return false;
+        
+        p.actions.Enter(new AttackAction(p.actions.machine, p, basicAttacks));
+        return true;
+    }
     public virtual bool OnSpecialAttackPressed(Player p) => false;
     public virtual bool OnSpecialAttackReleased(Player p) => false;
     public virtual bool OnAbility(Player p) => false;

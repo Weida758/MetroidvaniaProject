@@ -22,4 +22,59 @@ MonoBehaviour:
     canJump: 1
     canWallSlide: 1
     animatorOverride: {fileID: 0}
+  basicAttacks:
+  - <StepName>k__BackingField: Swing
+    <Damage>k__BackingField: 1
+    <ActiveTime>k__BackingField: 0.12
+    <ComboInputWindow>k__BackingField: 0.5
+    targetLayers:
+      serializedVersion: 2
+      m_Bits: 256
+    <Hitboxes>k__BackingField:
+    - enabled: 1
+      shape: 0
+      localOffset: {x: 1, y: 0}
+      boxSize: {x: 0.75, y: 0.75}
+      radius: 0.75
+      localAngle: 0
+    <AnimTrigger>k__BackingField: 
+    <DrawDebug>k__BackingField: 1
+    <DebugColor>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
+    <DebugDrawDuration>k__BackingField: 0.15
+  - <StepName>k__BackingField: Swing
+    <Damage>k__BackingField: 1
+    <ActiveTime>k__BackingField: 0.12
+    <ComboInputWindow>k__BackingField: 0.5
+    targetLayers:
+      serializedVersion: 2
+      m_Bits: 256
+    <Hitboxes>k__BackingField:
+    - enabled: 1
+      shape: 0
+      localOffset: {x: 1, y: 0}
+      boxSize: {x: 0.75, y: 0.75}
+      radius: 0.75
+      localAngle: 0
+    <AnimTrigger>k__BackingField: 
+    <DrawDebug>k__BackingField: 1
+    <DebugColor>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
+    <DebugDrawDuration>k__BackingField: 0.15
+  - <StepName>k__BackingField: Swing
+    <Damage>k__BackingField: 1
+    <ActiveTime>k__BackingField: 0.12
+    <ComboInputWindow>k__BackingField: 0.5
+    targetLayers:
+      serializedVersion: 2
+      m_Bits: 256
+    <Hitboxes>k__BackingField:
+    - enabled: 1
+      shape: 0
+      localOffset: {x: 1, y: 0}
+      boxSize: {x: 0.75, y: 0.75}
+      radius: 0.75
+      localAngle: 0
+    <AnimTrigger>k__BackingField: 
+    <DrawDebug>k__BackingField: 1
+    <DebugColor>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
+    <DebugDrawDuration>k__BackingField: 0.15
   parryWindow: 0.2

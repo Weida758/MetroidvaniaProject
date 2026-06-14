@@ -6,8 +6,6 @@ using System.Collections;
 [CreateAssetMenu(menuName = "Weapons/Spear", fileName = "Scriptable Objects/SpearWeapon")]
 public class SpearWeapon : Weapon
 {
-    public AttackStep[] attacks;
-    public float comboWindow = 0.5f;
 
     public GameObject spearProjectilePrefab;
     public float throwCooldown = 2f;
@@ -48,15 +46,6 @@ public class SpearWeapon : Weapon
                 p.rb.linearVelocity = new Vector2(0, -2);
             }
         }
-    }
-
-    public override bool OnBasicAttack(Player p)
-    {
-        if (p.actions == null) return false;
-        if (p.actions.currentState is AttackAction) return false;
-        if (attacks == null || attacks.Length == 0) return false;
-        p.actions.Enter(new AttackAction(p.actions.machine, p, attacks, comboWindow));
-        return true;
     }
 
     public override bool OnSpecialAttackPressed(Player p)

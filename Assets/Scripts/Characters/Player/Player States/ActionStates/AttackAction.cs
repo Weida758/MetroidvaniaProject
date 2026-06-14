@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Characters.Player.PlayerWeapons.Data;
 using UnityEngine;
 
@@ -5,25 +6,27 @@ using UnityEngine;
 public class AttackAction : ActionState
 {
     private readonly AttackStep[] steps;
-    private readonly float comboWindow;
 
     private int comboIndex;
     private float comboTime;
 
-    private RaycastHit2D[] hits;
+    private float activeHitboxTimer;
+    private float debugDrawTimer;
+    private AttackStep activeStep;
 
-    public AttackAction(StateMachine sm, Player player, AttackStep[] steps, float comboWindow = 0.5f)
+    private readonly HashSet<GameObject> hitTargets = new HashSet<GameObject>();
+
+
+    public AttackAction(StateMachine sm, Player player, AttackStep[] steps)
         : base(sm, "Attack", player)
     {
         this.steps = steps;
-        this.comboWindow = comboWindow;
     }
 
     public override void Enter()
     {
         base.Enter();
         comboIndex = 0;
-        comboTime = comboWindow;
         FireStep(comboIndex);
     }
 
@@ -31,6 +34,14 @@ public class AttackAction : ActionState
     {
         base.Update();
         comboTime -= Time.deltaTime;
+
+        if (activeHitboxTimer > 0f)
+        {
+            CheckActiveHitboxes();
+            activeHitboxTimer -= Time.deltaTime;
+        }
+
+        if (debugDrawTimer > 0f) debugDrawTimer -= Time.deltaTime;
 
         if (player.GetAttackPressedInput() && comboTime >= 0f)
         {
@@ -45,17 +56,61 @@ public class AttackAction : ActionState
     }
 
     private void FireStep(int i)
-    {   //haven't applied dmg
-        if (steps == null || i < 0 || i >= steps.Length) return;
-        AttackStep s = steps[i];
-        hits = Physics2D.CircleCastAll(
-            player.rb.position,
-            s.radius,
-            player.getFacingDirection() * player.transform.right,
-            s.range,
-            LayerMask.NameToLayer("Enemy"));
-        comboTime = comboWindow;
-        if (!string.IsNullOrEmpty(s.animTrigger))
-            player.animator.SetTrigger(s.animTrigger);
+    {
+        activeStep = steps[i];
+        activeHitboxTimer = activeStep.ActiveTime;
+        comboTime = activeStep.ComboInputWindow;
+        debugDrawTimer = Mathf.Max(activeStep.DebugDrawDuration, activeStep.ActiveTime);
+
+        // Clear the previously added hit targets
+        hitTargets.Clear();
+
+        CheckActiveHitboxes();
+
+        if (!string.IsNullOrEmpty(activeStep.AnimTrigger))
+        {
+            player.animator.SetTrigger(activeStep.AnimTrigger);
+        }
     }
+
+    private void CheckActiveHitboxes()
+    {
+        int layerMask = activeStep.GetTargetLayerMask();
+
+        foreach (AttackHitbox hitbox in activeStep.Hitboxes)
+        {
+            foreach (Collider2D hit in hitbox.GetHits(player, layerMask))
+            {
+                RegisterHit(hit, activeStep);
+            }
+        }
+    }
+
+    private void RegisterHit(Collider2D hit, AttackStep step)
+    {
+        HealthSystem health = hit.GetComponentInParent<HealthSystem>();
+        if (health == null)
+        {
+            Debug.Log("No HealthSystem in Target");
+            return;
+        }
+
+        // Check the hashmap
+        if (!hitTargets.Add(health.gameObject)) return;
+
+        health.TakeDamage(step.Damage);
+    }
+
+    public void DrawGizmos()
+    {
+        if (activeStep == null || !activeStep.DrawDebug || debugDrawTimer <= 0f) return;
+        
+        Gizmos.color = activeStep.DebugColor;
+        foreach (AttackHitbox hitbox in activeStep.Hitboxes)
+        {
+            hitbox.DrawGizmos(player);
+        }
+    }
+
+
 }
