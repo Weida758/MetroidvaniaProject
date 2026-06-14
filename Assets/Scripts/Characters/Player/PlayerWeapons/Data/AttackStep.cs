@@ -1,17 +1,15 @@
 using UnityEngine;
 
-namespace Characters.Player.PlayerWeapons.Data
+
+[System.Serializable]
+public class AttackStep
 {
-    [System.Serializable]
-    public class AttackStep
-    {
-        public float radius = 1f;
-        public float range = 2f;
+    public float radius = 1f;
+    public float range = 2f;
 
-        public int damage;
+    public int damage;
 
-        public float comboInputWindow = 0.5f;
+    public float comboInputWindow = 0.5f;
 
-        public string animTrigger;
-    }
+    public string animTrigger;
 }
