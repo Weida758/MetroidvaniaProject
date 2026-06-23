@@ -26,16 +26,19 @@ public class Player : MonoBehaviour, IDataPersistence
     public bool lockStateChange = false;
 
     public GameObject collidedObject;
-
+    
+    // Spear
     public Vector2 SpearDistance;
     public Vector2 SpearHit;
     public GameObject SpearEnemy;
 
     private bool isGrounded = true;
-    [HideInInspector] public float walljumptime = 0f;
-    [HideInInspector] public float coyotetime = 0f;
-    [HideInInspector] public bool HasDoubleJump = true;
-    [DisplayOnly] public bool DoubleJump = false;
+    
+    // Special movement values
+    [HideInInspector] public float wallJumpTime = 0f;
+    [HideInInspector] public float coyoteTime = 0f;
+    [HideInInspector] public bool hasDoubleJump = true;
+    [DisplayOnly] public bool doubleJump = false;
 
     [HideInInspector] public bool isDashing = false;
     [HideInInspector] public bool isAiming = false;
@@ -48,8 +51,8 @@ public class Player : MonoBehaviour, IDataPersistence
     public PlayerActionFSM actions { get; private set; }
     
     // Player Upgrades
-    [SerializeField] private float weaponAttackModifierMul = 1;
-    [SerializeField] private float weaponAttackModifierAdd = 0;
+    [DisplayOnly] [SerializeField] private float weaponAttackModifierMul = 1;
+    [DisplayOnly] [SerializeField] private float weaponAttackModifierAdd = 0;
 
     private void Awake()
     {
@@ -78,24 +81,13 @@ public class Player : MonoBehaviour, IDataPersistence
         {
             freezeAction.DrawGizmos();
         }
-
+        
+        // Draw hitboxes while not in playmode
         if (!Application.isPlaying)
         {
             GetComponent<WeaponInventory>()?.GetPreviewWeapon()?.DrawHitboxPreview(this);
         }
-
-        // Gizmos.color = Color.red;
-        // Gizmos.DrawWireSphere(rb.position, 1f);
-        // Vector3 endPosition = (Vector3)rb.position + (Vector3)(transform.right * 2f*facingDirection);
-        // Gizmos.DrawLine(rb.position, endPosition);
-        // Gizmos.DrawWireSphere(endPosition, 1f);
-
-        // Gizmos.color = Color.blue;
-        // Gizmos.DrawWireSphere(rb.position, 1f);
-        // endPosition = (Vector3)rb.position + (Vector3)(transform.right * 4f * facingDirection);
-        // Gizmos.DrawLine(rb.position, endPosition);
-        // Gizmos.DrawWireSphere(endPosition, 1f);
-        //Gizmos.DrawWireSphere(SpearEnemy.transform.position, 2.5f);
+        
     }
 
     private void Update()
@@ -105,7 +97,7 @@ public class Player : MonoBehaviour, IDataPersistence
         currentState = locomotion.Current.ToString();
 
         UpdateGrounded();
-        if (isGrounded) DoubleJump = true;
+        if (isGrounded) doubleJump = true;
     }
 
     private void FixedUpdate()
@@ -123,12 +115,12 @@ public class Player : MonoBehaviour, IDataPersistence
                          || locomotion.Current is Locomotion_IdleState;
 
         if (inJump) { isGrounded = false; }
-        else if (coyotetime > 0f)
+        else if (coyoteTime > 0f)
         {
-            coyotetime -= Time.deltaTime;
-            if (coyotetime <= 0f) { isGrounded = false; coyotetime = 0; }
+            coyoteTime -= Time.deltaTime;
+            if (coyoteTime <= 0f) { isGrounded = false; coyoteTime = 0; }
         }
-        else if (ray == false && inMoveOrIdle && coyotetime == 0f) { coyotetime = 0.5f; }
+        else if (ray == false && inMoveOrIdle && coyoteTime == 0f) { coyoteTime = 0.5f; }
         else { isGrounded = ray; }
     }
 

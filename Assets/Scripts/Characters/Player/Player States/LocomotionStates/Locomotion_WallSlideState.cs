@@ -18,7 +18,7 @@ public class Locomotion_WallSlideState : LocomotionState
         {
             player.rb.AddForce(new Vector2(6 * player.getFacingDirection() * -1, 9), ForceMode2D.Impulse);
             player.Flip();
-            player.walljumptime = 0.75f;
+            player.wallJumpTime = 0.75f;
             stateMachine.ChangeState(fsm.fall);
             return;
         }

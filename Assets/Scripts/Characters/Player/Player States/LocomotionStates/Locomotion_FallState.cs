@@ -11,20 +11,26 @@ public class Locomotion_FallState : LocomotionState
         if (player.getGrounded())
         {
             var fsm = (PlayerLocomotionFSM)player.locomotion;
-            if (Mathf.Abs(player.GetMoveInput().x) > 0) stateMachine.ChangeState(fsm.move);
-            else                                         stateMachine.ChangeState(fsm.idle);
+            if (Mathf.Abs(player.GetMoveInput().x) > 0)
+            {
+                stateMachine.ChangeState(fsm.move);
+            }
+            else
+            {
+                stateMachine.ChangeState(fsm.idle);
+            }
             return;
         }
 
-        if (WallCheck() && player.walljumptime <= 0 && Profile.canWallSlide)
+        if (WallCheck() && player.wallJumpTime <= 0 && Profile.canWallSlide)
         {
             stateMachine.ChangeState(((PlayerLocomotionFSM)player.locomotion).wall);
             return;
         }
 
-        if (player.GetJumpPressedInput() && player.DoubleJump && player.HasDoubleJump)
+        if (player.GetJumpPressedInput() && player.doubleJump && player.hasDoubleJump)
         {
-            player.DoubleJump = false;
+            player.doubleJump = false;
             stateMachine.ChangeState(((PlayerLocomotionFSM)player.locomotion).jump);
         }
     }
@@ -32,7 +38,7 @@ public class Locomotion_FallState : LocomotionState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (player.lockMovement || player.walljumptime > 0 || player.isDashing || player.lungeTime > 0) return;
+        if (player.lockMovement || player.wallJumpTime > 0 || player.isDashing || player.lungeTime > 0) return;
         if (player.GetMoveInput().x != 0)
             player.SetVelocity(player.GetMoveInput().x * player.speed, player.rb.linearVelocity.y);
     }

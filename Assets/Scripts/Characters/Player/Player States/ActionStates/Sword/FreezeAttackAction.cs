@@ -80,8 +80,7 @@ public class FreezeAttackAction : ActionState
 
         health.TakeDamage((int)player.TransformDamage(step.Damage));
         
-        //TODO: Freezing the enemy :(
-        enemy.StartCoroutine(enemy.Freeze(1f));
+        enemy.StartCoroutine(enemy.Freeze(freezeTime));
         Debug.Log("Enemy freezed");
     }
 

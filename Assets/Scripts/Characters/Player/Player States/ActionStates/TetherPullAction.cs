@@ -23,9 +23,9 @@ public class TetherPullAction : ActionState
     {
         base.Enter();
         player.lockMovement = true;
-        player.SpearEnemy   = targetEnemy;
+        player.SpearEnemy = targetEnemy;
         targetEnemy.GetComponent<Enemy>().isSpeared = true;
-        player.SpearHit     = targetPoint;
+        player.SpearHit = targetPoint;
         player.SpearDistance = targetPoint - (Vector2)player.transform.position;
     }
 

@@ -42,7 +42,7 @@ public abstract class LocomotionState : CharacterBaseState
         base.Update();
         HandleWeaponSwitch();
         player.speed = player.GetShiftCurrentlyPressed() ? Profile.sprintSpeed : Profile.baseSpeed;
-        if (player.walljumptime > 0) player.walljumptime -= Time.deltaTime;
+        if (player.wallJumpTime > 0) player.wallJumpTime -= Time.deltaTime;
         if (player.inventory != null && player.inventory.currentWeapon != null)
             player.inventory.currentWeapon.WeaponUpdate(ref RefSelf());
         player.animator.SetFloat("xInput", player.inputs.moveInput.x);

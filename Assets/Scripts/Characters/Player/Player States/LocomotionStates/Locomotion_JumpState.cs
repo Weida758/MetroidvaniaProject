@@ -20,7 +20,7 @@ public class Locomotion_JumpState : LocomotionState
             player.rb.AddForceY(player.initialFallForce, ForceMode2D.Impulse);
         }
 
-        if (WallCheck() && !player.getGrounded() && player.walljumptime <= 0 && Profile.canWallSlide)
+        if (WallCheck() && !player.getGrounded() && player.wallJumpTime <= 0 && Profile.canWallSlide)
         {
             stateMachine.ChangeState(((PlayerLocomotionFSM)player.locomotion).wall);
             return;
@@ -35,7 +35,7 @@ public class Locomotion_JumpState : LocomotionState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (player.lockMovement || player.walljumptime > 0 || player.isDashing || player.lungeTime > 0) return;
+        if (player.lockMovement || player.wallJumpTime > 0 || player.isDashing || player.lungeTime > 0) return;
         if (player.GetMoveInput().x != 0)
             player.SetVelocity(player.GetMoveInput().x * player.speed, player.rb.linearVelocity.y);
     }
