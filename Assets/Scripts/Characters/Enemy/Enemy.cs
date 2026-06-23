@@ -5,6 +5,7 @@ public class Enemy : MonoBehaviour
 {
     [DisplayOnly] public float lightningCooldown;
     [DisplayOnly] public bool isSpeared;
+    [DisplayOnly] public bool isFreezed;
     public string weight;
     [DisplayOnly] public bool stunned=false;
     public Rigidbody2D rb { get; private set; }
@@ -31,6 +32,13 @@ public class Enemy : MonoBehaviour
         stunned = true;
         yield return new WaitForSeconds(time); 
         stunned = false;
+    }
+
+    public IEnumerator Freeze(float time)
+    {
+        isFreezed = true;
+        yield return new WaitForSeconds(time);
+        isFreezed = false;
     }
     
 }

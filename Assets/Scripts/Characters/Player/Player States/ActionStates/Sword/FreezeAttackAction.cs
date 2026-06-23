@@ -11,7 +11,7 @@ public class FreezeAttackAction : ActionState
     private float activeHitboxTimer;
     private float debugDrawTimer;
 
-    private readonly HashSet<GameObject> hitTargets;
+    private readonly HashSet<GameObject> hitTargets = new HashSet<GameObject>();
 
     public FreezeAttackAction(StateMachine stateMachine, Player player, AttackStep step, float freezeTime)
         : base(stateMachine, "Freeze", player)
@@ -69,6 +69,7 @@ public class FreezeAttackAction : ActionState
     private void RegisterHit(Collider2D hit, AttackStep step)
     {
         HealthSystem health = hit.GetComponentInParent<HealthSystem>();
+        Enemy enemy = hit.GetComponentInParent<Enemy>();
         if (health == null)
         {
             Debug.Log("No HealthSystem in Target");
@@ -80,6 +81,8 @@ public class FreezeAttackAction : ActionState
         health.TakeDamage((int)player.TransformDamage(step.Damage));
         
         //TODO: Freezing the enemy :(
+        enemy.StartCoroutine(enemy.Freeze(1f));
+        Debug.Log("Enemy freezed");
     }
 
     public void DrawGizmos()

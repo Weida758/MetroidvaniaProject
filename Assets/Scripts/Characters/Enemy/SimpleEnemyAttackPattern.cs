@@ -9,7 +9,6 @@ public class SimpleEnemyAttackPattern : MonoBehaviour
         Active,
         Recovery
     }
-
     [Header("Timing")]
     [SerializeField] private float timeBetweenAttacks = 2f;
     [SerializeField] private float telegraphTime = 0.4f;

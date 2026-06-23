@@ -149,6 +149,7 @@ public class Player : MonoBehaviour, IDataPersistence
     public bool GetSpecialAttackPressedInput() => inputs.specialAttackPressed;
     public bool GetSpecialAttackReleasedInput() => inputs.specialAttackReleased;
     public bool GetUpCurrentlyPressed() => inputs.upCurrentlyPressed;
+    public bool GetAbilityPressed() => inputs.magicAttackPressed;
 
     public bool getGrounded() => isGrounded;
     public int getFacingDirection() => facingDirection;

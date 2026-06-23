@@ -1182,7 +1182,9 @@ GameObject:
   - component: {fileID: 1701631472}
   - component: {fileID: 1701631471}
   - component: {fileID: 1701631469}
-  m_Layer: 0
+  - component: {fileID: 1701631476}
+  - component: {fileID: 1701631475}
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1355,6 +1357,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1701631475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701631468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a603df5114a5a43be87e85c7feacd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  lightningCooldown: 0
+  isSpeared: 0
+  isFreezed: 0
+  weight: 
+  stunned: 0
+--- !u!114 &1701631476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701631468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03b6e0ffa0da12459bd4450a0a50ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
+  maxHealth: 0
+  currentHealth: 0
+  maxHeals: 0
+  currentHeals: 0
+  healAmount: 0
+  healTime: 0
 --- !u!1 &1843088592 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4678016733106493431, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}

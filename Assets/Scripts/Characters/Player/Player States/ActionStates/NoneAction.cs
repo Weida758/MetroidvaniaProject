@@ -16,7 +16,7 @@ public class NoneAction : ActionState
         if (player.GetSpecialAttackReleasedInput()) weapon.OnSpecialAttackReleased(player);
         if (player.GetAttackPressedInput()) weapon.OnBasicAttack(player);
         // Ability key
-        if (player.inputs.magicAttackPressed) weapon.OnAbilityPressed(player);
+        if (player.GetAbilityPressed()) weapon.OnAbilityPressed(player);
     }
 }
 
