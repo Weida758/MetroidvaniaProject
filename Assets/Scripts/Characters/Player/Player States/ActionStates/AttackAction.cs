@@ -9,6 +9,7 @@ public class AttackAction : ActionState
     private int comboIndex;
     private float comboTime;
 
+    private float startupTimer;
     private float activeHitboxTimer;
     private float debugDrawTimer;
     private AttackStep activeStep;
@@ -26,17 +27,21 @@ public class AttackAction : ActionState
     {
         base.Enter();
         comboIndex = 0;
-        FireStep(comboIndex);
+        NextAttack(comboIndex);
     }
 
     public override void Update()
     {
         base.Update();
         comboTime -= Time.deltaTime;
+        
+        if (startupTimer > 0f)
+            startupTimer -= Time.deltaTime;
 
-        if (activeHitboxTimer > 0f)
+        // After the windup, check for hits while the swing is out.
+        if (startupTimer <= 0f && activeHitboxTimer > 0f)
         {
-            CheckActiveHitboxes();
+            CheckAndApplyActiveHitboxes();
             activeHitboxTimer -= Time.deltaTime;
         }
 
@@ -45,7 +50,7 @@ public class AttackAction : ActionState
         if (player.GetAttackPressedInput() && comboTime >= 0f)
         {
             comboIndex = (comboIndex + 1) % steps.Length;
-            FireStep(comboIndex);
+            NextAttack(comboIndex);
         }
 
         if (comboTime <= 0f)
@@ -54,17 +59,17 @@ public class AttackAction : ActionState
         }
     }
 
-    private void FireStep(int i)
+    private void NextAttack(int i)
     {
         activeStep = steps[i];
+        startupTimer = activeStep.StartupTime;
         activeHitboxTimer = activeStep.ActiveTime;
         comboTime = activeStep.ComboInputWindow;
-        debugDrawTimer = Mathf.Max(activeStep.DebugDrawDuration, activeStep.ActiveTime);
+        // drawing windup and active time
+        debugDrawTimer = activeStep.StartupTime + Mathf.Max(activeStep.DebugDrawDuration, activeStep.ActiveTime);
 
         // Clear the previously added hit targets
         hitTargets.Clear();
-
-        CheckActiveHitboxes();
 
         if (!string.IsNullOrEmpty(activeStep.AnimTrigger))
         {
@@ -72,7 +77,7 @@ public class AttackAction : ActionState
         }
     }
 
-    private void CheckActiveHitboxes()
+    private void CheckAndApplyActiveHitboxes()
     {
         int layerMask = activeStep.GetTargetLayerMask();
 
@@ -97,12 +102,12 @@ public class AttackAction : ActionState
         // Check the hashmap
         if (!hitTargets.Add(health.gameObject)) return;
 
-        health.TakeDamage(step.Damage);
+        health.TakeDamage((int)player.TransformDamage(step.Damage));
     }
 
     public void DrawGizmos()
     {
-        if (activeStep == null || !activeStep.DrawDebug || debugDrawTimer <= 0f) return;
+        if (activeStep == null || !activeStep.DrawDebug || debugDrawTimer <= 0f || startupTimer > 0f) return;
         
         Gizmos.color = activeStep.DebugColor;
         foreach (AttackHitbox hitbox in activeStep.Hitboxes)

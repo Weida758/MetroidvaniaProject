@@ -124,7 +124,7 @@ public class SpearWeapon : Weapon
         return true;
     }
 
-    public override bool OnAbility(Player p)
+    public override bool OnAbilityPressed(Player p)
     {
         if (p.SpearEnemy == null) return false;
 
@@ -167,7 +167,7 @@ public class SpearWeapon : Weapon
                 p.SpearEnemy = c.gameObject;
                 //Debug.Log("hit");
                 // DO NOT UNCOMMENT INFINITE RECURSION ONLY UNCOMMENT AFTER ADDING COOLDOWN
-                OnAbility(p);
+                OnAbilityPressed(p);
             }
         }
     }

@@ -46,6 +46,10 @@ public class Player : MonoBehaviour, IDataPersistence
     public WeaponInventory inventory { get; private set; }
     public PlayerLocomotionFSM locomotion { get; private set; }
     public PlayerActionFSM actions { get; private set; }
+    
+    // Player Upgrades
+    [SerializeField] private float weaponAttackModifierMul = 1;
+    [SerializeField] private float weaponAttackModifierAdd = 0;
 
     private void Awake()
     {
@@ -66,10 +70,19 @@ public class Player : MonoBehaviour, IDataPersistence
     public void OnDrawGizmos()
     {
         if (actions?.currentState is AttackAction attackAction)
+        {
             attackAction.DrawGizmos();
+        }
+
+        if (actions?.currentState is FreezeAttackAction freezeAction)
+        {
+            freezeAction.DrawGizmos();
+        }
 
         if (!Application.isPlaying)
+        {
             GetComponent<WeaponInventory>()?.GetPreviewWeapon()?.DrawHitboxPreview(this);
+        }
 
         // Gizmos.color = Color.red;
         // Gizmos.DrawWireSphere(rb.position, 1f);
@@ -180,5 +193,9 @@ public class Player : MonoBehaviour, IDataPersistence
     void OnCollisionExit2D(Collision2D collision)
     {
         collidedObject = null;
+    }
+    public float TransformDamage(float damage)
+    {
+        return (damage * weaponAttackModifierMul) + weaponAttackModifierAdd;
     }
 }

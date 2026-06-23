@@ -25,6 +25,7 @@ MonoBehaviour:
   basicAttacks:
   - <StepName>k__BackingField: Swing
     <Damage>k__BackingField: 1
+    <StartupTime>k__BackingField: 0
     <ActiveTime>k__BackingField: 0.12
     <ComboInputWindow>k__BackingField: 0.5
     targetLayers:
@@ -43,6 +44,7 @@ MonoBehaviour:
     <DebugDrawDuration>k__BackingField: 0.15
   - <StepName>k__BackingField: Swing
     <Damage>k__BackingField: 1
+    <StartupTime>k__BackingField: 0
     <ActiveTime>k__BackingField: 0.12
     <ComboInputWindow>k__BackingField: 0.5
     targetLayers:
@@ -61,6 +63,7 @@ MonoBehaviour:
     <DebugDrawDuration>k__BackingField: 0.15
   - <StepName>k__BackingField: Swing
     <Damage>k__BackingField: 1
+    <StartupTime>k__BackingField: 0
     <ActiveTime>k__BackingField: 0.12
     <ComboInputWindow>k__BackingField: 0.5
     targetLayers:
@@ -81,3 +84,24 @@ MonoBehaviour:
   previewAllAttacks: 0
   previewAttackIndex: 0
   parryWindow: 0.2
+  showAbilityHitbox: 0
+  freezeAbility:
+    <StepName>k__BackingField: Freeze
+    <Damage>k__BackingField: 1
+    <StartupTime>k__BackingField: 0
+    <ActiveTime>k__BackingField: 0.12
+    <ComboInputWindow>k__BackingField: 0
+    targetLayers:
+      serializedVersion: 2
+      m_Bits: 256
+    <Hitboxes>k__BackingField:
+    - enabled: 1
+      shape: 1
+      localOffset: {x: 1, y: 0}
+      boxSize: {x: 0.75, y: 0.75}
+      radius: 2
+      localAngle: 0
+    <AnimTrigger>k__BackingField: 
+    <DrawDebug>k__BackingField: 1
+    <DebugColor>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
+    <DebugDrawDuration>k__BackingField: 0.15

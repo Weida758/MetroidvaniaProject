@@ -51,7 +51,7 @@ public abstract class Weapon : ScriptableObject
     }
 
     // Draws basic-attack hitboxes in the Scene view
-    public void DrawHitboxPreview(Player p)
+    public virtual void DrawHitboxPreview(Player p)
     {
         if (!showHitboxPreview || basicAttacks == null || basicAttacks.Length == 0) return;
 
@@ -66,7 +66,7 @@ public abstract class Weapon : ScriptableObject
         DrawStep(p, basicAttacks[index]);
     }
 
-    private static void DrawStep(Player p, AttackStep step)
+    protected static void DrawStep(Player p, AttackStep step)
     {
         Gizmos.color = step.DebugColor;
         foreach (AttackHitbox hitbox in step.Hitboxes)
@@ -110,7 +110,7 @@ public abstract class Weapon : ScriptableObject
 
     public virtual bool OnSpecialAttackPressed(Player p) => false;
     public virtual bool OnSpecialAttackReleased(Player p) => false;
-    public virtual bool OnAbility(Player p) => false;
+    public virtual bool OnAbilityPressed(Player p) => false;
 
     public virtual bool OnMovementAbilityPressed(Player p) => false;
     public virtual bool OnMovementAbilityReleased(Player p) => false;
