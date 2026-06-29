@@ -142,6 +142,7 @@ public class SimpleEnemyAttackPattern : MonoBehaviour
     public void OnParried()
     {
         Debug.Log($"{name} was parried");
+        enemy.isMarked = true;
         EnterRecovery();
     }
 

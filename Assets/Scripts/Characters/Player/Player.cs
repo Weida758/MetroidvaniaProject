@@ -42,6 +42,7 @@ public class Player : MonoBehaviour, IDataPersistence
 
     [HideInInspector] public bool isDashing = false;
     [HideInInspector] public bool isAiming = false;
+    [HideInInspector] public bool isChoosing = false;
 
     [field: SerializeField] public float lungeTime;
     [DisplayOnly] public float lungeHeldTime;

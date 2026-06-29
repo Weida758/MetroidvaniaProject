@@ -8,8 +8,10 @@ public class DaggerWeapon : Weapon
     public float dashSpeed = 20f;
     public float dashTime = 0.2f;
     public float dashCooldown = 1f;
+    public float chooseSlowmo = 0.25f;
 
     private float dashCDRemaining;
+    private float executeCDRemaining;
 
     public override void OnEquip(Player p)
     {
@@ -21,6 +23,7 @@ public class DaggerWeapon : Weapon
     {
         base.WeaponUpdate(ref p);
         if (dashCDRemaining > 0f) dashCDRemaining -= Time.deltaTime;
+        if (executeCDRemaining > 0f) executeCDRemaining -= Time.deltaTime;
     }
 
     public override bool OnMovementAbilityPressed(Player p)
@@ -34,7 +37,27 @@ public class DaggerWeapon : Weapon
         StartDashCooldown();
         return true;
     }
+     public override bool OnSpecialAttackPressed(Player p)
+    {
+        if (!ExecuteReady) return false;
+        if (p.actions == null) return false;
+        if (p.actions.currentState is ExecuteChooseAction) return false;
+        p.actions.Enter(new ExecuteChooseAction(p.actions.machine, p, chooseSlowmo));
+        
+        return true;
+    }
+
+    public override bool OnSpecialAttackReleased(Player p)
+    {  
+        if (!(p.actions.currentState is ExecuteChooseAction Choice)) return false;
+
+        p.actions.Enter(new ExecuteAction(p.actions.machine,p));
+        return true;
+        
+    }
+    
 
     public bool DashReady => dashCDRemaining <= 0f;
+    public bool ExecuteReady => executeCDRemaining <= 0f;
     public void StartDashCooldown() => dashCDRemaining = dashCooldown;
 }

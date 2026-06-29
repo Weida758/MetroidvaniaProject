@@ -208,6 +208,15 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""E"",
+                    ""type"": ""Button"",
+                    ""id"": ""2d661ba4-17fe-4e7f-b575-9c212b3ca3b9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -408,6 +417,17 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
                     ""action"": ""Magic Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0175d9ff-f932-4caf-888f-19e7f56011b8"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""E"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -429,6 +449,7 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
         m_Player_Mouse = m_Player.FindAction("Mouse", throwIfNotFound: true);
         m_Player_Up = m_Player.FindAction("Up", throwIfNotFound: true);
         m_Player_MagicAttack = m_Player.FindAction("Magic Attack", throwIfNotFound: true);
+        m_Player_E = m_Player.FindAction("E", throwIfNotFound: true);
     }
 
     ~@PlayerInputsActions()
@@ -522,6 +543,7 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Mouse;
     private readonly InputAction m_Player_Up;
     private readonly InputAction m_Player_MagicAttack;
+    private readonly InputAction m_Player_E;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -585,6 +607,10 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/MagicAttack".
         /// </summary>
         public InputAction @MagicAttack => m_Wrapper.m_Player_MagicAttack;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/E".
+        /// </summary>
+        public InputAction @E => m_Wrapper.m_Player_E;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -650,6 +676,9 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
             @MagicAttack.started += instance.OnMagicAttack;
             @MagicAttack.performed += instance.OnMagicAttack;
             @MagicAttack.canceled += instance.OnMagicAttack;
+            @E.started += instance.OnE;
+            @E.performed += instance.OnE;
+            @E.canceled += instance.OnE;
         }
 
         /// <summary>
@@ -700,6 +729,9 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
             @MagicAttack.started -= instance.OnMagicAttack;
             @MagicAttack.performed -= instance.OnMagicAttack;
             @MagicAttack.canceled -= instance.OnMagicAttack;
+            @E.started -= instance.OnE;
+            @E.performed -= instance.OnE;
+            @E.canceled -= instance.OnE;
         }
 
         /// <summary>
@@ -831,5 +863,12 @@ public partial class @PlayerInputsActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMagicAttack(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "E" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnE(InputAction.CallbackContext context);
     }
 }

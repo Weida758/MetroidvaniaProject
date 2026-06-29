@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
     [DisplayOnly] public float lightningCooldown;
     [DisplayOnly] public bool isSpeared;
     [DisplayOnly] public bool isFreezed;
+    [DisplayOnly] public bool isMarked;
     public string weight;
     [DisplayOnly] public bool stunned=false;
     public Rigidbody2D rb { get; private set; }

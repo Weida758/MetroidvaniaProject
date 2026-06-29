@@ -20,6 +20,7 @@ public class PlayerInputs : MonoBehaviour
     private InputAction mouseAction;
     private InputAction upAction;
     private InputAction magicAttackAction;
+    private InputAction eAction;
     
 
     // ---------- Input Data ----------------
@@ -48,6 +49,7 @@ public class PlayerInputs : MonoBehaviour
     public bool magicAttackPressed{ get; private set; }
 
     public bool upCurrentlyPressed{ get; private set; }
+    public bool ePressed {get; private set;}
 
 
 
@@ -71,6 +73,7 @@ public class PlayerInputs : MonoBehaviour
             mouseAction = inputMap.FindAction("Mouse");
             upAction = inputMap.FindAction("Up");
             magicAttackAction = inputMap.FindAction("Magic Attack");
+            eAction = inputMap.FindAction("E");
         }
         else
         {
@@ -110,6 +113,7 @@ public class PlayerInputs : MonoBehaviour
         upCurrentlyPressed = upAction.IsPressed();
         downCurrentlyPressed = downAction.IsPressed();
         magicAttackPressed = magicAttackAction.WasPressedThisFrame();
+        ePressed = eAction.WasPressedThisFrame();
 
     }
     
