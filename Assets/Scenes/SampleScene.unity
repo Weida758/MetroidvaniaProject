@@ -289,6 +289,7 @@ GameObject:
   - component: {fileID: 326919611}
   - component: {fileID: 326919610}
   - component: {fileID: 326919613}
+  - component: {fileID: 326919614}
   m_Layer: 8
   m_Name: Enemy (1)
   m_TagString: Untagged
@@ -431,6 +432,24 @@ MonoBehaviour:
   lightningCooldown: 0
   isSpeared: 0
   weight: 
+  stunned: 0
+--- !u!114 &326919614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326919609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
+  lightningCooldown: 0
+  isSpeared: 0
+  isFreezed: 0
+  isMarked: 0
+  weight:
   stunned: 0
 --- !u!1 &330585543
 GameObject:
@@ -597,6 +616,7 @@ GameObject:
   - component: {fileID: 384662795}
   - component: {fileID: 384662797}
   - component: {fileID: 384662798}
+  - component: {fileID: 384662801}
   - component: {fileID: 384662800}
   - component: {fileID: 384662799}
   m_Layer: 8
@@ -741,6 +761,24 @@ MonoBehaviour:
   lightningCooldown: 0
   isSpeared: 0
   weight: 
+  stunned: 0
+--- !u!114 &384662801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384662794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
+  lightningCooldown: 0
+  isSpeared: 0
+  isFreezed: 0
+  isMarked: 0
+  weight:
   stunned: 0
 --- !u!114 &384662799
 MonoBehaviour:
@@ -1457,6 +1495,7 @@ GameObject:
   - component: {fileID: 808880941}
   - component: {fileID: 808880943}
   - component: {fileID: 808880942}
+  - component: {fileID: 808880946}
   - component: {fileID: 808880945}
   - component: {fileID: 808880944}
   m_Layer: 8
@@ -1602,6 +1641,24 @@ MonoBehaviour:
   isSpeared: 0
   weight: Light
   stunned: 0
+--- !u!114 &808880946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808880938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
+  lightningCooldown: 0
+  isSpeared: 0
+  isFreezed: 0
+  isMarked: 0
+  weight: Light
+  stunned: 0
 --- !u!114 &808880943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1714,6 +1771,7 @@ GameObject:
   - component: {fileID: 841988901}
   - component: {fileID: 841988900}
   - component: {fileID: 841988899}
+  - component: {fileID: 841988903}
   m_Layer: 8
   m_Name: Enemy (3)
   m_TagString: Untagged
@@ -1736,6 +1794,24 @@ MonoBehaviour:
   lightningCooldown: 0
   isSpeared: 0
   weight: 
+  stunned: 0
+--- !u!114 &841988903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841988898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
+  lightningCooldown: 0
+  isSpeared: 0
+  isFreezed: 0
+  isMarked: 0
+  weight:
   stunned: 0
 --- !u!61 &841988900
 BoxCollider2D:
@@ -2027,6 +2103,7 @@ GameObject:
   - component: {fileID: 1217678222}
   - component: {fileID: 1217678221}
   - component: {fileID: 1217678224}
+  - component: {fileID: 1217678225}
   m_Layer: 8
   m_Name: Enemy (2)
   m_TagString: Untagged
@@ -2169,6 +2246,24 @@ MonoBehaviour:
   lightningCooldown: 0
   isSpeared: 0
   weight: 
+  stunned: 0
+--- !u!114 &1217678225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1217678220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
+  lightningCooldown: 0
+  isSpeared: 0
+  isFreezed: 0
+  isMarked: 0
+  weight:
   stunned: 0
 --- !u!1 &1222596503
 GameObject:
