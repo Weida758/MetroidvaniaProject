@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SimpleEnemyAttackPattern : MonoBehaviour
+public class SimpleEnemyAttackPattern : MonoBehaviour, IParryable
 {
     private enum AttackState
     {

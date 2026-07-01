@@ -4,6 +4,8 @@ using Sirenix.OdinInspector;
 
 public class Player : MonoBehaviour, IDataPersistence
 {
+    public static Player instance { get; private set; }
+
     public PlayerInputs inputs { get; private set; }
 
     //---------- Debug --------------------
@@ -57,6 +59,7 @@ public class Player : MonoBehaviour, IDataPersistence
 
     private void Awake()
     {
+        instance = this;
         inputs = GetComponent<PlayerInputs>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();

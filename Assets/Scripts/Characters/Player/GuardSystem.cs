@@ -53,20 +53,20 @@ public class GuardSystem : MonoBehaviour
         Debug.Log($"{name} stopped guarding");
     }
 
-    public bool TryGuard(SimpleEnemyAttackPattern attack)
+    public bool TryGuard(IParryable attack)
     {
         if (attack == null) return false;
 
         if (IsParrying && attack.IsParryable)
         {
-            Debug.Log($"{name} parried {attack.name}");
+            Debug.Log($"{name} parried an attack");
             attack.OnParried();
             return true;
         }
 
         if (IsBlocking && attack.IsAttackActive)
         {
-            Debug.Log($"{name} blocked {attack.name}");
+            Debug.Log($"{name} blocked an attack");
             return true;
         }
 

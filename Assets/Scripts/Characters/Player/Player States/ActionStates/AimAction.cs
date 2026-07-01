@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 /// <summary>Spear throw aim phase. Slows time, clamps the cursor near screen center, rotates the aim indicator.</summary>
 public class AimAction : ActionState
 {
-    private readonly float slowmoScale;
+    private readonly float slowMotionScale;
     private readonly float warpRadius; 
     private readonly float initialOffset; 
 
@@ -14,15 +14,16 @@ public class AimAction : ActionState
                      float initialOffset = 15f)
         : base(sm, "Aim", player)
     {
-        this.slowmoScale   = slowmoScale;
-        this.warpRadius    = warpRadius;
+        
+        this.slowMotionScale = slowmoScale;
+        this.warpRadius = warpRadius;
         this.initialOffset = initialOffset;
     }
 
     public override void Enter()
     {
         base.Enter();
-        Time.timeScale = slowmoScale;
+        Time.timeScale = slowMotionScale;
         player.isAiming = true;
         WarpCursorInitial();
     }
@@ -63,10 +64,11 @@ public class AimAction : ActionState
         Mouse.current.WarpCursorPosition(warp);
     }
 
+    
     private void UpdateCursorAndAimRotation()
     {
         Vector2 center = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        Vector2 mouse  = player.GetMousePosition();
+        Vector2 mouse = player.GetMousePosition();
         Vector2 direction = mouse - center;
         
         if (mouse.y > center.y + warpRadius || mouse.x > center.x + warpRadius ||

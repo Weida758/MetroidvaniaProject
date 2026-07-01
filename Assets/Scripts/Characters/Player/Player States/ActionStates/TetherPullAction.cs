@@ -8,6 +8,9 @@ public class TetherPullAction : ActionState
     private readonly GameObject projectile;
     private readonly float pullSpeed;
 
+    private Collider2D playerCollider;
+    private Collider2D enemyCollider;
+
     public TetherPullAction(StateMachine sm, Player player,
                             Vector2 targetPoint, GameObject targetEnemy,
                             GameObject projectile, float pullSpeed = 25f)
@@ -15,8 +18,8 @@ public class TetherPullAction : ActionState
     {
         this.targetPoint = targetPoint;
         this.targetEnemy = targetEnemy;
-        this.projectile  = projectile;
-        this.pullSpeed   = pullSpeed;
+        this.projectile = projectile;
+        this.pullSpeed = pullSpeed;
     }
 
     public override void Enter()
@@ -24,6 +27,8 @@ public class TetherPullAction : ActionState
         base.Enter();
         player.lockMovement = true;
         player.SpearEnemy = targetEnemy;
+        playerCollider = player.GetComponent<Collider2D>();
+        enemyCollider = targetEnemy.GetComponent<Collider2D>();
         targetEnemy.GetComponent<Enemy>().isSpeared = true;
         player.SpearHit = targetPoint;
         player.SpearDistance = targetPoint - (Vector2)player.transform.position;
@@ -51,7 +56,7 @@ public class TetherPullAction : ActionState
             player.SpearDistance = distance;
         
 
-        if (player.collidedObject == targetEnemy)
+        if (playerCollider.Distance(enemyCollider).distance <= 0.05f)
         {
             player.rb.linearVelocity = Vector2.zero;
             if (projectile != null) Object.Destroy(projectile);
@@ -66,10 +71,11 @@ public class TetherPullAction : ActionState
     public override void Exit()
     {
         base.Exit();
-        player.lockMovement    = false;
+        player.lockMovement = false;
         player.lockStateChange = false;
         targetEnemy.GetComponent<Enemy>().isSpeared = false;
-        player.SpearHit        = Vector2.zero;
-        player.SpearDistance   = Vector2.zero;
+        targetEnemy.GetComponent<Enemy>().SuppressContactDamage(0.5f);
+        player.SpearHit = Vector2.zero;
+        player.SpearDistance = Vector2.zero;
     }
 }
