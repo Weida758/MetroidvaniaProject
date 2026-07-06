@@ -50,8 +50,12 @@ public class DaggerWeapon : Weapon
     public override bool OnSpecialAttackReleased(Player p)
     {  
         if (!(p.actions.currentState is ExecuteChooseAction Choice)) return false;
-
-        p.actions.Enter(new ExecuteAction(p.actions.machine,p));
+        if (Choice.GetExecutedEnemy() !=null){
+        p.actions.Enter(new ExecuteAction(p.actions.machine,p,Choice.GetExecutedEnemy()));
+        }
+        else{
+        p.actions.ExitToNone();
+        }
         return true;
         
     }

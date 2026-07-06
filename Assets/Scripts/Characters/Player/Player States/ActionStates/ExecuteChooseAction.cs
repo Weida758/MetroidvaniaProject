@@ -4,8 +4,11 @@ using System.Collections.Generic;
 public class ExecuteChooseAction : ActionState
 {
     public Enemy ExecutedEnemy { get; private set; }
-    public List<Collider2D> EnemiesList;
+    public int EnemyIndex = 0;
+    public List<(Collider2D Enemy, float Distance)> EnemiesList = new List<(Collider2D Enemy, float Distance)>();
     private readonly float slowmoScale;
+
+    private float slowmoStartTimer;
      public ExecuteChooseAction(StateMachine sm, Player player,float slowmoScale = 0.25f)
         : base(sm, "Execute", player)
     {
@@ -15,11 +18,12 @@ public class ExecuteChooseAction : ActionState
     public override void Enter()
     {
         base.Enter();
-        Time.timeScale = slowmoScale;
+        slowmoStartTimer = 0.15f;
+        //Time.timeScale = slowmoScale;
         player.isChoosing = true;
 
-
        ClosestEnemy();
+
     }
 
     public override void Update()
@@ -32,15 +36,24 @@ public class ExecuteChooseAction : ActionState
         {
             SwitchEnemyLeft();
         }
+        if(slowmoStartTimer<= 0)
+        {
+            Time.timeScale = slowmoScale;
+        }
+        else
+        {
+            slowmoStartTimer-= Time.deltaTime;
+        }
 
         if (player.GetSpecialAttackReleasedInput())
             player.inventory.currentWeapon?.OnSpecialAttackReleased(player);
     }
      private void ClosestEnemy()
     {
-        EnemiesList.Clear();
-        int ClosestEnemyIndex =0;
-        int listIndex=0;
+        if(EnemiesList.Count>0){
+            EnemiesList.Clear();
+        }
+        
         float ClosestEnemyDistance = Mathf.Infinity;
         Collider2D[] Enemies  = Physics2D.OverlapCircleAll(player.transform.position, 15f, 1 << LayerMask.NameToLayer("Enemy"));
         if(Enemies.Length != 0)
@@ -53,21 +66,46 @@ public class ExecuteChooseAction : ActionState
             }
             else
             {
-                EnemiesList.Add(c); 
-                listIndex++;
                 float Distance = (c.transform.position - player.transform.position).sqrMagnitude;
-                if (Distance < ClosestEnemyDistance)
-                {
-                    ClosestEnemyDistance = Distance;
-                    ClosestEnemyIndex = listIndex;
-                    ExecutedEnemy = c.gameObject.GetComponent<Enemy>();
-                }
+                EnemiesList.Add((c,Distance)); 
+               
             }
         }
-            
+        EnemiesList.Sort((x, y) => x.Distance.CompareTo(y.Distance));
+        if(EnemiesList.Count>0){
+            ExecutedEnemy = EnemiesList[0].Enemy.GetComponent<Enemy>();
+            EnemyIndex=0;
+            ExecutedEnemy.isTarget = true;
+        }
         }
     }
-    private void SwitchEnemyLeft(){}
-    private void SwitchEnemyRight(){}
+    private void SwitchEnemyLeft()
+    {
+        if(EnemiesList.Count>0){
+            ExecutedEnemy.isTarget = false;
+            EnemyIndex = (EnemyIndex-1 + EnemiesList.Count )%EnemiesList.Count;
+            ExecutedEnemy = EnemiesList[EnemyIndex].Enemy.GetComponent<Enemy>();
+            ExecutedEnemy.isTarget = true;
+        }
+    }
+    private void SwitchEnemyRight()
+    {
+        if(EnemiesList.Count>0){
+            ExecutedEnemy.isTarget = false;
+            EnemyIndex = EnemyIndex+1%EnemiesList.Count;
+            ExecutedEnemy = EnemiesList[EnemyIndex].Enemy.GetComponent<Enemy>();
+            ExecutedEnemy.isTarget = true;
+        }
+    }
+    public Enemy GetExecutedEnemy()
+    {
+        return ExecutedEnemy;   
+    }
+    public override void Exit()
+    {
+        base.Exit();
+        Time.timeScale = 1f;
+        player.isChoosing = false;
+    }
 
 }

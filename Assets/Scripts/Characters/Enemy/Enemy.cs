@@ -11,7 +11,8 @@ public class Enemy : MonoBehaviour
     [DisplayOnly] public float lightningCooldown;
     [DisplayOnly] public bool isSpeared;
     [DisplayOnly] public bool isFreezed;
-    [DisplayOnly] public bool isMarked;
+    public bool isMarked;
+    [DisplayOnly] public bool isTarget;
     [DisplayOnly] public bool stunned = false;
     [DisplayOnly] [SerializeField] private string currentState;
 
@@ -81,6 +82,13 @@ public class Enemy : MonoBehaviour
         if (contactGrace > 0f)
         {
             contactGrace -= Time.deltaTime;
+        }
+        if (isTarget){
+            rb.GetComponent<SpriteRenderer>().color=Color.red;
+
+        }
+        else{
+            rb.GetComponent<SpriteRenderer>().color=Color.white;
         }
 
         brain.Tick();
