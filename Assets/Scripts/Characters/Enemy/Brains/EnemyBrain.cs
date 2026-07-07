@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(Enemy))]
 public abstract class EnemyBrain : MonoBehaviour
@@ -9,6 +10,7 @@ public abstract class EnemyBrain : MonoBehaviour
 
     private EnemyState initialState;
     private EnemyState current;
+    private string lastTransition = "None";
 
     private readonly Dictionary<EnemyState, List<EnemyTransition>> transitions = new Dictionary<EnemyState, List<EnemyTransition>>();
     private readonly List<EnemyTransition> anyTransitions = new List<EnemyTransition>();
@@ -19,32 +21,71 @@ public abstract class EnemyBrain : MonoBehaviour
         Build();
     }
 
-    protected abstract void Build();
+    protected virtual void Build()
+    {
+    }
 
     public EnemyState Current
     {
         get { return current; }
     }
 
-    public void Begin()
+    [ShowInInspector, ReadOnly, BoxGroup("State Debug")]
+    public string CurrentState
     {
-        current = initialState;
-        current.Enter();
+        get { return current != null ? current.GetType().Name : "None"; }
     }
 
-    public void Tick()
+    [ShowInInspector, ReadOnly, BoxGroup("State Debug")]
+    public string InitialState
     {
+        get { return initialState != null ? initialState.GetType().Name : "None"; }
+    }
+
+    [ShowInInspector, ReadOnly, BoxGroup("State Debug")]
+    public string LastTransition
+    {
+        get { return lastTransition; }
+    }
+
+    public virtual string DebugStateName
+    {
+        get { return current != null ? current.GetType().Name : GetType().Name; }
+    }
+
+    public virtual void Begin()
+    {
+        current = initialState;
+        lastTransition = "Begin";
+        if (current != null)
+        {
+            current.Enter();
+        }
+    }
+
+    public virtual void Tick()
+    {
+        if (current == null)
+        {
+            return;
+        }
+
         EnemyTransition triggered = GetTriggered();
         if (triggered != null)
         {
-            SwitchTo(triggered.Target);
+            SwitchTo(triggered);
         }
 
         current.Update();
     }
 
-    public void FixedTick()
+    public virtual void FixedTick()
     {
+        if (current == null)
+        {
+            return;
+        }
+
         current.FixedUpdate();
     }
 
@@ -53,19 +94,19 @@ public abstract class EnemyBrain : MonoBehaviour
         initialState = state;
     }
 
-    protected void AddTransition(EnemyState from, EnemyState to, Func<bool> condition)
+    protected void AddTransition(EnemyState from, EnemyState to, Func<bool> condition, string name = null)
     {
         if (!transitions.ContainsKey(from))
         {
             transitions[from] = new List<EnemyTransition>();
         }
 
-        transitions[from].Add(new EnemyTransition(to, condition));
+        transitions[from].Add(new EnemyTransition(TransitionName(from, to, name), to, condition));
     }
 
-    protected void AddAnyTransition(EnemyState to, Func<bool> condition)
+    protected void AddAnyTransition(EnemyState to, Func<bool> condition, string name = null)
     {
-        anyTransitions.Add(new EnemyTransition(to, condition));
+        anyTransitions.Add(new EnemyTransition(TransitionName(null, to, name), to, condition));
     }
 
     private EnemyTransition GetTriggered()
@@ -92,15 +133,29 @@ public abstract class EnemyBrain : MonoBehaviour
         return null;
     }
 
-    private void SwitchTo(EnemyState next)
+    private void SwitchTo(EnemyTransition transition)
     {
+        EnemyState next = transition.Target;
         if (next == current)
         {
             return;
         }
 
         current.Exit();
+        lastTransition = transition.Name;
         current = next;
         current.Enter();
+    }
+
+    private static string TransitionName(EnemyState from, EnemyState to, string name)
+    {
+        if (!string.IsNullOrWhiteSpace(name))
+        {
+            return name;
+        }
+
+        string fromName = from != null ? from.GetType().Name : "Any";
+        string toName = to != null ? to.GetType().Name : "None";
+        return $"{fromName} -> {toName}";
     }
 }

@@ -104,6 +104,11 @@ public class ExecuteChooseAction : ActionState
     public override void Exit()
     {
         base.Exit();
+        if (ExecutedEnemy != null)
+        {
+            ExecutedEnemy.isTarget = false;
+        }
+
         Time.timeScale = 1f;
         player.isChoosing = false;
     }

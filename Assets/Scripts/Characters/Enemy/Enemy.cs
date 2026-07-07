@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(HealthSystem))]
@@ -7,6 +8,13 @@ public class Enemy : MonoBehaviour
 {
     [Header("Identity")]
     public string weight;
+
+    [BoxGroup("Combat")]
+    [MinValue(0f)]
+    [SerializeField] private float attackFacingDeadZone = 0.15f;
+
+    [BoxGroup("Execute Targeting")]
+    [SerializeField] private Color executeTargetColor = Color.red;
 
     [DisplayOnly] public float lightningCooldown;
     [DisplayOnly] public bool isSpeared;
@@ -29,6 +37,10 @@ public class Enemy : MonoBehaviour
     [DisplayOnly] public float contactGrace;
 
     private Player player;
+    private SpriteRenderer spriteRenderer;
+    private Color defaultSpriteColor;
+    private bool lastIsTarget;
+
     public Transform Target => player != null ? player.transform : null;
     public bool HasTarget => player != null;
     public float DistanceToTarget => player != null ? Vector2.Distance(player.transform.position, transform.position) : Mathf.Infinity;
@@ -37,7 +49,8 @@ public class Enemy : MonoBehaviour
     public int FacingDirection { get; private set; } = 1;
     public bool CanAct => !isFreezed && !stunned && !isSpeared;
     public bool InAttackRange => attack != null && DistanceToTarget <= attack.Range;
-    public bool CanAttack => InAttackRange && attackCooldown <= 0f;
+    public bool IsFacingTarget => HasTarget && IsFacingPosition(player.transform.position);
+    public bool CanAttack => InAttackRange && IsFacingTarget && attackCooldown <= 0f;
 
     private void Awake()
     {
@@ -49,22 +62,41 @@ public class Enemy : MonoBehaviour
         attack = GetComponent<IEnemyAttack>();
         telegraph = GetComponent<EnemyAttackTelegraph>();
         brain = GetComponent<EnemyBrain>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        if (spriteRenderer != null)
+        {
+            defaultSpriteColor = spriteRenderer.color;
+        }
     }
 
     private void OnEnable()
     {
-        health.OnDeath += HandleDeath;
+        if (health != null)
+        {
+            health.OnDeath += HandleDeath;
+        }
     }
 
     private void OnDisable()
     {
-        health.OnDeath -= HandleDeath;
+        if (health != null)
+        {
+            health.OnDeath -= HandleDeath;
+        }
     }
 
     private void Start()
     {
         player = Player.instance;
-        brain.Begin();
+        if (brain != null)
+        {
+            brain.Begin();
+        }
+        else
+        {
+            Debug.LogError($"{name} has no EnemyBrain component.", this);
+        }
     }
 
     private void Update()
@@ -83,21 +115,22 @@ public class Enemy : MonoBehaviour
         {
             contactGrace -= Time.deltaTime;
         }
-        if (isTarget){
-            rb.GetComponent<SpriteRenderer>().color=Color.red;
 
-        }
-        else{
-            rb.GetComponent<SpriteRenderer>().color=Color.white;
-        }
+        UpdateExecuteTargetVisual();
 
-        brain.Tick();
-        currentState = brain.Current.GetType().Name;
+        if (brain != null)
+        {
+            brain.Tick();
+            currentState = brain.DebugStateName;
+        }
     }
 
     private void FixedUpdate()
     {
-        brain.FixedTick();
+        if (brain != null)
+        {
+            brain.FixedTick();
+        }
     }
 
     private void HandleDeath()
@@ -133,6 +166,28 @@ public class Enemy : MonoBehaviour
         {
             Flip();
         }
+    }
+
+    private bool IsFacingPosition(Vector2 position)
+    {
+        float xDelta = position.x - transform.position.x;
+        if (Mathf.Abs(xDelta) <= attackFacingDeadZone)
+        {
+            return true;
+        }
+
+        return Mathf.Sign(xDelta) == FacingDirection;
+    }
+
+    private void UpdateExecuteTargetVisual()
+    {
+        if (spriteRenderer == null || lastIsTarget == isTarget)
+        {
+            return;
+        }
+
+        spriteRenderer.color = isTarget ? executeTargetColor : defaultSpriteColor;
+        lastIsTarget = isTarget;
     }
 
     public void Flip()

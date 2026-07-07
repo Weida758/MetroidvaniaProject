@@ -44,7 +44,9 @@ public class Enemy_AttackState : EnemyState, IParryable
     public override void Enter()
     {
         attack = enemy.attack;
+        enemy.perception?.SetCombatMode(true);
         enemy.Stop();
+        attack.OnAttackSequenceStart(enemy);
         EnterPhase(Phase.Telegraph);
     }
 
@@ -83,7 +85,14 @@ public class Enemy_AttackState : EnemyState, IParryable
                 attack.OnActiveFrame(enemy, this);
                 if (timer <= 0f)
                 {
-                    EnterPhase(Phase.Recovery);
+                    if (attack.TryAdvanceStep(enemy))
+                    {
+                        EnterPhase(Phase.Telegraph);
+                    }
+                    else
+                    {
+                        EnterPhase(Phase.Recovery);
+                    }
                 }
                 break;
             case Phase.Recovery:
@@ -93,6 +102,16 @@ public class Enemy_AttackState : EnemyState, IParryable
                 }
                 break;
         }
+    }
+
+    public override void FixedUpdate()
+    {
+        if (phase == Phase.Done || attack == null)
+        {
+            return;
+        }
+
+        attack.OnPhaseFixedUpdate(enemy, ToEnemyAttackPhase(phase));
     }
 
     private void EnterPhase(Phase next)
@@ -114,6 +133,21 @@ public class Enemy_AttackState : EnemyState, IParryable
         }
 
         UpdateTelegraphVisual();
+    }
+
+    private static EnemyAttackPhase ToEnemyAttackPhase(Phase phase)
+    {
+        if (phase == Phase.Active)
+        {
+            return EnemyAttackPhase.Active;
+        }
+
+        if (phase == Phase.Recovery)
+        {
+            return EnemyAttackPhase.Recovery;
+        }
+
+        return EnemyAttackPhase.Telegraph;
     }
 
     private void Finish()

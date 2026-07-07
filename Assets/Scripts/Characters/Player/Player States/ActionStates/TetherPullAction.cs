@@ -10,6 +10,7 @@ public class TetherPullAction : ActionState
 
     private Collider2D playerCollider;
     private Collider2D enemyCollider;
+    private Enemy enemy;
 
     public TetherPullAction(StateMachine sm, Player player,
                             Vector2 targetPoint, GameObject targetEnemy,
@@ -29,7 +30,8 @@ public class TetherPullAction : ActionState
         player.SpearEnemy = targetEnemy;
         playerCollider = player.GetComponent<Collider2D>();
         enemyCollider = targetEnemy.GetComponent<Collider2D>();
-        targetEnemy.GetComponent<Enemy>().isSpeared = true;
+        enemy = targetEnemy.GetComponent<Enemy>();
+        enemy.isSpeared = true;
         player.SpearHit = targetPoint;
         player.SpearDistance = targetPoint - (Vector2)player.transform.position;
     }
@@ -41,14 +43,14 @@ public class TetherPullAction : ActionState
 
             Vector2 distance = targetPoint - (Vector2)player.transform.position;
             if (distance.sqrMagnitude > 0.0001f){
-                if(targetEnemy.GetComponent<Enemy>().weight == "Heavy" || targetEnemy.GetComponent<Enemy>().weight == "Medium" ){
+                if(enemy.weight == "Heavy" || enemy.weight == "Medium" ){
                     player.SetVelocity(distance.normalized.x * pullSpeed,
                                     distance.normalized.y * pullSpeed);
-                    targetEnemy.GetComponent<Enemy>().SetVelocity(0, 0);
+                    enemy.SetVelocity(0, 0);
                 }
                 else
                 {
-                    targetEnemy.GetComponent<Enemy>().SetVelocity(distance.normalized.x * -pullSpeed,
+                    enemy.SetVelocity(distance.normalized.x * -pullSpeed,
                                 distance.normalized.y * -pullSpeed);
                     player.SetVelocity(0, 0);
                 }
@@ -59,10 +61,11 @@ public class TetherPullAction : ActionState
         if (playerCollider.Distance(enemyCollider).distance <= 0.05f)
         {
             player.rb.linearVelocity = Vector2.zero;
+            enemy.SetVelocity(0, 0);
             if (projectile != null) Object.Destroy(projectile);
-            if(targetEnemy.GetComponent<Enemy>().weight == "Light")
+            if(enemy.weight == "Light")
             {
-                targetEnemy.GetComponent<Enemy>().StartCoroutine(targetEnemy.GetComponent<Enemy>().Stun(0.5f));
+                enemy.StartCoroutine(enemy.Stun(0.5f));
             }
             player.actions.ExitToNone();
         }
@@ -73,8 +76,9 @@ public class TetherPullAction : ActionState
         base.Exit();
         player.lockMovement = false;
         player.lockStateChange = false;
-        targetEnemy.GetComponent<Enemy>().isSpeared = false;
-        targetEnemy.GetComponent<Enemy>().SuppressContactDamage(0.5f);
+        enemy.SetVelocity(0, 0);
+        enemy.isSpeared = false;
+        enemy.SuppressContactDamage(0.5f);
         player.SpearHit = Vector2.zero;
         player.SpearDistance = Vector2.zero;
     }

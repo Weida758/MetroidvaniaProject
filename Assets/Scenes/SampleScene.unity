@@ -288,8 +288,10 @@ GameObject:
   - component: {fileID: 326919612}
   - component: {fileID: 326919611}
   - component: {fileID: 326919610}
-  - component: {fileID: 326919613}
   - component: {fileID: 326919614}
+  - component: {fileID: 326919616}
+  - component: {fileID: 326919615}
+  - component: {fileID: 326919617}
   m_Layer: 8
   m_Name: Enemy (1)
   m_TagString: Untagged
@@ -417,7 +419,70 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &326919613
+--- !u!114 &326919614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326919609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
+  lightningCooldown: 0
+  isSpeared: 0
+  isFreezed: 0
+  isMarked: 0
+  weight: 
+  stunned: 0
+--- !u!114 &326919615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326919609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03b6e0ffa0da12459bd4450a0a50ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
+  maxHealth: 0
+  currentHealth: 0
+  maxHeals: 0
+  currentHeals: 0
+  healAmount: 0
+  healTime: 0
+--- !u!50 &326919616
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326919609}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &326919617
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -429,28 +494,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a603df5114a5a43be87e85c7feacd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  lightningCooldown: 0
-  isSpeared: 0
-  weight: 
-  stunned: 0
---- !u!114 &326919614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 326919609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
+  weight: Light
   lightningCooldown: 0
   isSpeared: 0
   isFreezed: 0
   isMarked: 0
-  weight:
   stunned: 0
+  currentState: 
+  attackCooldown: 0
+  contactGrace: 0
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,10 +667,11 @@ GameObject:
   - component: {fileID: 384662796}
   - component: {fileID: 384662795}
   - component: {fileID: 384662797}
-  - component: {fileID: 384662798}
   - component: {fileID: 384662801}
   - component: {fileID: 384662800}
   - component: {fileID: 384662799}
+  - component: {fileID: 384662802}
+  - component: {fileID: 384662803}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -746,40 +799,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &384662798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 384662794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7a603df5114a5a43be87e85c7feacd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  lightningCooldown: 0
-  isSpeared: 0
-  weight: 
-  stunned: 0
---- !u!114 &384662801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 384662794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
-  lightningCooldown: 0
-  isSpeared: 0
-  isFreezed: 0
-  isMarked: 0
-  weight:
-  stunned: 0
 --- !u!114 &384662799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -819,6 +838,63 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &384662801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384662794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
+  lightningCooldown: 0
+  isSpeared: 0
+  isFreezed: 0
+  isMarked: 0
+  weight: 
+  stunned: 0
+--- !u!114 &384662802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384662794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03b6e0ffa0da12459bd4450a0a50ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
+  maxHealth: 0
+  currentHealth: 0
+  maxHeals: 0
+  currentHeals: 0
+  healAmount: 0
+  healTime: 0
+--- !u!114 &384662803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384662794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a603df5114a5a43be87e85c7feacd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  weight: Light
+  lightningCooldown: 0
+  isSpeared: 0
+  isFreezed: 0
+  isMarked: 0
+  stunned: 0
+  currentState: 
+  attackCooldown: 0
+  contactGrace: 0
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1234,7 +1310,7 @@ GameObject:
   - component: {fileID: 700023856}
   - component: {fileID: 700023855}
   - component: {fileID: 700023854}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Aim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1494,10 +1570,11 @@ GameObject:
   - component: {fileID: 808880939}
   - component: {fileID: 808880941}
   - component: {fileID: 808880943}
-  - component: {fileID: 808880942}
   - component: {fileID: 808880946}
   - component: {fileID: 808880945}
   - component: {fileID: 808880944}
+  - component: {fileID: 808880947}
+  - component: {fileID: 808880948}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -1625,40 +1702,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &808880942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 808880938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7a603df5114a5a43be87e85c7feacd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  lightningCooldown: 0
-  isSpeared: 0
-  weight: Light
-  stunned: 0
---- !u!114 &808880946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 808880938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
-  lightningCooldown: 0
-  isSpeared: 0
-  isFreezed: 0
-  isMarked: 0
-  weight: Light
-  stunned: 0
 --- !u!114 &808880943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1710,6 +1753,63 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &808880946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808880938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
+  lightningCooldown: 0
+  isSpeared: 0
+  isFreezed: 0
+  isMarked: 0
+  weight: Light
+  stunned: 0
+--- !u!114 &808880947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808880938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03b6e0ffa0da12459bd4450a0a50ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
+  maxHealth: 0
+  currentHealth: 0
+  maxHeals: 0
+  currentHeals: 0
+  healAmount: 0
+  healTime: 0
+--- !u!114 &808880948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808880938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a603df5114a5a43be87e85c7feacd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  weight: Light
+  lightningCooldown: 0
+  isSpeared: 0
+  isFreezed: 0
+  isMarked: 0
+  stunned: 0
+  currentState: 
+  attackCooldown: 0
+  contactGrace: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1770,8 +1870,10 @@ GameObject:
   - component: {fileID: 841988902}
   - component: {fileID: 841988901}
   - component: {fileID: 841988900}
-  - component: {fileID: 841988899}
   - component: {fileID: 841988903}
+  - component: {fileID: 841988905}
+  - component: {fileID: 841988904}
+  - component: {fileID: 841988906}
   m_Layer: 8
   m_Name: Enemy (3)
   m_TagString: Untagged
@@ -1779,40 +1881,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &841988899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 841988898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7a603df5114a5a43be87e85c7feacd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  lightningCooldown: 0
-  isSpeared: 0
-  weight: 
-  stunned: 0
---- !u!114 &841988903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 841988898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
-  lightningCooldown: 0
-  isSpeared: 0
-  isFreezed: 0
-  isMarked: 0
-  weight:
-  stunned: 0
 --- !u!61 &841988900
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1933,6 +2001,90 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &841988903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841988898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
+  lightningCooldown: 0
+  isSpeared: 0
+  isFreezed: 0
+  isMarked: 0
+  weight: 
+  stunned: 0
+--- !u!114 &841988904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841988898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03b6e0ffa0da12459bd4450a0a50ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
+  maxHealth: 0
+  currentHealth: 0
+  maxHeals: 0
+  currentHeals: 0
+  healAmount: 0
+  healTime: 0
+--- !u!50 &841988905
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841988898}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &841988906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841988898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a603df5114a5a43be87e85c7feacd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  weight: Light
+  lightningCooldown: 0
+  isSpeared: 0
+  isFreezed: 0
+  isMarked: 0
+  stunned: 0
+  currentState: 
+  attackCooldown: 0
+  contactGrace: 0
 --- !u!1 &915897682
 GameObject:
   m_ObjectHideFlags: 0
@@ -2102,8 +2254,10 @@ GameObject:
   - component: {fileID: 1217678223}
   - component: {fileID: 1217678222}
   - component: {fileID: 1217678221}
-  - component: {fileID: 1217678224}
   - component: {fileID: 1217678225}
+  - component: {fileID: 1217678227}
+  - component: {fileID: 1217678226}
+  - component: {fileID: 1217678228}
   m_Layer: 8
   m_Name: Enemy (2)
   m_TagString: Untagged
@@ -2231,7 +2385,70 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1217678224
+--- !u!114 &1217678225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1217678220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
+  lightningCooldown: 0
+  isSpeared: 0
+  isFreezed: 0
+  isMarked: 0
+  weight: 
+  stunned: 0
+--- !u!114 &1217678226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1217678220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03b6e0ffa0da12459bd4450a0a50ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
+  maxHealth: 0
+  currentHealth: 0
+  maxHeals: 0
+  currentHeals: 0
+  healAmount: 0
+  healTime: 0
+--- !u!50 &1217678227
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1217678220}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &1217678228
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2243,28 +2460,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a603df5114a5a43be87e85c7feacd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  lightningCooldown: 0
-  isSpeared: 0
-  weight: 
-  stunned: 0
---- !u!114 &1217678225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1217678220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c0e6f345af94f5fbdd9f2f086a67d20, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::TESTENEMY
+  weight: Light
   lightningCooldown: 0
   isSpeared: 0
   isFreezed: 0
   isMarked: 0
-  weight:
   stunned: 0
+  currentState: 
+  attackCooldown: 0
+  contactGrace: 0
 --- !u!1 &1222596503
 GameObject:
   m_ObjectHideFlags: 0
@@ -2355,7 +2559,7 @@ GameObject:
   - component: {fileID: 1367675306}
   - component: {fileID: 1367675308}
   - component: {fileID: 1367675307}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2437,6 +2641,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2073008513366450685, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2679132586908442319, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.61
@@ -2480,6 +2688,10 @@ PrefabInstance:
     - target: {fileID: 4678016733106493431, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4678016733106493431, guid: d04d999b5ecd76e4a9bddc32d565bc63, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

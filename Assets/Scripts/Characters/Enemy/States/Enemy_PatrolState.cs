@@ -4,6 +4,11 @@ public class Enemy_PatrolState : EnemyState
     {
     }
 
+    public override void Enter()
+    {
+        enemy.perception?.SetCombatMode(false);
+    }
+
     public override void FixedUpdate()
     {
         if (BlockedByStatus())

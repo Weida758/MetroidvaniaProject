@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// For the purpose of debugging, change the color of the enemy during different phrases of an
+/// attack
+/// </summary>
 public class EnemyAttackTelegraph : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
