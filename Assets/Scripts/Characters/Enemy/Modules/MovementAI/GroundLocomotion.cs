@@ -38,7 +38,6 @@ public class GroundLocomotion : MonoBehaviour, ILocomotion
 
     protected Enemy enemy;
     protected int groundMask;
-    protected int wallMask;
     protected float patrolDirection = 1f;
     protected float pauseTimer;
     private float combatTurnTimer;
@@ -48,7 +47,6 @@ public class GroundLocomotion : MonoBehaviour, ILocomotion
     {
         enemy = GetComponent<Enemy>();
         groundMask = 1 << LayerMask.NameToLayer("Ground");
-        wallMask = 1 << LayerMask.NameToLayer("Wall");
     }
 
     public virtual void Patrol()
@@ -136,7 +134,7 @@ public class GroundLocomotion : MonoBehaviour, ILocomotion
 
     protected bool WallAhead(float direction)
     {
-        return Physics2D.Raycast(transform.position, new Vector2(direction, 0f), wallCheckDistance, wallMask);
+        return Physics2D.Raycast(transform.position, new Vector2(direction, 0f), wallCheckDistance, groundMask);
     }
 
     private float DirectionFromDelta(float xDelta)

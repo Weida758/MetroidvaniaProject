@@ -66,6 +66,6 @@ public abstract class LocomotionState : CharacterBaseState
             player.rb.transform.position,
             new Vector2(player.getFacingDirection(), 0),
             0.75f,
-            1 << LayerMask.NameToLayer("Wall"));
+            1 << LayerMask.NameToLayer("Ground"));
     }
 }

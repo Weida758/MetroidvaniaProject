@@ -37,7 +37,7 @@ public class SpearWeapon : Weapon
                 p.rb.transform.position,
                 new Vector2(p.getFacingDirection(), 0),
                 0.75f,
-                1 << LayerMask.NameToLayer("Wall"));
+                1 << LayerMask.NameToLayer("Ground"));
             
             if (p.getGrounded() && (initialLungeTime - p.lungeTime) >= 0.5f || wallHit)
             {

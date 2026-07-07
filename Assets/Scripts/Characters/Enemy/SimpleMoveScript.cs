@@ -22,7 +22,7 @@ public class SimpleMoveScript : MonoBehaviour
             rb.transform.position,
             new Vector2(direction, 0),
             1f,
-            1 << LayerMask.NameToLayer("Wall"));
+            1 << LayerMask.NameToLayer("Ground"));
         
 
         if(!floor || wall){

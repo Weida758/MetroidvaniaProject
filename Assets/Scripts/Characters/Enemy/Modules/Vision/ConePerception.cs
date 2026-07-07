@@ -37,7 +37,7 @@ public class ConePerception : MonoBehaviour, IPerception
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
-        visionBlockerMask = LayerMask.GetMask("Ground", "Wall");
+        visionBlockerMask = LayerMask.GetMask("Ground");
     }
 
     public void SetCombatMode(bool inCombat)
