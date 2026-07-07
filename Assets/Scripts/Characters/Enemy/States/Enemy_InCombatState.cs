@@ -1,5 +1,7 @@
 public class Enemy_InCombatState : EnemyState
 {
+    private bool holdingAttackPosition;
+
     public Enemy_InCombatState(Enemy enemy) : base(enemy)
     {
     }
@@ -7,6 +9,7 @@ public class Enemy_InCombatState : EnemyState
     public override void Enter()
     {
         enemy.perception?.SetCombatMode(true);
+        holdingAttackPosition = false;
     }
 
     public override void FixedUpdate()
@@ -23,6 +26,15 @@ public class Enemy_InCombatState : EnemyState
         }
 
         if (enemy.InAttackRange)
+        {
+            holdingAttackPosition = true;
+        }
+        else if (holdingAttackPosition && !enemy.ShouldHoldAttackPosition)
+        {
+            holdingAttackPosition = false;
+        }
+
+        if (holdingAttackPosition)
         {
             enemy.locomotion.Stop();
             enemy.locomotion.FaceCombatTarget(enemy.Target.position);

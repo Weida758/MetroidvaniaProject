@@ -87,6 +87,39 @@ public class AttackHitbox
         }
     }
 
+    public bool IsPositionWithinForwardReach(Transform origin, float facing, Vector2 position)
+    {
+        if (!enabled) return false;
+
+        facing = NormalizeFacing(facing);
+        Vector2 localPosition = new Vector2(
+            (position.x - origin.position.x) * facing,
+            position.y - origin.position.y);
+
+        float forwardReach;
+        float verticalReach;
+        switch (shape)
+        {
+            case AttackHitboxShape.Circle:
+                forwardReach = localOffset.x + radius;
+                verticalReach = radius;
+                break;
+            default:
+                forwardReach = localOffset.x + boxSize.x * 0.5f;
+                verticalReach = boxSize.y * 0.5f;
+                break;
+        }
+
+        if (forwardReach <= 0f)
+        {
+            return false;
+        }
+
+        bool inForwardReach = localPosition.x >= 0f && localPosition.x <= forwardReach;
+        bool inVerticalReach = Mathf.Abs(localPosition.y - localOffset.y) <= verticalReach;
+        return inForwardReach && inVerticalReach;
+    }
+
     public void DrawGizmos(Player player)
     {
         DrawGizmos(player.transform, GetFacing(player));

@@ -6,16 +6,19 @@ public class Enemy_AttackState : EnemyState, IParryable
     {
         Telegraph,
         Active,
+        PostActive,
         Recovery,
         Done
     }
 
     private IEnemyAttack attack;
+    private readonly string attackMoveName;
     private Phase phase;
     private float timer;
 
-    public Enemy_AttackState(Enemy enemy) : base(enemy)
+    public Enemy_AttackState(Enemy enemy, string attackMoveName = null) : base(enemy)
     {
+        this.attackMoveName = attackMoveName;
     }
 
     public bool IsFinished
@@ -46,6 +49,12 @@ public class Enemy_AttackState : EnemyState, IParryable
         attack = enemy.attack;
         enemy.perception?.SetCombatMode(true);
         enemy.Stop();
+
+        if (!string.IsNullOrWhiteSpace(attackMoveName) && !attack.TryUseSequence(attackMoveName))
+        {
+            Debug.LogWarning($"{enemy.name} could not find attack move '{attackMoveName}'. Falling back to current/default attack move.", enemy);
+        }
+
         attack.OnAttackSequenceStart(enemy);
         EnterPhase(Phase.Telegraph);
     }
@@ -76,27 +85,44 @@ public class Enemy_AttackState : EnemyState, IParryable
         switch (phase)
         {
             case Phase.Telegraph:
-                if (timer <= 0f)
+                if (attack.UsesAnimationEvents)
+                {
+                    if (attack.ConsumeActiveStarted())
+                    {
+                        EnterPhase(Phase.Active);
+                    }
+                }
+                else if (timer <= 0f)
                 {
                     EnterPhase(Phase.Active);
                 }
                 break;
             case Phase.Active:
                 attack.OnActiveFrame(enemy, this);
-                if (timer <= 0f)
+                if (attack.UsesAnimationEvents)
                 {
-                    if (attack.TryAdvanceStep(enemy))
+                    if (attack.ConsumeActiveEnded())
                     {
-                        EnterPhase(Phase.Telegraph);
+                        EnterPhase(Phase.PostActive);
                     }
-                    else
+                    else if (attack.ConsumeStepCompleted())
                     {
-                        EnterPhase(Phase.Recovery);
+                        AdvanceStepOrRecover();
                     }
+                }
+                else if (timer <= 0f)
+                {
+                    AdvanceStepOrRecover();
+                }
+                break;
+            case Phase.PostActive:
+                if (attack.UsesAnimationEvents && attack.ConsumeStepCompleted())
+                {
+                    AdvanceStepOrRecover();
                 }
                 break;
             case Phase.Recovery:
-                if (timer <= 0f)
+                if (timer <= 0f && !attack.HasPendingCompletionVelocity)
                 {
                     Finish();
                 }
@@ -127,11 +153,16 @@ public class Enemy_AttackState : EnemyState, IParryable
             timer = attack.ActiveTime;
             attack.OnAttackStart(enemy);
         }
+        else if (next == Phase.PostActive)
+        {
+            timer = 0f;
+        }
         else if (next == Phase.Recovery)
         {
             timer = attack.RecoveryTime;
         }
 
+        attack.OnPhaseEnter(enemy, ToEnemyAttackPhase(phase));
         UpdateTelegraphVisual();
     }
 
@@ -142,12 +173,29 @@ public class Enemy_AttackState : EnemyState, IParryable
             return EnemyAttackPhase.Active;
         }
 
+        if (phase == Phase.PostActive)
+        {
+            return EnemyAttackPhase.Recovery;
+        }
+
         if (phase == Phase.Recovery)
         {
             return EnemyAttackPhase.Recovery;
         }
 
         return EnemyAttackPhase.Telegraph;
+    }
+
+    private void AdvanceStepOrRecover()
+    {
+        if (attack.TryAdvanceStep(enemy))
+        {
+            EnterPhase(Phase.Telegraph);
+        }
+        else
+        {
+            EnterPhase(Phase.Recovery);
+        }
     }
 
     private void Finish()

@@ -53,6 +53,18 @@ public abstract class EnemyBrain : MonoBehaviour
         get { return current != null ? current.GetType().Name : GetType().Name; }
     }
 
+    public virtual void AnimEvent_Teleport()
+    {
+    }
+
+    public virtual void AnimEvent_CompleteVanish()
+    {
+    }
+
+    public virtual void AnimEvent_CompleteAppear()
+    {
+    }
+
     public virtual void Begin()
     {
         current = initialState;
