@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
+/// <summary>
+/// Base state-machine brain for enemies. Derived brains create states in Build(),
+/// register transition predicates, then Enemy calls Tick and FixedTick each frame.
+/// </summary>
 [RequireComponent(typeof(Enemy))]
 public abstract class EnemyBrain : MonoBehaviour
 {
@@ -53,19 +57,30 @@ public abstract class EnemyBrain : MonoBehaviour
         get { return current != null ? current.GetType().Name : GetType().Name; }
     }
     
-    // For enemies that have the ability to teleport
+    /// <summary>
+    /// Optional animation event hook for enemies with animation-driven action timing.
+    /// </summary>
     public virtual void AnimEvent_Teleport()
     {
     }
 
+    /// <summary>
+    /// Optional animation event hook used when a vanish animation has reached its completion point.
+    /// </summary>
     public virtual void AnimEvent_CompleteVanish()
     {
     }
 
+    /// <summary>
+    /// Optional animation event hook used when an appear animation has completed.
+    /// </summary>
     public virtual void AnimEvent_CompleteAppear()
     {
     }
 
+    /// <summary>
+    /// Enters the initial state after Enemy has finished gathering module references.
+    /// </summary>
     public virtual void Begin()
     {
         current = initialState;
@@ -76,6 +91,9 @@ public abstract class EnemyBrain : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Evaluates transitions first, then updates the active state.
+    /// </summary>
     public virtual void Tick()
     {
         if (current == null)
@@ -92,6 +110,9 @@ public abstract class EnemyBrain : MonoBehaviour
         current.Update();
     }
 
+    /// <summary>
+    /// Forwards physics-step behavior to the active state.
+    /// </summary>
     public virtual void FixedTick()
     {
         if (current == null)
@@ -102,11 +123,17 @@ public abstract class EnemyBrain : MonoBehaviour
         current.FixedUpdate();
     }
 
+    /// <summary>
+    /// Sets the first state used by Begin().
+    /// </summary>
     protected void SetInitial(EnemyState state)
     {
         initialState = state;
     }
 
+    /// <summary>
+    /// Registers a transition that is only checked while the source state is active.
+    /// </summary>
     protected void AddTransition(EnemyState from, EnemyState to, Func<bool> condition, string name = null)
     {
         if (!transitions.ContainsKey(from))
@@ -117,11 +144,17 @@ public abstract class EnemyBrain : MonoBehaviour
         transitions[from].Add(new EnemyTransition(TransitionName(from, to, name), to, condition));
     }
 
+    /// <summary>
+    /// Registers a transition that can fire from any current state except its own target.
+    /// </summary>
     protected void AddAnyTransition(EnemyState to, Func<bool> condition, string name = null)
     {
         anyTransitions.Add(new EnemyTransition(TransitionName(null, to, name), to, condition));
     }
 
+    /// <summary>
+    /// Finds the first valid transition, giving global transitions priority over state-local transitions.
+    /// </summary>
     private EnemyTransition GetTriggered()
     {
         foreach (EnemyTransition transition in anyTransitions)
@@ -146,6 +179,9 @@ public abstract class EnemyBrain : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// Leaves the current state, records the transition name for debugging, then enters the next state.
+    /// </summary>
     private void SwitchTo(EnemyTransition transition)
     {
         EnemyState next = transition.Target;

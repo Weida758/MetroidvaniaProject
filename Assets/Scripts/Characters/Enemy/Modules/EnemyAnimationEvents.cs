@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Animation-event relay for enemy clips. Attach this on the Animator object or a child under the enemy
+/// so clip events can reach the melee attack module and the active brain.
+/// </summary>
 public class EnemyAnimationEvents : MonoBehaviour
 {
     private EnemyMeleeAttack meleeAttack;

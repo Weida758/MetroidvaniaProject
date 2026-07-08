@@ -43,7 +43,7 @@ public class TetherPullAction : ActionState
 
             Vector2 distance = targetPoint - (Vector2)player.transform.position;
             if (distance.sqrMagnitude > 0.0001f){
-                if(enemy.weight == "Heavy" || enemy.weight == "Medium" ){
+                if(enemy.weight == EnemyWeight.Heavy || enemy.weight == EnemyWeight.Medium ){
                     player.SetVelocity(distance.normalized.x * pullSpeed,
                                     distance.normalized.y * pullSpeed);
                     enemy.SetVelocity(0, 0);
@@ -63,7 +63,7 @@ public class TetherPullAction : ActionState
             player.rb.linearVelocity = Vector2.zero;
             enemy.SetVelocity(0, 0);
             if (projectile != null) Object.Destroy(projectile);
-            if(enemy.weight == "Light")
+            if(enemy.weight == EnemyWeight.Light)
             {
                 enemy.StartCoroutine(enemy.Stun(0.5f));
             }

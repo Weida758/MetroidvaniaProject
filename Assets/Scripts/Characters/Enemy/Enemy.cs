@@ -2,12 +2,23 @@ using UnityEngine;
 using System.Collections;
 using Sirenix.OdinInspector;
 
+public enum EnemyWeight
+{
+    Light,
+    Medium,
+    Heavy
+}
+
+/// <summary>
+/// Shared runtime context for modular enemies. The enemy's brain read this component to decide state transitions,
+/// while its locomotion, perception, and attack components gives the replaceable behavior pieces.
+/// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(HealthSystem))]
 public class Enemy : MonoBehaviour
 {
     [Header("Identity")]
-    public string weight;
+    public EnemyWeight weight = EnemyWeight.Light;
 
     [BoxGroup("Combat")]
     [MinValue(0f)]
@@ -69,8 +80,6 @@ public class Enemy : MonoBehaviour
     private bool lastIsTarget;
 
     
-    // ---------------------------- Helper Methods -------------------------------
-
     public Transform Target => player != null ? player.transform : null;
     public bool HasTarget => player != null;
     public float DistanceToTarget => player != null ? Vector2.Distance(player.transform.position, transform.position) : Mathf.Infinity;
@@ -185,6 +194,9 @@ public class Enemy : MonoBehaviour
         rb.linearVelocity = new Vector2(x, y);
     }
 
+    /// <summary>
+    /// Stops horizontal movement while preserving current vertical velocity.
+    /// </summary>
     public void Stop()
     {
         rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
@@ -232,14 +244,14 @@ public class Enemy : MonoBehaviour
             DaggerWeapon Dagger =  weapon.currentWeapon as DaggerWeapon;
             if(health.GetPercentHealth() <= Dagger.executePercent)
             {
-                if(CanExecuteIcon ==null){
-                CanExecuteIcon= Instantiate(CanExecuteIconPrefab,transform);
-                CanExecuteIcon.transform.localPosition=Vector2.zero;
-                CanExecuteIcon.transform.localScale *= new Vector2(1f,0.8f);
+                if(CanExecuteIcon == null){
+                    CanExecuteIcon= Instantiate(CanExecuteIconPrefab,transform);
+                    CanExecuteIcon.transform.localPosition=Vector2.zero;
+                    CanExecuteIcon.transform.localScale *= new Vector2(1f,0.8f);
                 }
                 return;
             }
-            else if( CanExecuteIcon !=null)
+            else if( CanExecuteIcon != null)
             {
                 Destroy(CanExecuteIcon);
             }
@@ -259,6 +271,8 @@ public class Enemy : MonoBehaviour
         FacingDirection *= -1;
     }
 
+    
+    //DEBUG SECTION
     private void OnDrawGizmosSelected()
     {
         if (!drawAttackRangeGizmos)

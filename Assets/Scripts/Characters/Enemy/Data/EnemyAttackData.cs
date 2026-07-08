@@ -3,53 +3,35 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Enemies/Attack")]
 public class EnemyAttackData : ScriptableObject
 {
-    [Header("Decision")]
-    [SerializeField] private string attackName = "Attack";
-    [SerializeField] private int priority;
-    [SerializeField] private float randomWeight = 1f;
-    [Range(0f, 1f)]
-    [SerializeField] private float triggerChance = 1f;
-    [SerializeField] private EnemyDecisionConditions conditions = new EnemyDecisionConditions();
+    [field: Header("Decision")]
+    [field: SerializeField] public string AttackName { get; private set; } = "Attack";
+    [field: SerializeField] public int Priority { get; private set; }
+    [field: SerializeField] public float RandomWeight { get; private set; } = 1f;
+    [field: Range(0f, 1f)]
+    [field: SerializeField] public float TriggerChance { get; private set; } = 1f;
+    [field: SerializeField] public EnemyDecisionConditions Conditions { get; private set; } = new EnemyDecisionConditions();
 
-    [Header("Timing")]
-    [SerializeField] private float telegraphTime = 0.35f;
-    [SerializeField] private float activeTime = 0.2f;
-    [SerializeField] private float recoveryTime = 0.45f;
-    [SerializeField] private float cooldown = 1.5f;
+    [field: Header("Timing")]
+    [field: SerializeField] public float TelegraphTime { get; private set; } = 0.35f;
+    [field: SerializeField] public float ActiveTime { get; private set; } = 0.2f;
+    [field: SerializeField] public float RecoveryTime { get; private set; } = 0.45f;
+    [field: SerializeField] public float Cooldown { get; private set; } = 1.5f;
 
-    [Header("Damage")]
-    [SerializeField] private int damage = 1;
-    [SerializeField] private bool parryable = true;
-    [SerializeField] private bool multiHit;
+    [field: Header("Damage")]
+    [field: SerializeField] public int Damage { get; private set; } = 1;
+    [field: SerializeField] public bool Parryable { get; private set; } = true;
+    [field: SerializeField] public bool MultiHit { get; private set; }
     [SerializeField] private float hitInterval = 0.12f;
 
-    [Header("Hitbox")]
-    [SerializeField] private Vector2 hitboxOffset = new Vector2(1f, 0f);
-    [SerializeField] private Vector2 hitboxSize = new Vector2(1.5f, 1f);
+    [field: Header("Hitbox")]
+    [field: SerializeField] public Vector2 HitboxOffset { get; private set; } = new Vector2(1f, 0f);
+    [field: SerializeField] public Vector2 HitboxSize { get; private set; } = new Vector2(1.5f, 1f);
 
-    [Header("Self Velocity")]
-    [SerializeField] private bool scaleVelocityXByFacing = true;
-    [SerializeField] private Vector2 telegraphVelocity;
-    [SerializeField] private Vector2 activeVelocity;
-    [SerializeField] private Vector2 recoveryVelocity;
+    [field: Header("Self Velocity")]
+    [field: SerializeField] public bool ScaleVelocityXByFacing { get; private set; } = true;
+    [field: SerializeField] public Vector2 TelegraphVelocity { get; private set; }
+    [field: SerializeField] public Vector2 ActiveVelocity { get; private set; }
+    [field: SerializeField] public Vector2 RecoveryVelocity { get; private set; }
 
-    public string AttackName => attackName;
-    public int Priority => priority;
-    public float RandomWeight => randomWeight;
-    public float TriggerChance => triggerChance;
-    public EnemyDecisionConditions Conditions => conditions;
-    public float TelegraphTime => telegraphTime;
-    public float ActiveTime => activeTime;
-    public float RecoveryTime => recoveryTime;
-    public float Cooldown => cooldown;
-    public int Damage => damage;
-    public bool Parryable => parryable;
-    public bool MultiHit => multiHit;
     public float HitInterval => Mathf.Max(0.01f, hitInterval);
-    public Vector2 HitboxOffset => hitboxOffset;
-    public Vector2 HitboxSize => hitboxSize;
-    public bool ScaleVelocityXByFacing => scaleVelocityXByFacing;
-    public Vector2 TelegraphVelocity => telegraphVelocity;
-    public Vector2 ActiveVelocity => activeVelocity;
-    public Vector2 RecoveryVelocity => recoveryVelocity;
 }

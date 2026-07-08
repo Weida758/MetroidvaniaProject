@@ -1,3 +1,7 @@
+/// <summary>
+/// Base class for enemy behavior states. States own temporary behavior,
+/// while EnemyBrain owns transition decisions between states.
+/// </summary>
 public abstract class EnemyState
 {
     protected readonly Enemy enemy;
@@ -23,6 +27,10 @@ public abstract class EnemyState
     {
     }
 
+    /// <summary>
+    /// Shared status gate for states that should pause or finish while the enemy cannot act.
+    /// Freeze and stun also stop horizontal movement.
+    /// </summary>
     protected bool BlockedByStatus()
     {
         if (enemy.CanAct)

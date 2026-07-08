@@ -1,6 +1,10 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
+/// <summary>
+/// Box-shaped perception module. Patrol and combat can use different box sizes,
+/// with optional line of sight and combat interest radius.
+/// </summary>
 [RequireComponent(typeof(Enemy))]
 public class BoxPerception : MonoBehaviour, IPerception
 {
@@ -52,11 +56,17 @@ public class BoxPerception : MonoBehaviour, IPerception
         visionBlockerMask = LayerMask.GetMask("Ground");
     }
 
+    /// <summary>
+    /// Switches between patrol sight settings and combat sight/interest behavior.
+    /// </summary>
     public void SetCombatMode(bool inCombat)
     {
         this.inCombat = inCombat;
     }
 
+    /// <summary>
+    /// Returns true when the target is inside the active box and line of sight is clear if required.
+    /// </summary>
     public bool CanSeeTarget()
     {
         if (!enemy.HasTarget)
@@ -75,6 +85,9 @@ public class BoxPerception : MonoBehaviour, IPerception
         return !requireLineOfSight || HasLineOfSight();
     }
 
+    /// <summary>
+    /// Returns true when the enemy should leave combat according to sight or interest settings.
+    /// </summary>
     public bool HasLostTarget()
     {
         if (!enemy.HasTarget)

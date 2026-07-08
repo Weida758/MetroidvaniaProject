@@ -1,3 +1,7 @@
+/// <summary>
+/// Combat movement state. The enemy approaches until it reaches attack range,
+/// then holds position until it leaves the wider hold range.
+/// </summary>
 public class Enemy_InCombatState : EnemyState
 {
     private bool holdingAttackPosition;

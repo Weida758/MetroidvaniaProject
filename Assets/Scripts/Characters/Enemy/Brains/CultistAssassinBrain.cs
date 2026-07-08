@@ -2,6 +2,10 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+/// <summary>
+/// Enemy brain for the cultist assassin. It chases into a dash attack,
+/// then chooses between backstab, teleport-away, or jump-away follow-ups.
+/// </summary>
 public class CultistAssassinBrain : EnemyBrain
 {
     [BoxGroup("Attack Moves")]
@@ -18,7 +22,7 @@ public class CultistAssassinBrain : EnemyBrain
 
     [BoxGroup("Follow-Up Decision")]
     [Range(0f, 1f)]
-    [LabelText("Defufu Away Chance")]
+    [LabelText("Teleport Away Chance")]
     [SerializeField] private float defufuAwayChance = 0.5f;
 
     [BoxGroup("Follow-Up Decision")]
@@ -104,6 +108,9 @@ public class CultistAssassinBrain : EnemyBrain
     [MinValue(0f), SuffixLabel("s", true)]
     [SerializeField] private float pauseBetweenJumps = 0.08f;
 
+    /// <summary>
+    /// Builds the assassin's state graph
+    /// </summary>
     protected override void Build()
     {
         Enemy_PatrolState patrol = new Enemy_PatrolState(enemy);
@@ -169,11 +176,18 @@ public class CultistAssassinBrain : EnemyBrain
     {
     }
 
+    /// <summary>
+    /// Receives the vanish animation event that means the assassin has fully vanished.
+    /// Teleporting happens after this event
+    /// </summary>
     public override void AnimEvent_CompleteVanish()
     {
         vanishCompleted = true;
     }
 
+    /// <summary>
+    /// Receives the teleport in animation event that means the appear animation is complete.
+    /// </summary>
     public override void AnimEvent_CompleteAppear()
     {
         appearCompleted = true;
@@ -221,6 +235,10 @@ public class CultistAssassinBrain : EnemyBrain
         public bool UseDefufuAway { get; private set; }
         public bool UseJumpAway { get; private set; }
 
+        /// <summary>
+        /// Decision after making an attack. Backstab has first chance, then too-close escape,
+        /// then the normal escape choice.
+        /// </summary>
         public override void Enter()
         {
             enemy.Stop();
@@ -269,6 +287,9 @@ public class CultistAssassinBrain : EnemyBrain
         public bool UseDefufuAway { get; private set; }
         public bool UseJumpAway { get; private set; }
 
+        /// <summary>
+        /// Holds the assassin in place briefly before picking a defensive escape.
+        /// </summary>
         public override void Enter()
         {
             enemy.Stop();
@@ -322,6 +343,10 @@ public class CultistAssassinBrain : EnemyBrain
 
         public bool IsFinished { get; private set; }
 
+        /// <summary>
+        /// Plays vanish animation, waits until vanish completion, teleports, then finishes.
+        /// The following attack state is responsible for the reappear attack animation.
+        /// </summary>
         public override void Enter()
         {
             enemy.perception?.SetCombatMode(true);
@@ -427,6 +452,9 @@ public class CultistAssassinBrain : EnemyBrain
 
         public bool IsFinished { get; private set; }
 
+        /// <summary>
+        /// Plays vanish animation, teleports after vanish completion, then plays teleport in and waits for appear completion.
+        /// </summary>
         public override void Enter()
         {
             enemy.perception?.SetCombatMode(true);
@@ -492,6 +520,9 @@ public class CultistAssassinBrain : EnemyBrain
             }
         }
 
+        /// <summary>
+        /// Starts the appear animation after the teleport destination has been applied.
+        /// </summary>
         private void StartAppear()
         {
             appeared = true;
@@ -565,6 +596,9 @@ public class CultistAssassinBrain : EnemyBrain
 
         public bool IsFinished { get; private set; }
 
+        /// <summary>
+        /// Starts one or more backward jumps away from the target.
+        /// </summary>
         public override void Enter()
         {
             enemy.perception?.SetCombatMode(true);
@@ -575,6 +609,9 @@ public class CultistAssassinBrain : EnemyBrain
             StartJump();
         }
 
+        /// <summary>
+        /// Applies the current jump velocity, waits between jumps, then finishes when all jumps are spent.
+        /// </summary>
         public override void FixedUpdate()
         {
             if (BlockedByStatus())

@@ -1,6 +1,10 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
+/// <summary>
+/// Cone-shaped perception module. Patrol and combat can use different ranges and angles,
+/// with optional combat interest radius after the enemy has engaged.
+/// </summary>
 [RequireComponent(typeof(Enemy))]
 public class ConePerception : MonoBehaviour, IPerception
 {
@@ -40,11 +44,17 @@ public class ConePerception : MonoBehaviour, IPerception
         visionBlockerMask = LayerMask.GetMask("Ground");
     }
 
+    /// <summary>
+    /// Switches between patrol sight settings and combat sight/interest behavior.
+    /// </summary>
     public void SetCombatMode(bool inCombat)
     {
         this.inCombat = inCombat;
     }
 
+    /// <summary>
+    /// Returns true when the target is inside the active cone and not blocked by Ground.
+    /// </summary>
     public bool CanSeeTarget()
     {
         if (!enemy.HasTarget)
@@ -71,6 +81,9 @@ public class ConePerception : MonoBehaviour, IPerception
         return HasLineOfSight();
     }
 
+    /// <summary>
+    /// Returns true when the enemy should leave combat according to sight or interest settings.
+    /// </summary>
     public bool HasLostTarget()
     {
         if (!enemy.HasTarget)

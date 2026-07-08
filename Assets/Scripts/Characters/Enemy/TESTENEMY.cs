@@ -7,7 +7,7 @@ public class TESTENEMY : MonoBehaviour
     [DisplayOnly] public bool isSpeared;
     [DisplayOnly] public bool isFreezed;
     [DisplayOnly] public bool isMarked;
-    public string weight;
+    public EnemyWeight weight;
     [DisplayOnly] public bool stunned = false;
     public Rigidbody2D rb { get; private set; }
 

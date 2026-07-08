@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Generic enemy attack state. It runs one configured attack move through telegraph,
+/// active, post-active, and recovery phases, letting the attack module provide timing and hitboxes.
+/// </summary>
 public class Enemy_AttackState : EnemyState, IParryable
 {
     private enum Phase
@@ -52,7 +56,7 @@ public class Enemy_AttackState : EnemyState, IParryable
 
         if (!string.IsNullOrWhiteSpace(attackMoveName) && !attack.TryUseSequence(attackMoveName))
         {
-            Debug.LogWarning($"{enemy.name} could not find attack move '{attackMoveName}'. Falling back to current/default attack move.", enemy);
+            Debug.LogWarning($"{enemy.name} could not find attack move '{attackMoveName}'", enemy);
         }
 
         attack.OnAttackSequenceStart(enemy);
@@ -140,6 +144,9 @@ public class Enemy_AttackState : EnemyState, IParryable
         attack.OnPhaseFixedUpdate(enemy, ToEnemyAttackPhase(phase));
     }
 
+    /// <summary>
+    /// Applies phase-specific timers, animation triggers, velocity windows, and telegraph visuals.
+    /// </summary>
     private void EnterPhase(Phase next)
     {
         phase = next;
@@ -186,6 +193,9 @@ public class Enemy_AttackState : EnemyState, IParryable
         return EnemyAttackPhase.Telegraph;
     }
 
+    /// <summary>
+    /// Moves to the next step in a multi-step attack, or enters shared recovery after the final step.
+    /// </summary>
     private void AdvanceStepOrRecover()
     {
         if (attack.TryAdvanceStep(enemy))
@@ -198,6 +208,9 @@ public class Enemy_AttackState : EnemyState, IParryable
         }
     }
 
+    /// <summary>
+    /// Ends the attack state and starts the attack cooldown used by Enemy.CanAttack.
+    /// </summary>
     private void Finish()
     {
         phase = Phase.Done;

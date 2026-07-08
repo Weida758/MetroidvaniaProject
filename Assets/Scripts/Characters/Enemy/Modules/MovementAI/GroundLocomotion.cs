@@ -1,6 +1,10 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
+/// <summary>
+/// Ground-based locomotion module shared by enemies that patrol, chase, stop at ledges,
+/// and turn toward combat targets with an optional delay.
+/// </summary>
 [RequireComponent(typeof(Enemy))]
 public class GroundLocomotion : MonoBehaviour, ILocomotion
 {
@@ -49,6 +53,9 @@ public class GroundLocomotion : MonoBehaviour, ILocomotion
         groundMask = 1 << LayerMask.NameToLayer("Ground");
     }
 
+    /// <summary>
+    /// Moves in the current patrol direction until a ledge or wall is detected, then turns after the patrol pause.
+    /// </summary>
     public virtual void Patrol()
     {
         if (pauseTimer > 0f)
@@ -85,6 +92,9 @@ public class GroundLocomotion : MonoBehaviour, ILocomotion
         enemy.FaceDirection(patrolDirection);
     }
 
+    /// <summary>
+    /// Moves toward the target until stop distance, ledge safety, or delayed turning says to hold position.
+    /// </summary>
     public virtual void InCombatMovement(Vector2 targetPosition)
     {
         float xDelta = targetPosition.x - transform.position.x;
@@ -112,6 +122,9 @@ public class GroundLocomotion : MonoBehaviour, ILocomotion
         enemy.SetVelocity(direction * combatMoveSpeed, enemy.rb.linearVelocity.y);
     }
 
+    /// <summary>
+    /// Turns toward the target position using the same delayed turning rules as combat movement.
+    /// </summary>
     public virtual void FaceCombatTarget(Vector2 targetPosition)
     {
         float direction = DirectionFromDelta(targetPosition.x - transform.position.x);
@@ -126,12 +139,18 @@ public class GroundLocomotion : MonoBehaviour, ILocomotion
         enemy.Stop();
     }
 
+    /// <summary>
+    /// Checks for walkable ground in front of the enemy.
+    /// </summary>
     protected bool GroundAhead(float direction)
     {
         Vector2 origin = (Vector2)transform.position + new Vector2(direction, 0f);
         return Physics2D.Raycast(origin, Vector2.down, groundCheckDistance, groundMask);
     }
 
+    /// <summary>
+    /// Checks the Ground layer horizontally so solid tilemap walls can stop patrol movement.
+    /// </summary>
     protected bool WallAhead(float direction)
     {
         return Physics2D.Raycast(transform.position, new Vector2(direction, 0f), wallCheckDistance, groundMask);
@@ -149,6 +168,9 @@ public class GroundLocomotion : MonoBehaviour, ILocomotion
         return Mathf.Sign(xDelta);
     }
 
+    /// <summary>
+    /// Applies combat turn delay and returns whether movement can continue this physics step.
+    /// </summary>
     private bool FaceCombatDirection(float direction)
     {
         if (direction == enemy.FacingDirection)
