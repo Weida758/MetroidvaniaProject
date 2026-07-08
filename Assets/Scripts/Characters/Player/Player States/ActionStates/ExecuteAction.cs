@@ -70,7 +70,7 @@ public class ExecuteAction : ActionState
     {
         return;
     }
-    private void EnemyExecute(RaycastHit2D[] hits ,Collider2D Enemy)
+    private void EnemyExecute(RaycastHit2D[] hits ,RaycastHit2D Enemy)
     {
         return;
     }
