@@ -9,10 +9,12 @@ public class ExecuteChooseAction : ActionState
     private readonly float slowmoScale;
 
     private float slowmoStartTimer;
-     public ExecuteChooseAction(StateMachine sm, Player player,float slowmoScale = 0.25f)
+    private float timeLimit;
+     public ExecuteChooseAction(StateMachine sm, Player player,float slowmoScale = 0.25f,float timeLimit=1f)
         : base(sm, "Execute", player)
     {
         this.slowmoScale   = slowmoScale;
+        this.timeLimit   = timeLimit;
         //Vector2 targetPoint, GameObject targetEnemy,
     }
     public override void Enter()
@@ -44,6 +46,20 @@ public class ExecuteChooseAction : ActionState
         {
             slowmoStartTimer-= Time.deltaTime;
         }
+        if(timeLimit<= 0)
+        {
+            if (ExecutedEnemy != null)
+            {
+                ExecutedEnemy.isTarget = false;
+            }
+            ExecutedEnemy = null;
+            Exit();
+        }
+        else
+        {
+            
+            timeLimit-= Time.deltaTime;
+        }
 
         if (player.GetSpecialAttackReleasedInput())
             player.inventory.currentWeapon?.OnSpecialAttackReleased(player);
@@ -58,25 +74,29 @@ public class ExecuteChooseAction : ActionState
         Collider2D[] Enemies  = Physics2D.OverlapCircleAll(player.transform.position, 15f, 1 << LayerMask.NameToLayer("Enemy"));
         if(Enemies.Length != 0)
         {
-        foreach (Collider2D c in Enemies)
+            foreach (Collider2D c in Enemies)
+            {
+                if ( !c.gameObject.GetComponent<Enemy>().isMarked)
+                {
+                    continue;
+                }
+                else
+                {
+                    float Distance = (c.transform.position - player.transform.position).sqrMagnitude;
+                    EnemiesList.Add((c,Distance)); 
+                
+                }
+            }
+            EnemiesList.Sort((x, y) => x.Distance.CompareTo(y.Distance));
+            if(EnemiesList.Count>0){
+                ExecutedEnemy = EnemiesList[0].Enemy.GetComponent<Enemy>();
+                EnemyIndex=0;
+                ExecutedEnemy.isTarget = true;
+            }
+        }
+        else
         {
-            if ( !c.gameObject.GetComponent<Enemy>().isMarked)
-            {
-                continue;
-            }
-            else
-            {
-                float Distance = (c.transform.position - player.transform.position).sqrMagnitude;
-                EnemiesList.Add((c,Distance)); 
-               
-            }
-        }
-        EnemiesList.Sort((x, y) => x.Distance.CompareTo(y.Distance));
-        if(EnemiesList.Count>0){
-            ExecutedEnemy = EnemiesList[0].Enemy.GetComponent<Enemy>();
-            EnemyIndex=0;
-            ExecutedEnemy.isTarget = true;
-        }
+            Exit();
         }
     }
     private void SwitchEnemyLeft()
@@ -92,7 +112,7 @@ public class ExecuteChooseAction : ActionState
     {
         if(EnemiesList.Count>0){
             ExecutedEnemy.isTarget = false;
-            EnemyIndex = EnemyIndex+1%EnemiesList.Count;
+            EnemyIndex = (EnemyIndex+1)%EnemiesList.Count;
             ExecutedEnemy = EnemiesList[EnemyIndex].Enemy.GetComponent<Enemy>();
             ExecutedEnemy.isTarget = true;
         }

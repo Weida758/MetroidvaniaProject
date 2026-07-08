@@ -39,7 +39,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Color attackHoldRangeColor = new Color(1f, 0.6f, 0f, 0.8f);
 
     [BoxGroup("Execute Targeting")]
-    [SerializeField] private Color executeTargetColor = Color.red;
+    [SerializeField] private Color executeTargetColor = Color.green;
+    [SerializeField] private GameObject CanExecuteIconPrefab;
+    [SerializeField] private GameObject CanExecuteIcon;
 
     [DisplayOnly] public float lightningCooldown;
     [DisplayOnly] public bool isSpeared;
@@ -65,6 +67,7 @@ public class Enemy : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Color defaultSpriteColor;
     private bool lastIsTarget;
+
     
     // ---------------------------- Helper Methods -------------------------------
 
@@ -147,6 +150,7 @@ public class Enemy : MonoBehaviour
         }
 
         UpdateExecuteTargetVisual();
+        UpdateCanExecuteTargetVisual();
 
         if (brain != null)
         {
@@ -215,9 +219,38 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
-
+        
         spriteRenderer.color = isTarget ? executeTargetColor : defaultSpriteColor;
         lastIsTarget = isTarget;
+    }
+    private void UpdateCanExecuteTargetVisual()
+    {
+        WeaponInventory weapon = player.GetComponent<WeaponInventory>();
+     
+        if(isMarked &&  weapon.currentWeapon.weaponID == "2")
+        {
+            DaggerWeapon Dagger =  weapon.currentWeapon as DaggerWeapon;
+            if(health.GetPercentHealth() <= Dagger.executePercent)
+            {
+                if(CanExecuteIcon ==null){
+                CanExecuteIcon= Instantiate(CanExecuteIconPrefab,transform);
+                CanExecuteIcon.transform.localPosition=Vector2.zero;
+                CanExecuteIcon.transform.localScale *= new Vector2(1f,0.8f);
+                }
+                return;
+            }
+            else if( CanExecuteIcon !=null)
+            {
+                Destroy(CanExecuteIcon);
+            }
+        }
+        else if( CanExecuteIcon !=null)
+        {
+                Destroy(CanExecuteIcon);
+        }
+        
+       // if(isMarked &&  weapon.currentWeapon.GetType() == typeof(DaggerWeapon) && health.GetPercentHealth() <= weapon.currentWeapon.executePercent )? canExecuteColor : defaultSpriteColor;
+
     }
 
     public void Flip()

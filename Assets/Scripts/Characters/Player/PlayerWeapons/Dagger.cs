@@ -9,6 +9,9 @@ public class DaggerWeapon : Weapon
     public float dashTime = 0.2f;
     public float dashCooldown = 1f;
     public float chooseSlowmo = 0.25f;
+    public float executePercent = 0.25f;
+    public int executeDamage = 5;
+    public float executeTimelimit = 1f;
 
     private float dashCDRemaining;
     private float executeCDRemaining;
@@ -42,7 +45,7 @@ public class DaggerWeapon : Weapon
         if (!ExecuteReady) return false;
         if (p.actions == null) return false;
         if (p.actions.currentState is ExecuteChooseAction) return false;
-        p.actions.Enter(new ExecuteChooseAction(p.actions.machine, p, chooseSlowmo));
+        p.actions.Enter(new ExecuteChooseAction(p.actions.machine, p, chooseSlowmo,executeTimelimit));
         
         return true;
     }
@@ -52,7 +55,7 @@ public class DaggerWeapon : Weapon
         if (!(p.actions.currentState is ExecuteChooseAction Choice)) return false;
         if (Choice.GetExecutedEnemy() !=null){
             Debug.Log(Choice.GetExecutedEnemy());
-        p.actions.Enter(new ExecuteAction(p.actions.machine,p,Choice.GetExecutedEnemy()));
+        p.actions.Enter(new ExecuteAction(p.actions.machine,p,Choice.GetExecutedEnemy(),executePercent,executeDamage));
         }
         else{
         p.actions.ExitToNone();

@@ -27,6 +27,11 @@ public class HealthSystem : MonoBehaviour
     public int GetCurrentHealth() => currentHealth;
     public int GetMaxHealth() => maxHealth;
 
+    public float GetPercentHealth()
+    {
+        return (float)currentHealth/(float) maxHealth;
+    }
+
     private void Awake()
     {
         currentHealth = maxHealth;
@@ -105,5 +110,6 @@ public class HealthSystem : MonoBehaviour
     {
         currentHealth = maxHealth;
     }
+
 
 }
