@@ -51,6 +51,7 @@ public class DaggerWeapon : Weapon
     {  
         if (!(p.actions.currentState is ExecuteChooseAction Choice)) return false;
         if (Choice.GetExecutedEnemy() !=null){
+            Debug.Log(Choice.GetExecutedEnemy());
         p.actions.Enter(new ExecuteAction(p.actions.machine,p,Choice.GetExecutedEnemy()));
         }
         else{
