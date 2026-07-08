@@ -52,7 +52,8 @@ public abstract class EnemyBrain : MonoBehaviour
     {
         get { return current != null ? current.GetType().Name : GetType().Name; }
     }
-
+    
+    // For enemies that have the ability to teleport
     public virtual void AnimEvent_Teleport()
     {
     }

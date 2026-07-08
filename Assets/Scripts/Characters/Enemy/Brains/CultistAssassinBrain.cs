@@ -70,12 +70,6 @@ public class CultistAssassinBrain : EnemyBrain
     [LabelText("Appear Duration")]
     [SerializeField] private float appearDuration = 0.25f;
 
-    [BoxGroup("Vanish And Reappear")]
-    [HideIf(nameof(useVanishAnimationEvents))]
-    [MinValue(0f), SuffixLabel("s", true)]
-    [LabelText("Teleport Time During Disappear")]
-    [SerializeField] private float teleportTime = 0.25f;
-
     [BoxGroup("Backstab Teleport")]
     [MinValue(0f)]
     [SerializeField] private float teleportBehindPlayerDistance = 1.25f;
@@ -168,13 +162,11 @@ public class CultistAssassinBrain : EnemyBrain
         AwayFromPlayer
     }
 
-    private bool teleportRequested;
     private bool vanishCompleted;
     private bool appearCompleted;
 
     public override void AnimEvent_Teleport()
     {
-        teleportRequested = true;
     }
 
     public override void AnimEvent_CompleteVanish()
@@ -185,17 +177,6 @@ public class CultistAssassinBrain : EnemyBrain
     public override void AnimEvent_CompleteAppear()
     {
         appearCompleted = true;
-    }
-
-    private bool ConsumeTeleportRequest()
-    {
-        if (!teleportRequested)
-        {
-            return false;
-        }
-
-        teleportRequested = false;
-        return true;
     }
 
     private bool ConsumeVanishCompleted()
@@ -222,7 +203,6 @@ public class CultistAssassinBrain : EnemyBrain
 
     private void ClearAnimationEventRequests()
     {
-        teleportRequested = false;
         vanishCompleted = false;
         appearCompleted = false;
     }
@@ -333,7 +313,6 @@ public class CultistAssassinBrain : EnemyBrain
         private readonly CultistAssassinBrain brain;
         private readonly TeleportDestination destinationType;
         private float timer;
-        private bool teleported;
 
         public DisappearTeleportState(Enemy enemy, CultistAssassinBrain brain, TeleportDestination destinationType) : base(enemy)
         {
@@ -348,7 +327,6 @@ public class CultistAssassinBrain : EnemyBrain
             enemy.perception?.SetCombatMode(true);
             enemy.Stop();
             IsFinished = false;
-            teleported = false;
             timer = 0f;
             brain.ClearAnimationEventRequests();
 
@@ -370,36 +348,18 @@ public class CultistAssassinBrain : EnemyBrain
 
             if (brain.useVanishAnimationEvents)
             {
-                if (!teleported && brain.ConsumeTeleportRequest())
-                {
-                    Teleport();
-                }
-
                 if (brain.ConsumeVanishCompleted())
                 {
-                    if (!teleported)
-                    {
-                        Teleport();
-                    }
-
+                    Teleport();
                     IsFinished = true;
                 }
 
                 return;
             }
 
-            if (!teleported && timer >= brain.teleportTime)
-            {
-                Teleport();
-            }
-
             if (timer >= brain.disappearDuration)
             {
-                if (!teleported)
-                {
-                    Teleport();
-                }
-
+                Teleport();
                 IsFinished = true;
             }
         }
@@ -411,7 +371,6 @@ public class CultistAssassinBrain : EnemyBrain
 
         private void Teleport()
         {
-            teleported = true;
             if (!enemy.HasTarget)
             {
                 return;
@@ -458,7 +417,6 @@ public class CultistAssassinBrain : EnemyBrain
         private readonly TeleportDestination destinationType;
         private float timer;
         private float appearTimer;
-        private bool teleported;
         private bool appeared;
 
         public DisappearTeleportAppearState(Enemy enemy, CultistAssassinBrain brain, TeleportDestination destinationType) : base(enemy)
@@ -474,7 +432,6 @@ public class CultistAssassinBrain : EnemyBrain
             enemy.perception?.SetCombatMode(true);
             enemy.Stop();
             IsFinished = false;
-            teleported = false;
             appeared = false;
             timer = 0f;
             appearTimer = 0f;
@@ -498,35 +455,17 @@ public class CultistAssassinBrain : EnemyBrain
 
             if (brain.useVanishAnimationEvents)
             {
-                if (!teleported && brain.ConsumeTeleportRequest())
-                {
-                    Teleport();
-                }
-
                 if (!appeared && brain.ConsumeVanishCompleted())
                 {
-                    if (!teleported)
-                    {
-                        Teleport();
-                    }
-
+                    Teleport();
                     StartAppear();
                 }
             }
             else
             {
-                if (!teleported && timer >= brain.teleportTime)
-                {
-                    Teleport();
-                }
-
                 if (!appeared && timer >= brain.disappearDuration)
                 {
-                    if (!teleported)
-                    {
-                        Teleport();
-                    }
-
+                    Teleport();
                     StartAppear();
                 }
             }
@@ -571,7 +510,6 @@ public class CultistAssassinBrain : EnemyBrain
 
         private void Teleport()
         {
-            teleported = true;
             if (!enemy.HasTarget)
             {
                 return;

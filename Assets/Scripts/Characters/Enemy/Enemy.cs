@@ -65,6 +65,8 @@ public class Enemy : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Color defaultSpriteColor;
     private bool lastIsTarget;
+    
+    // ---------------------------- Helper Methods -------------------------------
 
     public Transform Target => player != null ? player.transform : null;
     public bool HasTarget => player != null;
