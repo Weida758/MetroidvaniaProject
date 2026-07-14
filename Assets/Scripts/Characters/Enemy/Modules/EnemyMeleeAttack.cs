@@ -351,7 +351,9 @@ public class EnemyMeleeAttack : MonoBehaviour, IEnemyAttack
         {
             trigger = step.AttackAnimTrigger;
         }
-        if (!string.IsNullOrWhiteSpace(trigger) && self.animator != null)
+        if (!string.IsNullOrWhiteSpace(trigger)
+            && self.animator != null
+            && self.animator.runtimeAnimatorController != null)
         {
             self.animator.SetTrigger(trigger);
         }

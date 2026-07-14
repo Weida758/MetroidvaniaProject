@@ -116,7 +116,7 @@ public class EnemyAnimationDriver : MonoBehaviour
 
     private void Update()
     {
-        if (animator == null || rb == null)
+        if (animator == null || animator.runtimeAnimatorController == null || rb == null)
         {
             return;
         }
