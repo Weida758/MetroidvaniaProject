@@ -22,7 +22,6 @@ public class ExecuteChooseAction : ActionState
         base.Enter();
         slowmoStartTimer = 0.15f;
         //Time.timeScale = slowmoScale;
-        player.isChoosing = true;
 
        ClosestEnemy();
 
@@ -70,7 +69,6 @@ public class ExecuteChooseAction : ActionState
             EnemiesList.Clear();
         }
         
-        float ClosestEnemyDistance = Mathf.Infinity;
         Collider2D[] Enemies  = Physics2D.OverlapCircleAll(player.transform.position, 15f, 1 << LayerMask.NameToLayer("Enemy"));
         if(Enemies.Length != 0)
         {
@@ -130,7 +128,6 @@ public class ExecuteChooseAction : ActionState
         }
 
         Time.timeScale = 1f;
-        player.isChoosing = false;
     }
 
 }

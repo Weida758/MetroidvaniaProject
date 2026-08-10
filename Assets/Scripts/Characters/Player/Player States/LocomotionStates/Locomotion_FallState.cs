@@ -22,7 +22,7 @@ public class Locomotion_FallState : LocomotionState
             return;
         }
 
-        if (WallCheck() && player.wallJumpTime <= 0 && Profile.canWallSlide)
+        if (WallCheck() && player.wallJumpReattachTime <= 0f && Profile.canWallSlide)
         {
             stateMachine.ChangeState(((PlayerLocomotionFSM)player.locomotion).wall);
             return;
@@ -38,7 +38,7 @@ public class Locomotion_FallState : LocomotionState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (player.lockMovement || player.wallJumpTime > 0 || player.isDashing || player.lungeTime > 0) return;
+        if (player.lockMovement || player.wallJumpControlLockTime > 0f || player.isDashing || player.lungeTime > 0) return;
         if (player.GetMoveInput().x != 0)
             player.SetVelocity(player.GetMoveInput().x * player.speed, player.rb.linearVelocity.y);
     }

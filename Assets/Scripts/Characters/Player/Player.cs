@@ -8,54 +8,151 @@ public class Player : MonoBehaviour, IDataPersistence
 
     public PlayerInputs inputs { get; private set; }
 
-    //---------- Debug --------------------
-    [DisplayOnly] [SerializeField] private string currentState;
-
     // -------- Player Components ------------
     public Rigidbody2D rb { get; private set; }
     public Animator animator { get; private set; }
-    private SpriteRenderer spriteRenderer;
-    public GameObject aim;
+    public GameObject aim { get; private set; }
 
-    // ------- Player Data -------------
-    [field: SerializeField] public float speed;
-    [field: SerializeField] public float initialFallForce { get; private set; }
+    // ------- Movement Tuning -------------
+    [field: TitleGroup("Movement Tuning", "Editable values that control how player movement feels.")]
+    [field: BoxGroup("Movement Tuning/General")]
+    [field: SerializeField, LabelText("Jump Release Fall Force")]
+    [field: Tooltip("Impulse applied when jump is released early.")]
+    public float initialFallForce { get; private set; }
 
     private int facingDirection = 1;
     private bool isFacingRight = true;
 
-    public bool lockMovement = false;
-    public bool lockStateChange = false;
+    [BoxGroup("Movement Tuning/Wall Movement")]
+    [InfoBox("Wall jump velocity uses positive magnitudes. The controller automatically launches away from the wall.")]
+    [SerializeField, Min(0f), LabelText("Slide Speed")]
+    [SuffixLabel("units/s", true)]
+    private float wallSlideSpeed = 2f;
 
-    public GameObject collidedObject;
-    
-    // Spear
-    public Vector2 SpearDistance;
-    public Vector2 SpearHit;
-    public GameObject SpearEnemy;
+    [BoxGroup("Movement Tuning/Wall Movement")]
+    [SerializeField, LabelText("Jump Velocity (X / Y)")]
+    [Tooltip("Horizontal and vertical launch speed. X is automatically aimed away from the wall.")]
+    private Vector2 wallJumpVelocity = new Vector2(6f, 9f);
 
-    private bool isGrounded = true;
-    
-    // Special movement values
-    [HideInInspector] public float wallJumpTime = 0f;
-    [HideInInspector] public float coyoteTime = 0f;
-    [HideInInspector] public bool hasDoubleJump = true;
-    [DisplayOnly] public bool doubleJump = false;
+    [BoxGroup("Movement Tuning/Wall Movement")]
+    [SerializeField, Min(0f), LabelText("Control Lock")]
+    [SuffixLabel("seconds", true)]
+    [Tooltip("How briefly horizontal input is ignored after leaving the wall.")]
+    private float wallJumpControlLockDuration = 0.1f;
 
-    [HideInInspector] public bool isDashing = false;
-    [HideInInspector] public bool isAiming = false;
-    [HideInInspector] public bool isChoosing = false;
+    [BoxGroup("Movement Tuning/Wall Movement")]
+    [SerializeField, Min(0f), LabelText("Reattach Delay")]
+    [SuffixLabel("seconds", true)]
+    [Tooltip("How long before the player is allowed to enter wall slide again after a wall jump.")]
+    private float wallJumpReattachDelay = 0.2f;
 
-    [field: SerializeField] public float lungeTime;
-    [DisplayOnly] public float lungeHeldTime;
+    public float WallSlideSpeed => wallSlideSpeed;
+    public Vector2 WallJumpVelocity => wallJumpVelocity;
+    public float WallJumpControlLockDuration => wallJumpControlLockDuration;
+    public float WallJumpReattachDelay => wallJumpReattachDelay;
+
+    // ------- Capabilities -------------
+    [TitleGroup("Capabilities", "Features available to this player.")]
+    [BoxGroup("Capabilities/Movement")]
+    [LabelText("Double Jump")]
+    [Tooltip("Allows one additional jump while airborne.")]
+    public bool hasDoubleJump = true;
 
     public WeaponInventory inventory { get; private set; }
     public PlayerLocomotionFSM locomotion { get; private set; }
     public PlayerActionFSM actions { get; private set; }
-    
-    // Player Upgrades
-    [DisplayOnly] [SerializeField] private float weaponAttackModifierMul = 1;
-    [DisplayOnly] [SerializeField] private float weaponAttackModifierAdd = 0;
+
+    // ------- Combat Tuning -------------
+    [TitleGroup("Combat Tuning", "Player-wide modifiers applied to weapon damage.")]
+    [BoxGroup("Combat Tuning/Damage")]
+    [SerializeField, Min(0f), LabelText("Attack Multiplier")]
+    private float weaponAttackModifierMul = 1;
+
+    [BoxGroup("Combat Tuning/Damage")]
+    [SerializeField, LabelText("Flat Attack Bonus")]
+    private float weaponAttackModifierAdd = 0;
+
+    // ------- Working State -------------
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Locomotion")]
+    [ShowInInspector, ReadOnly, LabelText("Locomotion State")]
+    private string LocomotionStateDebug => locomotion?.Current?.GetType().Name ?? "Not initialized";
+
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Actions")]
+    [ShowInInspector, ReadOnly, LabelText("Action State")]
+    private string ActionStateDebug => actions?.currentState?.GetType().Name ?? "Not initialized";
+
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Locomotion")]
+    [ShowInInspector, ReadOnly, LabelText("Velocity")]
+    private Vector2 VelocityDebug => rb != null ? rb.linearVelocity : Vector2.zero;
+
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Locomotion")]
+    [ShowInInspector, ReadOnly, LabelText("Current Move Speed")]
+    [SuffixLabel("units/s", true)]
+    public float speed { get; set; }
+
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Locomotion")]
+    [ShowInInspector, ReadOnly, LabelText("Grounded")]
+    private bool isGrounded = true;
+
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Locomotion")]
+    [ShowInInspector, ReadOnly, LabelText("Facing Direction")]
+    private int FacingDirectionDebug => facingDirection;
+
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Locomotion")]
+    [ShowInInspector, ReadOnly, LabelText("Movement Locked")]
+    public bool lockMovement { get; set; }
+
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Locomotion")]
+    [ShowInInspector, ReadOnly, LabelText("Dashing")]
+    public bool isDashing { get; set; }
+
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Capabilities")]
+    [ShowInInspector, ReadOnly, LabelText("Double Jump Available")]
+    public bool doubleJump { get; set; }
+
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Timers")]
+    [ShowInInspector, ReadOnly, LabelText("Wall Jump Control Lock")]
+    [SuffixLabel("seconds", true)]
+    public float wallJumpControlLockTime { get; set; }
+
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Timers")]
+    [ShowInInspector, ReadOnly, LabelText("Wall Reattach Lock")]
+    [SuffixLabel("seconds", true)]
+    public float wallJumpReattachTime { get; set; }
+
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Timers")]
+    [ShowInInspector, ReadOnly, LabelText("Coyote Time")]
+    [SuffixLabel("seconds", true)]
+    private float coyoteTime;
+
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Timers")]
+    [ShowInInspector, ReadOnly, LabelText("Lunge Time")]
+    [SuffixLabel("seconds", true)]
+    public float lungeTime { get; set; }
+
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Timers")]
+    [ShowInInspector, ReadOnly, LabelText("Lunge Held Time")]
+    [SuffixLabel("seconds", true)]
+    public float lungeHeldTime { get; set; }
+
+    [FoldoutGroup("Runtime Debug")]
+    [BoxGroup("Runtime Debug/Actions")]
+    [ShowInInspector, ReadOnly, LabelText("Spear Target")]
+    public GameObject SpearEnemy { get; set; }
 
     private void Awake()
     {
@@ -64,7 +161,6 @@ public class Player : MonoBehaviour, IDataPersistence
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
         inventory = GetComponent<WeaponInventory>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         aim = transform.Find("Aim").gameObject;
 
         locomotion = new PlayerLocomotionFSM();
@@ -98,7 +194,6 @@ public class Player : MonoBehaviour, IDataPersistence
     {
         locomotion.Tick();
         actions.Tick();
-        currentState = locomotion.Current.ToString();
 
         UpdateGrounded();
         if (isGrounded) doubleJump = true;
@@ -179,18 +274,6 @@ public class Player : MonoBehaviour, IDataPersistence
         transform.position = gameData.playerPositionData;
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        collidedObject = collision.gameObject;
-    }
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        collidedObject = collision.gameObject;
-    }
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        collidedObject = null;
-    }
     public float TransformDamage(float damage)
     {
         return (damage * weaponAttackModifierMul) + weaponAttackModifierAdd;

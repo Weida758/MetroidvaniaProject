@@ -24,7 +24,6 @@ public class AimAction : ActionState
     {
         base.Enter();
         Time.timeScale = slowMotionScale;
-        player.isAiming = true;
         WarpCursorInitial();
     }
 
@@ -41,7 +40,6 @@ public class AimAction : ActionState
     {
         base.Exit();
         Time.timeScale = 1f;
-        player.isAiming = false;
         player.aim.SetActive(false);
     }
     

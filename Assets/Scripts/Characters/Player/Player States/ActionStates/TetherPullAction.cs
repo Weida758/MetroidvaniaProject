@@ -32,8 +32,6 @@ public class TetherPullAction : ActionState
         enemyCollider = targetEnemy.GetComponent<Collider2D>();
         enemy = targetEnemy.GetComponent<Enemy>();
         enemy.isSpeared = true;
-        player.SpearHit = targetPoint;
-        player.SpearDistance = targetPoint - (Vector2)player.transform.position;
     }
 
     public override void Update()
@@ -55,9 +53,6 @@ public class TetherPullAction : ActionState
                     player.SetVelocity(0, 0);
                 }
             }
-            player.SpearDistance = distance;
-        
-
         if (playerCollider.Distance(enemyCollider).distance <= 0.05f)
         {
             player.rb.linearVelocity = Vector2.zero;
@@ -75,11 +70,8 @@ public class TetherPullAction : ActionState
     {
         base.Exit();
         player.lockMovement = false;
-        player.lockStateChange = false;
         enemy.SetVelocity(0, 0);
         enemy.isSpeared = false;
         enemy.SuppressContactDamage(0.5f);
-        player.SpearHit = Vector2.zero;
-        player.SpearDistance = Vector2.zero;
     }
 }

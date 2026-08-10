@@ -10,16 +10,19 @@ public class Locomotion_WallSlideState : LocomotionState
 
         player.rb.linearVelocity = new Vector2(
             player.rb.linearVelocity.x,
-            Mathf.Clamp(player.rb.linearVelocity.y, -2f, float.MaxValue));
+            Mathf.Clamp(player.rb.linearVelocity.y, -player.WallSlideSpeed, float.MaxValue));
 
         var fsm = (PlayerLocomotionFSM)player.locomotion;
 
         if (player.GetJumpPressedInput())
         {
-            player.rb.AddForce(new Vector2(6 * player.getFacingDirection() * -1, 9), ForceMode2D.Impulse);
-            player.Flip();
-            player.wallJumpTime = 0.75f;
-            stateMachine.ChangeState(fsm.fall);
+            Vector2 launchVelocity = player.WallJumpVelocity;
+            launchVelocity.x = Mathf.Abs(launchVelocity.x) * -player.getFacingDirection();
+            launchVelocity.y = Mathf.Abs(launchVelocity.y);
+
+            player.wallJumpControlLockTime = player.WallJumpControlLockDuration;
+            player.wallJumpReattachTime = player.WallJumpReattachDelay;
+            fsm.jump.StartWallJump(launchVelocity);
             return;
         }
 
